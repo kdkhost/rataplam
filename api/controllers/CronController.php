@@ -393,7 +393,7 @@ class CronController
         exit;
     }
 
-    public static function executarJob(int $id): void
+    public static function executarJobPorId(int $id): void
     {
         $job = Database::fetch("SELECT * FROM cron_jobs WHERE id = ?", [$id]);
         if (!$job) {

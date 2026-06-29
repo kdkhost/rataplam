@@ -208,6 +208,7 @@ CREATE TABLE avaliacoes (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (produto_id) REFERENCES produtos(id) ON DELETE CASCADE,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+    UNIQUE KEY uk_usuario_produto (usuario_id, produto_id),
     INDEX idx_produto (produto_id),
     INDEX idx_usuario (usuario_id)
 ) ENGINE=InnoDB;
@@ -308,7 +309,8 @@ CREATE TABLE pedido_itens (
     preco_total DECIMAL(10,2) NOT NULL,
     FOREIGN KEY (pedido_id) REFERENCES pedidos(id) ON DELETE CASCADE,
     FOREIGN KEY (produto_id) REFERENCES produtos(id) ON DELETE CASCADE,
-    INDEX idx_pedido (pedido_id)
+    INDEX idx_pedido (pedido_id),
+    INDEX idx_variacao (variacao_id)
 ) ENGINE=InnoDB;
 
 -- ============================================
@@ -373,6 +375,7 @@ CREATE TABLE carrinho (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
     FOREIGN KEY (produto_id) REFERENCES produtos(id) ON DELETE CASCADE,
+    UNIQUE KEY uk_session_produto_variacao (session_id, produto_id, variacao_id),
     INDEX idx_session (session_id),
     INDEX idx_usuario (usuario_id)
 ) ENGINE=InnoDB;

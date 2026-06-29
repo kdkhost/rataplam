@@ -68,16 +68,10 @@ try {
     }
 
     // ── Auth (autenticado) ──────────────────────────
-    if ($uri === '/api/auth/me') {
+    if ($method === 'GET' && $uri === '/api/auth/me') {
         Auth::verificar();
         AuthController::me();
     }
-    if ($method === 'POST' && $uri === '/api/auth/logout') {
-        Auth::verificar();
-        AuthController::logout();
-    }
-
-    // ── Auth: atualizar perfil ─────────────────────
     if ($method === 'PUT' && $uri === '/api/auth/me') {
         Auth::verificar();
         $input = json_decode(file_get_contents('php://input'), true);
@@ -90,6 +84,10 @@ try {
         header('Content-Type: application/json; charset=utf-8');
         echo json_encode(['sucesso' => true]);
         exit;
+    }
+    if ($method === 'POST' && $uri === '/api/auth/logout') {
+        Auth::verificar();
+        AuthController::logout();
     }
 
     // ── Auth: esqueci senha ────────────────────────
@@ -193,29 +191,22 @@ try {
     }
 
     // ── SEO ─────────────────────────────────────────
-    if ($method === 'GET' && preg_match('#^/api/seo/config/(.+)$#', $uri, $m)) {
-        $resultado = SeoController::buscarConfig($m[1]);
-        echo json_encode($resultado);
-        exit;
+    if ($method === 'GET' && $uri === '/api/seo/config') {
+        SeoController::getConfig();
     }
-    if ($method === 'POST' && preg_match('#^/api/seo/config/(.+)$#', $uri, $m)) {
+    if ($method === 'POST' && $uri === '/api/seo/config') {
         Auth::verificarAdmin();
-        $input = json_decode(file_get_contents('php://input'), true);
-        $resultado = SeoController::salvarConfig($m[1], $input);
-        echo json_encode($resultado);
-        exit;
+        SeoController::salvarConfig();
     }
     if ($method === 'GET' && $uri === '/api/seo/pages') {
         Auth::verificarAdmin();
-        $resultado = SeoController::listarPaginas();
-        echo json_encode($resultado);
-        exit;
+        SeoController::listarPaginas();
     }
     if ($method === 'POST' && $uri === '/api/seo/score') {
-        $input = json_decode(file_get_contents('php://input'), true);
-        $resultado = SeoController::calcularScore($input);
-        echo json_encode($resultado);
-        exit;
+        SeoController::calcularScoreSeo();
+    }
+    if ($method === 'POST' && $uri === '/api/seo/preview') {
+        SeoController::preview();
     }
 
     // ── Admin: Produtos CRUD ────────────────────────
@@ -571,7 +562,7 @@ try {
     }
     if ($method === 'POST' && preg_match('#^/api/cron/(\d+)/executar$#', $uri, $m)) {
         Auth::verificarAdmin();
-        CronController::executarJob((int) $m[1]);
+        CronController::executarJobPorId((int) $m[1]);
     }
 
     // ── Webhooks (público - payment gateways) ────────

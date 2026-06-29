@@ -267,12 +267,16 @@ class PedidoController
                 ];
                 $template = $templateMap[$updateData['status']] ?? null;
                 if ($template && $statusAnterior['email_comprador']) {
-                    $emailService->enviarTemplate($statusAnterior['email_comprador'], $template, [
+                    $baseUrl = 'https://rataplam.com.br';
+                    $emailVars = [
                         'assunto' => "Pedido {$statusAnterior['numero_pedido']} - " . ucfirst($updateData['status']) . " - RATAPLAM",
                         'nome' => $statusAnterior['nome_comprador'],
                         'numero' => $statusAnterior['numero_pedido'],
                         'status' => $updateData['status'],
-                    ]);
+                        'url' => "{$baseUrl}/conta/pedidos/{$id}",
+                        'link' => "{$baseUrl}/conta/pedidos/{$id}",
+                    ];
+                    $emailService->enviarTemplate($statusAnterior['email_comprador'], $template, $emailVars);
                 }
             } catch (\Throwable $e) { /* email falha silenciosamente */ }
 

@@ -159,14 +159,14 @@ class VirtualFittingService
     {
         // FIX: Correct table name - use produtos_imagens or fallback to produtos.imagem_url
         $produto = \Rataplam\Config\Database::fetch(
-            "SELECT imagem_url FROM produtos_imagens WHERE produto_id = ? AND principal = 1 LIMIT 1",
+            "SELECT url FROM produtos_imagens WHERE produto_id = ? AND principal = 1 LIMIT 1",
             [$produtoId]
         );
 
         if (!$produto) {
             // Fallback: try produto_imagens (alternate table name)
             $produto = \Rataplam\Config\Database::fetch(
-                "SELECT imagem_url FROM produto_imagens WHERE produto_id = ? AND principal = 1 LIMIT 1",
+                "SELECT url FROM produto_imagens WHERE produto_id = ? AND principal = 1 LIMIT 1",
                 [$produtoId]
             );
         }
