@@ -5,27 +5,26 @@ import Footer from '@/components/layout/Footer';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCarrinho } from '@/lib/carrinho';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { api } from '@/lib/api';
 
-const products = [
-  { id: 1, slug: 'macacao-cachorro', name: 'Macacao Cachorro', price: 89.90, image: 'https://static.wixstatic.com/media/e23129_e7615472cc5d4c2b8eae2d876d360ea3~mv2.jpg', estoque: 20 },
-  { id: 2, slug: 'macacao-nemo', name: 'Macacao Nemo', price: 99.90, image: 'https://static.wixstatic.com/media/e23129_b887b8b44bd743749d0eeb3740846160~mv2.png', estoque: 20 },
-  { id: 3, slug: 'macacao-selva', name: 'Macacao Selva', price: 94.90, image: 'https://static.wixstatic.com/media/e23129_74b957d328f247a7b23710257ada6d72~mv2.jpg', estoque: 20 },
-  { id: 4, slug: 'vestido-delicate', name: 'Vestido Delicate', price: 119.90, image: 'https://static.wixstatic.com/media/e23129_9f4c1c93c54d4137b82477ff0e685358~mv2.png', estoque: 20 },
-  { id: 5, slug: 'bermuda-tropical', name: 'Bermuda Tropical', price: 69.90, image: 'https://static.wixstatic.com/media/e23129_41db3354d3834c6ab8815821e5817913~mv2.jpg', estoque: 20 },
-  { id: 6, slug: 'blusa-friends-trip', name: 'Blusa Friends Trip', price: 59.90, image: 'https://static.wixstatic.com/media/e23129_c8f4906b9df04133a3121e86e1753485~mv2.png', estoque: 20 },
-  { id: 7, slug: 'biquini-liana', name: 'Biquini Liana', price: 79.90, image: 'https://static.wixstatic.com/media/e23129_8165b0bff17049beb94aa0d3359b9bbd~mv2.png', estoque: 20 },
-  { id: 8, slug: 'sapatinho-trico', name: 'Sapatinho Trico', price: 49.90, image: 'https://static.wixstatic.com/media/e23129_4659ca570c404bb2b4d3831ff9dfd4b7~mv2.jpg', estoque: 20 },
-];
+interface Produto {
+  id: number;
+  slug: string;
+  nome: string;
+  preco: number;
+  imagem: string;
+  estoque: number;
+  avaliacao?: number;
+  promocao?: boolean;
+}
 
-const categories = [
-  { name: 'Macacoes', slug: 'macacoes', image: 'https://static.wixstatic.com/media/e23129_74b957d328f247a7b23710257ada6d72~mv2.jpg' },
-  { name: 'Bermudas', slug: 'bermudas', image: 'https://static.wixstatic.com/media/e23129_41db3354d3834c6ab8815821e5817913~mv2.jpg' },
-  { name: 'Blusas', slug: 'blusas', image: 'https://static.wixstatic.com/media/e23129_c8f4906b9df04133a3121e86e1753485~mv2.png' },
-  { name: 'Biquinis', slug: 'biquinis', image: 'https://static.wixstatic.com/media/e23129_8165b0bff17049beb94aa0d3359b9bbd~mv2.png' },
-  { name: 'Calcas', slug: 'calcas', image: 'https://static.wixstatic.com/media/e23129_10c8ee98b97b48da930b65d821c3a821~mv2.png' },
-  { name: 'Acessorios', slug: 'acessorios', image: 'https://static.wixstatic.com/media/e23129_4659ca570c404bb2b4d3831ff9dfd4b7~mv2.jpg' },
-];
+interface Categoria {
+  id: number;
+  nome: string;
+  slug: string;
+  imagem: string;
+}
 
 const ageRanges = [
   { label: '0-1', slug: '0-a-1', emoji: '\u{1F476}', color: 'from-rose-200 to-pink-200' },
@@ -52,13 +51,45 @@ export default function Home() {
   const [adicionado, setAdicionado] = useState<number | null>(null);
   const [email, setEmail] = useState('');
   const [newsletterMsg, setNewsletterMsg] = useState('');
+  const [products, setProducts] = useState<Produto[]>([]);
+  const [categories, setCategories] = useState<Categoria[]>([]);
+  const [carregandoProdutos, setCarregandoProdutos] = useState(true);
+  const [carregandoCategorias, setCarregandoCategorias] = useState(true);
 
-  const handleAddToCart = (product: typeof products[0]) => {
+  useEffect(() => {
+    const carregarProdutos = async () => {
+      try {
+        const dados = await api.get('/api/produtos?limit=8&destaque=true');
+        setProducts(dados.produtos || []);
+      } catch (erro) {
+        console.error('Erro ao carregar produtos:', erro);
+      } finally {
+        setCarregandoProdutos(false);
+      }
+    };
+    carregarProdutos();
+  }, []);
+
+  useEffect(() => {
+    const carregarCategorias = async () => {
+      try {
+        const dados = await api.get('/api/admin/categorias');
+        setCategories(dados.categorias || dados || []);
+      } catch (erro) {
+        console.error('Erro ao carregar categorias:', erro);
+      } finally {
+        setCarregandoCategorias(false);
+      }
+    };
+    carregarCategorias();
+  }, []);
+
+  const handleAddToCart = (product: Produto) => {
     adicionar({
       produto_id: product.id,
-      nome: product.name,
-      preco: product.price,
-      imagem: product.image,
+      nome: product.nome,
+      preco: product.preco,
+      imagem: product.imagem,
       quantidade: 1,
       estoque: product.estoque,
     });
@@ -115,12 +146,20 @@ export default function Home() {
             <p className="text-gray-500 text-lg max-w-2xl mx-auto">Encontre a peca perfeita para o seu pequeno</p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-5">
-            {categories.map((cat) => (
-              <Link key={cat.slug} href={`/loja?categoria=${cat.slug}`} className="group relative overflow-hidden rounded-2xl aspect-square shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
-                <Image src={cat.image} alt={cat.name} fill className="object-cover group-hover:scale-110 transition-transform duration-500" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 30vw, 16vw" />
+            {carregandoCategorias ? (
+              [...Array(6)].map((_, i) => (
+                <div key={i} className="rounded-2xl aspect-square bg-gray-200 animate-pulse" />
+              ))
+            ) : categories.map((cat) => (
+              <Link key={cat.slug || cat.id} href={`/loja?categoria=${cat.slug}`} className="group relative overflow-hidden rounded-2xl aspect-square shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+                {cat.imagem ? (
+                  <Image src={cat.imagem} alt={cat.nome} fill className="object-cover group-hover:scale-110 transition-transform duration-500" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 30vw, 16vw" />
+                ) : (
+                  <div className="absolute inset-0 bg-gradient-to-br from-pink-100 to-violet-100" />
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-4">
-                  <span className="text-white font-bold text-sm sm:text-base">{cat.name}</span>
+                  <span className="text-white font-bold text-sm sm:text-base">{cat.nome}</span>
                 </div>
               </Link>
             ))}
@@ -135,18 +174,35 @@ export default function Home() {
             <p className="text-gray-500 text-lg max-w-2xl mx-auto">As pecas mais amadas pelas criancas e pais</p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-            {products.map((product) => (
+            {carregandoProdutos ? (
+              [...Array(8)].map((_, i) => (
+                <div key={i} className="bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100">
+                  <div className="aspect-square bg-gray-200 animate-pulse" />
+                  <div className="p-4 space-y-3">
+                    <div className="h-4 bg-gray-200 rounded animate-pulse" />
+                    <div className="h-4 bg-gray-200 rounded w-1/2 animate-pulse" />
+                    <div className="h-8 bg-gray-200 rounded animate-pulse" />
+                  </div>
+                </div>
+              ))
+            ) : products.map((product) => (
               <div key={product.id} className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border border-gray-100">
                 <Link href={`/produto/${product.slug}`} className="relative block aspect-square overflow-hidden bg-gray-50">
-                  <Image src={product.image} alt={product.name} fill className="object-cover group-hover:scale-110 transition-transform duration-500" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" />
+                  {product.imagem ? (
+                    <Image src={product.imagem} alt={product.nome} fill className="object-cover group-hover:scale-110 transition-transform duration-500" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" />
+                  ) : (
+                    <div className="absolute inset-0 bg-gradient-to-br from-pink-100 to-violet-100 flex items-center justify-center text-4xl text-gray-300">👕</div>
+                  )}
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
-                  <div className="absolute top-3 right-3 bg-pink-500 text-white text-xs font-bold px-3 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 translate-y-2 group-hover:translate-y-0">
-                    Novidade
-                  </div>
+                  {product.promocao && (
+                    <div className="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+                      Promoção
+                    </div>
+                  )}
                 </Link>
                 <div className="p-4">
                   <Link href={`/produto/${product.slug}`}>
-                    <h3 className="font-bold text-gray-900 text-sm sm:text-base mb-1 truncate hover:text-pink-600 transition-colors">{product.name}</h3>
+                    <h3 className="font-bold text-gray-900 text-sm sm:text-base mb-1 truncate hover:text-pink-600 transition-colors">{product.nome}</h3>
                   </Link>
                   <div className="flex items-center gap-2 mb-3">
                     <div className="flex text-yellow-400">
@@ -156,7 +212,7 @@ export default function Home() {
                     </div>
                   </div>
                   <p className="text-pink-600 font-extrabold text-lg mb-3">
-                    R$ {product.price.toFixed(2).replace('.', ',')}
+                    R$ {(product.preco || 0).toFixed(2).replace('.', ',')}
                   </p>
                   <button onClick={() => handleAddToCart(product)} className="w-full py-2.5 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-xl font-semibold text-sm hover:from-pink-600 hover:to-rose-600 transition-all shadow-md shadow-pink-200 hover:shadow-lg active:scale-95">
                     {adicionado === product.id ? 'Adicionado!' : 'Adicionar ao Carrinho'}
