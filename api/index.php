@@ -18,6 +18,7 @@ use Rataplam\Controllers\VariacaoController;
 use Rataplam\Controllers\PagamentoController;
 use Rataplam\Controllers\RelatorioController;
 use Rataplam\Controllers\LogController;
+use Rataplam\Controllers\FreteController;
 use Rataplam\Middleware\Auth;
 
 header('Content-Type: application/json; charset=utf-8');
@@ -609,6 +610,17 @@ try {
         http_response_code(200);
         echo json_encode(['received' => true]);
         exit;
+    }
+
+    // ── Frete (Correios) ─────────────────────────────
+    if ($method === 'POST' && $uri === '/api/frete/calcular') {
+        FreteController::calcular();
+    }
+    if ($method === 'GET' && preg_match('#^/api/frete/rastrear/(.+)$#', $uri, $m)) {
+        FreteController::rastrear($m[1]);
+    }
+    if ($method === 'GET' && $uri === '/api/frete/opcoes') {
+        FreteController::listarOpcoes();
     }
 
     // ── Provador Virtual (IA) ─────────────────────────
