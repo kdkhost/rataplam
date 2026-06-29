@@ -1,0 +1,564 @@
+<?php
+declare(strict_types=1);
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+use Rataplam\Controllers\AuthController;
+use Rataplam\Controllers\ProdutoController;
+use Rataplam\Controllers\PedidoController;
+use Rataplam\Controllers\AdminController;
+use Rataplam\Controllers\VisitaController;
+use Rataplam\Controllers\SeoController;
+use Rataplam\Controllers\CronController;
+use Rataplam\Controllers\ProvadorController;
+use Rataplam\Middleware\Auth;
+
+header('Content-Type: application/json; charset=utf-8');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, PATCH, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
+
+$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$uri = rtrim($uri, '/');
+$method = $_SERVER['REQUEST_METHOD'];
+
+try {
+    // ── Auth (público) ──────────────────────────────
+    if ($method === 'POST' && $uri === '/api/auth/login') {
+        AuthController::login();
+    }
+    if ($method === 'POST' && $uri === '/api/auth/cadastro') {
+        AuthController::cadastro();
+    }
+
+    // ── Auth (autenticado) ──────────────────────────
+    if ($uri === '/api/auth/me') {
+        Auth::verificar();
+        AuthController::me();
+    }
+    if ($method === 'POST' && $uri === '/api/auth/logout') {
+        Auth::verificar();
+        AuthController::logout();
+    }
+
+    // ── Auth: atualizar perfil ─────────────────────
+    if ($method === 'PUT' && $uri === '/api/auth/me') {
+        Auth::verificar();
+        $input = json_decode(file_get_contents('php://input'), true);
+        $dados = \Rataplam\Middleware\Auth::verificar();
+        $camposPermitidos = ['nome', 'cpf', 'telefone'];
+        $atualizar = array_intersect_key($input, array_flip($camposPermitidos));
+        if (!empty($atualizar)) {
+            \Rataplam\Config\Database::update('usuarios', $atualizar, 'id = ?', [$dados['id']]);
+        }
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode(['sucesso' => true]);
+        exit;
+    }
+
+    // ── Auth: esqueci senha ────────────────────────
+    if ($method === 'POST' && $uri === '/api/auth/esqueci-senha') {
+        $input = json_decode(file_get_contents('php://input'), true);
+        $email = $input['email'] ?? '';
+        $usuario = \Rataplam\Config\Database::fetch("SELECT id, nome FROM usuarios WHERE email = ?", [$email]);
+        if ($usuario) {
+            $token = bin2hex(random_bytes(32));
+            \Rataplam\Config\Database::update('usuarios', ['token_reset_senha' => $token], 'id = ?', [$usuario['id']]);
+        }
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode(['sucesso' => true, 'mensagem' => 'Se o e-mail estiver cadastrado, voce recebera as instrucoes.']);
+        exit;
+    }
+
+    // ── CEP (público) ───────────────────────────────
+    if ($method === 'GET' && preg_match('#^/api/cep/(\d{5}-?\d{3})$#', $uri, $m)) {
+        $cep = str_replace('-', '', $m[1]);
+        $resultado = \Rataplam\Services\CepService::buscar($cep);
+        echo json_encode($resultado);
+        exit;
+    }
+
+    // ── Contato (público) ──────────────────────────
+    if ($method === 'POST' && $uri === '/api/contato') {
+        $input = json_decode(file_get_contents('php://input'), true);
+        $nome = $input['nome'] ?? '';
+        $email = $input['email'] ?? '';
+        $assunto = $input['assunto'] ?? '';
+        $mensagem = $input['mensagem'] ?? '';
+        \Rataplam\Config\Database::insert('email_logs', [
+            'destinatario' => 'contato@rataplam.com.br',
+            'assunto' => "[Contato] {$assunto} - {$nome}",
+            'template' => 'contato',
+            'dados' => json_encode(['nome' => $nome, 'email' => $email, 'assunto' => $assunto, 'mensagem' => $mensagem]),
+            'status' => 'pendente',
+        ]);
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode(['sucesso' => true, 'mensagem' => 'Mensagem enviada com sucesso!']);
+        exit;
+    }
+
+    // ── Produtos (público) ──────────────────────────
+    if ($method === 'GET' && $uri === '/api/produtos') {
+        ProdutoController::listar();
+    }
+    if ($method === 'GET' && preg_match('#^/api/produtos/([a-z0-9-]+)$#', $uri, $m)) {
+        ProdutoController::buscarPorSlug($m[1]);
+    }
+
+    // ── Pedidos (público: criar) ────────────────────
+    if ($method === 'POST' && $uri === '/api/pedidos') {
+        PedidoController::criar();
+    }
+
+    // ── Pedidos (autenticado) ───────────────────────
+    if ($method === 'GET' && $uri === '/api/pedidos') {
+        Auth::verificarOpcional();
+        PedidoController::listar();
+    }
+    if (preg_match('#^/api/pedidos/(\d+)$#', $uri, $m)) {
+        Auth::verificarOpcional();
+        if ($method === 'GET') PedidoController::buscar((int) $m[1]);
+        if ($method === 'PUT') PedidoController::atualizar((int) $m[1]);
+    }
+
+    // ── Endereços (autenticado) ─────────────────────
+    if ($method === 'GET' && $uri === '/api/enderecos') {
+        $dados = Auth::verificar();
+        $enderecos = \Rataplam\Config\Database::fetchAll("SELECT * FROM enderecos WHERE usuario_id = ? ORDER BY principal DESC, created_at DESC", [$dados['id']]);
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode(['sucesso' => true, 'enderecos' => $enderecos]);
+        exit;
+    }
+    if ($method === 'POST' && $uri === '/api/enderecos') {
+        $dados = Auth::verificar();
+        $input = json_decode(file_get_contents('php://input'), true);
+        $id = \Rataplam\Config\Database::insert('enderecos', array_merge($input, ['usuario_id' => $dados['id']]));
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode(['sucesso' => true, 'id' => $id]);
+        exit;
+    }
+    if (preg_match('#^/api/enderecos/(\d+)$#', $uri, $m)) {
+        $dados = Auth::verificar();
+        $id = (int) $m[1];
+        if ($method === 'PUT') {
+            $input = json_decode(file_get_contents('php://input'), true);
+            \Rataplam\Config\Database::update('enderecos', $input, 'id = ? AND usuario_id = ?', [$id, $dados['id']]);
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode(['sucesso' => true]);
+            exit;
+        }
+        if ($method === 'DELETE') {
+            \Rataplam\Config\Database::delete('enderecos', 'id = ? AND usuario_id = ?', [$id, $dados['id']]);
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode(['sucesso' => true]);
+            exit;
+        }
+    }
+
+    // ── Admin: Dashboard KPIs ───────────────────────
+    if ($method === 'GET' && $uri === '/api/admin/dashboard/kpis') {
+        Auth::verificarAdmin();
+        $resultado = VisitaController::kpis();
+        echo json_encode($resultado);
+        exit;
+    }
+
+    // ── Admin: Visitas ──────────────────────────────
+    if ($method === 'POST' && $uri === '/api/visitas/registrar') {
+        $input = json_decode(file_get_contents('php://input'), true);
+        $resultado = VisitaController::registrar($input);
+        echo json_encode($resultado);
+        exit;
+    }
+    if ($method === 'POST' && $uri === '/api/visitas/atualizar-duracao') {
+        $input = json_decode(file_get_contents('php://input'), true);
+        $resultado = VisitaController::atualizarDuracao($input);
+        echo json_encode($resultado);
+        exit;
+    }
+    if ($method === 'GET' && $uri === '/api/visitas/online') {
+        $resultado = VisitaController::online();
+        echo json_encode($resultado);
+        exit;
+    }
+    if ($method === 'GET' && $uri === '/api/visitas/kpis') {
+        $resultado = VisitaController::kpis();
+        echo json_encode($resultado);
+        exit;
+    }
+    if ($method === 'GET' && $uri === '/api/visitas/estatisticas') {
+        $resultado = VisitaController::estatisticas();
+        echo json_encode($resultado);
+        exit;
+    }
+
+    // ── SEO ─────────────────────────────────────────
+    if ($method === 'GET' && preg_match('#^/api/seo/config/(.+)$#', $uri, $m)) {
+        $resultado = SeoController::buscarConfig($m[1]);
+        echo json_encode($resultado);
+        exit;
+    }
+    if ($method === 'POST' && preg_match('#^/api/seo/config/(.+)$#', $uri, $m)) {
+        Auth::verificarAdmin();
+        $input = json_decode(file_get_contents('php://input'), true);
+        $resultado = SeoController::salvarConfig($m[1], $input);
+        echo json_encode($resultado);
+        exit;
+    }
+    if ($method === 'GET' && $uri === '/api/seo/pages') {
+        Auth::verificarAdmin();
+        $resultado = SeoController::listarPaginas();
+        echo json_encode($resultado);
+        exit;
+    }
+    if ($method === 'POST' && $uri === '/api/seo/score') {
+        $input = json_decode(file_get_contents('php://input'), true);
+        $resultado = SeoController::calcularScore($input);
+        echo json_encode($resultado);
+        exit;
+    }
+
+    // ── Admin: Produtos CRUD ────────────────────────
+    if ($method === 'GET' && $uri === '/api/admin/produtos') {
+        Auth::verificarAdmin();
+        ProdutoController::adminListar();
+    }
+    if ($method === 'POST' && $uri === '/api/admin/produtos') {
+        Auth::verificarAdmin();
+        ProdutoController::criar();
+    }
+    if (preg_match('#^/api/admin/produtos/(\d+)$#', $uri, $m)) {
+        Auth::verificarAdmin();
+        if ($method === 'PUT') ProdutoController::atualizar((int) $m[1]);
+        if ($method === 'DELETE') ProdutoController::excluir((int) $m[1]);
+    }
+
+    // ── Admin: Produtos Imagens ──────────────────────
+    if ($method === 'GET' && preg_match('#^/api/admin/produtos/(\d+)/imagens$#', $uri, $m)) {
+        Auth::verificarAdmin();
+        ProdutoController::listarImagens((int) $m[1]);
+    }
+    if ($method === 'POST' && preg_match('#^/api/admin/produtos/(\d+)/imagens$#', $uri, $m)) {
+        Auth::verificarAdmin();
+        ProdutoController::uploadImagem((int) $m[1]);
+    }
+    if ($method === 'DELETE' && preg_match('#^/api/admin/produtos/imagens/(\d+)$#', $uri, $m)) {
+        Auth::verificarAdmin();
+        ProdutoController::excluirImagem((int) $m[1]);
+    }
+    if ($method === 'PUT' && preg_match('#^/api/admin/produtos/imagens/(\d+)/principal$#', $uri, $m)) {
+        Auth::verificarAdmin();
+        ProdutoController::definirPrincipal((int) $m[1]);
+    }
+    if ($method === 'PUT' && preg_match('#^/api/admin/produtos/(\d+)/imagens/ordem$#', $uri, $m)) {
+        Auth::verificarAdmin();
+        ProdutoController::reordenarImagens((int) $m[1]);
+    }
+
+    // ── Admin: Pedidos ──────────────────────────────
+    if ($method === 'GET' && $uri === '/api/admin/pedidos') {
+        Auth::verificarAdmin();
+        PedidoController::listar();
+    }
+    if (preg_match('#^/api/admin/pedidos/(\d+)$#', $uri, $m)) {
+        Auth::verificarAdmin();
+        if ($method === 'GET') PedidoController::buscar((int) $m[1]);
+        if ($method === 'PUT') PedidoController::atualizar((int) $m[1]);
+    }
+
+    // ── Admin: Clientes ─────────────────────────────
+    if ($method === 'GET' && $uri === '/api/admin/clientes') {
+        Auth::verificarAdmin();
+        AdminController::listarClientes();
+    }
+    if (preg_match('#^/api/admin/clientes/(\d+)$#', $uri, $m)) {
+        Auth::verificarAdmin();
+        if ($method === 'PUT') AdminController::atualizarCliente((int) $m[1]);
+    }
+
+    // ── Admin: Categorias CRUD ──────────────────────
+    if ($method === 'GET' && $uri === '/api/admin/categorias') {
+        Auth::verificarAdmin();
+        AdminController::listarCategorias();
+    }
+    if ($method === 'GET' && $uri === '/api/admin/faixas-etarias') {
+        Auth::verificarAdmin();
+        AdminController::listarFaixasEtarias();
+    }
+    if ($method === 'POST' && $uri === '/api/admin/categorias') {
+        Auth::verificarAdmin();
+        AdminController::criarCategoria();
+    }
+    if (preg_match('#^/api/admin/categorias/(\d+)$#', $uri, $m)) {
+        Auth::verificarAdmin();
+        if ($method === 'PUT') AdminController::atualizarCategoria((int) $m[1]);
+        if ($method === 'DELETE') AdminController::excluirCategoria((int) $m[1]);
+    }
+
+    // ── Admin: Cupons CRUD ──────────────────────────
+    if ($method === 'GET' && $uri === '/api/admin/cupons') {
+        Auth::verificarAdmin();
+        AdminController::listarCupons();
+    }
+    if ($method === 'POST' && $uri === '/api/admin/cupons') {
+        Auth::verificarAdmin();
+        AdminController::criarCupom();
+    }
+    if (preg_match('#^/api/admin/cupons/(\d+)$#', $uri, $m)) {
+        Auth::verificarAdmin();
+        if ($method === 'PUT') AdminController::atualizarCupom((int) $m[1]);
+        if ($method === 'DELETE') AdminController::excluirCupom((int) $m[1]);
+    }
+
+    // ── Admin: Configurações ────────────────────────
+    if ($method === 'GET' && $uri === '/api/admin/configuracoes') {
+        Auth::verificarAdmin();
+        AdminController::listarConfiguracoes();
+    }
+    if ($method === 'POST' && $uri === '/api/admin/configuracoes') {
+        Auth::verificarAdmin();
+        AdminController::salvarConfiguracoes();
+    }
+
+    // ── Admin: Avaliações (moderação) ───────────────
+    if ($method === 'GET' && $uri === '/api/admin/avaliacoes') {
+        Auth::verificarAdmin();
+        $avaliacoes = \Rataplam\Config\Database::fetchAll(
+            "SELECT a.*, u.nome as usuario_nome, p.nome as produto_nome FROM avaliacoes a JOIN usuarios u ON a.usuario_id = u.id JOIN produtos p ON a.produto_id = p.id ORDER BY a.created_at DESC"
+        );
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode(['sucesso' => true, 'avaliacoes' => $avaliacoes]);
+        exit;
+    }
+    if (preg_match('#^/api/admin/avaliacoes/(\d+)/aprovar$#', $uri, $m)) {
+        Auth::verificarAdmin();
+        \Rataplam\Config\Database::update('avaliacoes', ['aprovada' => 1], 'id = ?', [(int) $m[1]]);
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode(['sucesso' => true]);
+        exit;
+    }
+    if (preg_match('#^/api/admin/avaliacoes/(\d+)/rejeitar$#', $uri, $m)) {
+        Auth::verificarAdmin();
+        \Rataplam\Config\Database::update('avaliacoes', ['aprovada' => 0], 'id = ?', [(int) $m[1]]);
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode(['sucesso' => true]);
+        exit;
+    }
+
+    // ── Admin: Banners CRUD ─────────────────────────
+    if ($method === 'GET' && $uri === '/api/admin/banners') {
+        Auth::verificarAdmin();
+        $banners = \Rataplam\Config\Database::fetchAll("SELECT * FROM banners ORDER BY ordem");
+        echo json_encode(['sucesso' => true, 'banners' => $banners]);
+        exit;
+    }
+    if ($method === 'POST' && $uri === '/api/admin/banners') {
+        Auth::verificarAdmin();
+        $input = json_decode(file_get_contents('php://input'), true);
+        $id = \Rataplam\Config\Database::insert('banners', [
+            'titulo' => $input['titulo'] ?? '',
+            'subtitulo' => $input['subtitulo'] ?? '',
+            'imagem' => $input['imagem'] ?? '',
+            'link' => $input['link'] ?? '',
+            'ordem' => $input['ordem'] ?? 0,
+            'ativo' => $input['ativo'] ?? 1,
+        ]);
+        echo json_encode(['sucesso' => true, 'id' => $id]);
+        exit;
+    }
+    if (preg_match('#^/api/admin/banners/(\d+)$#', $uri, $m)) {
+        Auth::verificarAdmin();
+        $id = (int) $m[1];
+        if ($method === 'PUT') {
+            $input = json_decode(file_get_contents('php://input'), true);
+            $dados = array_filter($input, fn($v) => $v !== null);
+            \Rataplam\Config\Database::update('banners', $dados, 'id = ?', [$id]);
+            echo json_encode(['sucesso' => true]);
+            exit;
+        }
+        if ($method === 'DELETE') {
+            \Rataplam\Config\Database::delete('banners', 'id = ?', [$id]);
+            echo json_encode(['sucesso' => true]);
+            exit;
+        }
+    }
+
+    // ── Banners (público) ──────────────────────────
+    if ($method === 'GET' && $uri === '/api/banners') {
+        $banners = \Rataplam\Config\Database::fetchAll(
+            "SELECT * FROM banners WHERE ativo = 1 ORDER BY ordem ASC"
+        );
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode(['sucesso' => true, 'banners' => $banners]);
+        exit;
+    }
+
+    // ── Avaliações (público: listar + criar) ──────────
+    if ($method === 'GET' && preg_match('#^/api/produtos/(\d+)/avaliacoes$#', $uri, $m)) {
+        $produtoId = (int) $m[1];
+        $avaliacoes = \Rataplam\Config\Database::fetchAll(
+            "SELECT a.*, u.nome as usuario_nome FROM avaliacoes a JOIN usuarios u ON a.usuario_id = u.id WHERE a.produto_id = ? AND a.aprovada = 1 ORDER BY a.created_at DESC",
+            [$produtoId]
+        );
+        $media = \Rataplam\Config\Database::fetch(
+            "SELECT AVG(nota) as media, COUNT(*) as total FROM avaliacoes WHERE produto_id = ? AND aprovada = 1",
+            [$produtoId]
+        );
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode(['sucesso' => true, 'avaliacoes' => $avaliacoes, 'media' => $media['media'] ?? 0, 'total' => $media['total'] ?? 0]);
+        exit;
+    }
+    if ($method === 'POST' && preg_match('#^/api/produtos/(\d+)/avaliacoes$#', $uri, $m)) {
+        Auth::verificar();
+        $produtoId = (int) $m[1];
+        $dados = Auth::verificar();
+        $input = json_decode(file_get_contents('php://input'), true);
+        $existe = \Rataplam\Config\Database::fetch(
+            "SELECT id FROM avaliacoes WHERE produto_id = ? AND usuario_id = ?",
+            [$produtoId, $dados['id']]
+        );
+        if ($existe) {
+            http_response_code(400);
+            echo json_encode(['erro' => 'Voce ja avaliou este produto']);
+            exit;
+        }
+        $id = \Rataplam\Config\Database::insert('avaliacoes', [
+            'produto_id' => $produtoId,
+            'usuario_id' => $dados['id'],
+            'nota' => max(1, min(5, (int) ($input['nota'] ?? 5))),
+            'titulo' => $input['titulo'] ?? '',
+            'comentario' => $input['comentario'] ?? '',
+        ]);
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode(['sucesso' => true, 'id' => $id]);
+        exit;
+    }
+
+    // ── Lista de Desejos (autenticado) ────────────────
+    if ($method === 'GET' && $uri === '/api/favoritos') {
+        $dados = Auth::verificar();
+        $favoritos = \Rataplam\Config\Database::fetchAll(
+            "SELECT p.*, ld.created_at as adicionado_em FROM lista_desejos ld JOIN produtos p ON ld.produto_id = p.id WHERE ld.usuario_id = ? ORDER BY ld.created_at DESC",
+            [$dados['id']]
+        );
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode(['sucesso' => true, 'favoritos' => $favoritos]);
+        exit;
+    }
+    if ($method === 'POST' && $uri === '/api/favoritos') {
+        $dados = Auth::verificar();
+        $input = json_decode(file_get_contents('php://input'), true);
+        $produtoId = (int) ($input['produto_id'] ?? 0);
+        $existe = \Rataplam\Config\Database::fetch(
+            "SELECT id FROM lista_desejos WHERE usuario_id = ? AND produto_id = ?",
+            [$dados['id'], $produtoId]
+        );
+        if ($existe) {
+            http_response_code(400);
+            echo json_encode(['erro' => 'Produto ja esta na lista de desejos']);
+            exit;
+        }
+        $id = \Rataplam\Config\Database::insert('lista_desejos', [
+            'usuario_id' => $dados['id'],
+            'produto_id' => $produtoId,
+        ]);
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode(['sucesso' => true, 'id' => $id]);
+        exit;
+    }
+    if ($method === 'DELETE' && preg_match('#^/api/favoritos/(\d+)$#', $uri, $m)) {
+        $dados = Auth::verificar();
+        $produtoId = (int) $m[1];
+        \Rataplam\Config\Database::delete('lista_desejos', 'usuario_id = ? AND produto_id = ?', [$dados['id'], $produtoId]);
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode(['sucesso' => true]);
+        exit;
+    }
+
+    // ── Cupons (validação pública) ──────────────────
+    if ($method === 'POST' && $uri === '/api/cupons/validar') {
+        $input = json_decode(file_get_contents('php://input'), true);
+        $codigo = strtoupper($input['codigo'] ?? '');
+        $cupom = \Rataplam\Config\Database::fetch(
+            "SELECT * FROM cupons WHERE codigo = ? AND ativo = 1 AND (data_inicio IS NULL OR data_inicio <= NOW()) AND (data_fim IS NULL OR data_fim >= NOW())",
+            [$codigo]
+        );
+        if (!$cupom) {
+            http_response_code(400);
+            echo json_encode(['erro' => 'Cupom invalido ou expirado']);
+            exit;
+        }
+        if ($cupom['limite_uso'] > 0 && $cupom['usos_realizados'] >= $cupom['limite_uso']) {
+            http_response_code(400);
+            echo json_encode(['erro' => 'Cupom atingiu o limite de uso']);
+            exit;
+        }
+        $desconto = $cupom['tipo'] === 'percentual' ? 0 : $cupom['valor'];
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode(['sucesso' => true, 'desconto' => $desconto, 'tipo' => $cupom['tipo'], 'valor' => $cupom['valor']]);
+        exit;
+    }
+
+    // ── Cron (interno, centralizado) ────────────────
+    if ($method === 'GET' && $uri === '/api/cron/executar') {
+        CronController::executar();
+    }
+    if ($method === 'GET' && $uri === '/api/cron/status') {
+        CronController::status();
+    }
+    if ($method === 'POST' && preg_match('#^/api/cron/(\d+)/toggle$#', $uri, $m)) {
+        CronController::toggleJob((int) $m[1]);
+    }
+    if ($method === 'POST' && preg_match('#^/api/cron/(\d+)/executar$#', $uri, $m)) {
+        CronController::executarJob((int) $m[1]);
+    }
+
+    // ── Webhooks (público) ──────────────────────────
+    if ($method === 'POST' && $uri === '/api/webhooks/mercadopago') {
+        $input = json_decode(file_get_contents('php://input'), true);
+        \Rataplam\Config\Database::insert('webhook_logs', [
+            'gateway' => 'mercadopago',
+            'event_type' => $input['type'] ?? 'unknown',
+            'payload' => json_encode($input),
+            'processado' => 0,
+        ]);
+        http_response_code(200);
+        echo json_encode(['received' => true]);
+        exit;
+    }
+    if ($method === 'POST' && $uri === '/api/webhooks/stripe') {
+        $input = json_decode(file_get_contents('php://input'), true);
+        \Rataplam\Config\Database::insert('webhook_logs', [
+            'gateway' => 'stripe',
+            'event_type' => $input['type'] ?? 'unknown',
+            'payload' => json_encode($input),
+            'processado' => 0,
+        ]);
+        http_response_code(200);
+        echo json_encode(['received' => true]);
+        exit;
+    }
+
+    // ── Provador Virtual (IA) ─────────────────────────
+    if ($method === 'POST' && $uri === '/api/provador/processar') {
+        ProvadorController::processar();
+    }
+    if ($method === 'GET' && $uri === '/api/provador/status') {
+        ProvadorController::status();
+    }
+
+    // ── 404 ─────────────────────────────────────────
+    http_response_code(404);
+    echo json_encode(['erro' => 'Rota não encontrada', 'rota' => $uri]);
+    exit;
+
+} catch (\Throwable $e) {
+    http_response_code(500);
+    echo json_encode(['erro' => 'Erro interno do servidor', 'mensagem' => $e->getMessage()]);
+    exit;
+}

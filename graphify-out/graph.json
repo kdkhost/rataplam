@@ -1,0 +1,2516 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "label": "Config.php",
+      "file_type": "code",
+      "source_file": "api/config/Config.php",
+      "source_location": "L1",
+      "id": "api_config_config_php",
+      "community": 0,
+      "norm_label": "config.php"
+    },
+    {
+      "label": "Config",
+      "file_type": "code",
+      "source_file": "api/config/Config.php",
+      "source_location": "L6",
+      "id": "config_config_config",
+      "community": 0,
+      "norm_label": "config"
+    },
+    {
+      "label": ".get()",
+      "file_type": "code",
+      "source_file": "api/config/Config.php",
+      "source_location": "L8",
+      "id": "config_config_config_get",
+      "community": 0,
+      "norm_label": ".get()"
+    },
+    {
+      "label": ".set()",
+      "file_type": "code",
+      "source_file": "api/config/Config.php",
+      "source_location": "L14",
+      "id": "config_config_config_set",
+      "community": 0,
+      "norm_label": ".set()"
+    },
+    {
+      "label": ".getAll()",
+      "file_type": "code",
+      "source_file": "api/config/Config.php",
+      "source_location": "L25",
+      "id": "config_config_config_getall",
+      "community": 0,
+      "norm_label": ".getall()"
+    },
+    {
+      "label": "Database.php",
+      "file_type": "code",
+      "source_file": "api/config/Database.php",
+      "source_location": "L1",
+      "id": "api_config_database_php",
+      "community": 0,
+      "norm_label": "database.php"
+    },
+    {
+      "label": "Database",
+      "file_type": "code",
+      "source_file": "api/config/Database.php",
+      "source_location": "L9",
+      "id": "config_database_database",
+      "community": 0,
+      "norm_label": "database"
+    },
+    {
+      "label": ".getInstance()",
+      "file_type": "code",
+      "source_file": "api/config/Database.php",
+      "source_location": "L13",
+      "id": "config_database_database_getinstance",
+      "community": 0,
+      "norm_label": ".getinstance()"
+    },
+    {
+      "label": ".query()",
+      "file_type": "code",
+      "source_file": "api/config/Database.php",
+      "source_location": "L43",
+      "id": "config_database_database_query",
+      "community": 0,
+      "norm_label": ".query()"
+    },
+    {
+      "label": ".fetch()",
+      "file_type": "code",
+      "source_file": "api/config/Database.php",
+      "source_location": "L50",
+      "id": "config_database_database_fetch",
+      "community": 0,
+      "norm_label": ".fetch()"
+    },
+    {
+      "label": ".fetchAll()",
+      "file_type": "code",
+      "source_file": "api/config/Database.php",
+      "source_location": "L55",
+      "id": "config_database_database_fetchall",
+      "community": 0,
+      "norm_label": ".fetchall()"
+    },
+    {
+      "label": ".insert()",
+      "file_type": "code",
+      "source_file": "api/config/Database.php",
+      "source_location": "L60",
+      "id": "config_database_database_insert",
+      "community": 0,
+      "norm_label": ".insert()"
+    },
+    {
+      "label": ".update()",
+      "file_type": "code",
+      "source_file": "api/config/Database.php",
+      "source_location": "L69",
+      "id": "config_database_database_update",
+      "community": 0,
+      "norm_label": ".update()"
+    },
+    {
+      "label": ".delete()",
+      "file_type": "code",
+      "source_file": "api/config/Database.php",
+      "source_location": "L77",
+      "id": "config_database_database_delete",
+      "community": 0,
+      "norm_label": ".delete()"
+    },
+    {
+      "label": ".count()",
+      "file_type": "code",
+      "source_file": "api/config/Database.php",
+      "source_location": "L84",
+      "id": "config_database_database_count",
+      "community": 0,
+      "norm_label": ".count()"
+    },
+    {
+      "label": "SeoController.php",
+      "file_type": "code",
+      "source_file": "api/controllers/SeoController.php",
+      "source_location": "L1",
+      "id": "api_controllers_seocontroller_php",
+      "community": 4,
+      "norm_label": "seocontroller.php"
+    },
+    {
+      "label": "SeoController",
+      "file_type": "code",
+      "source_file": "api/controllers/SeoController.php",
+      "source_location": "L8",
+      "id": "controllers_seocontroller_seocontroller",
+      "community": 4,
+      "norm_label": "seocontroller"
+    },
+    {
+      "label": ".getConfig()",
+      "file_type": "code",
+      "source_file": "api/controllers/SeoController.php",
+      "source_location": "L10",
+      "id": "controllers_seocontroller_seocontroller_getconfig",
+      "community": 4,
+      "norm_label": ".getconfig()"
+    },
+    {
+      "label": ".salvarConfig()",
+      "file_type": "code",
+      "source_file": "api/controllers/SeoController.php",
+      "source_location": "L25",
+      "id": "controllers_seocontroller_seocontroller_salvarconfig",
+      "community": 4,
+      "norm_label": ".salvarconfig()"
+    },
+    {
+      "label": ".calcularScoreSeo()",
+      "file_type": "code",
+      "source_file": "api/controllers/SeoController.php",
+      "source_location": "L79",
+      "id": "controllers_seocontroller_seocontroller_calcularscoreseo",
+      "community": 4,
+      "norm_label": ".calcularscoreseo()"
+    },
+    {
+      "label": ".listarPaginas()",
+      "file_type": "code",
+      "source_file": "api/controllers/SeoController.php",
+      "source_location": "L95",
+      "id": "controllers_seocontroller_seocontroller_listarpaginas",
+      "community": 4,
+      "norm_label": ".listarpaginas()"
+    },
+    {
+      "label": ".preview()",
+      "file_type": "code",
+      "source_file": "api/controllers/SeoController.php",
+      "source_location": "L131",
+      "id": "controllers_seocontroller_seocontroller_preview",
+      "community": 4,
+      "norm_label": ".preview()"
+    },
+    {
+      "label": ".calcularScore()",
+      "file_type": "code",
+      "source_file": "api/controllers/SeoController.php",
+      "source_location": "L175",
+      "id": "controllers_seocontroller_seocontroller_calcularscore",
+      "community": 4,
+      "norm_label": ".calcularscore()"
+    },
+    {
+      "label": ".obterDicas()",
+      "file_type": "code",
+      "source_file": "api/controllers/SeoController.php",
+      "source_location": "L224",
+      "id": "controllers_seocontroller_seocontroller_obterdicas",
+      "community": 4,
+      "norm_label": ".obterdicas()"
+    },
+    {
+      "label": ".getConfigPadrao()",
+      "file_type": "code",
+      "source_file": "api/controllers/SeoController.php",
+      "source_location": "L282",
+      "id": "controllers_seocontroller_seocontroller_getconfigpadrao",
+      "community": 4,
+      "norm_label": ".getconfigpadrao()"
+    },
+    {
+      "label": "VisitaController.php",
+      "file_type": "code",
+      "source_file": "api/controllers/VisitaController.php",
+      "source_location": "L1",
+      "id": "api_controllers_visitacontroller_php",
+      "community": 0,
+      "norm_label": "visitacontroller.php"
+    },
+    {
+      "label": "VisitaController",
+      "file_type": "code",
+      "source_file": "api/controllers/VisitaController.php",
+      "source_location": "L9",
+      "id": "controllers_visitacontroller_visitacontroller",
+      "community": 0,
+      "norm_label": "visitacontroller"
+    },
+    {
+      "label": ".registrar()",
+      "file_type": "code",
+      "source_file": "api/controllers/VisitaController.php",
+      "source_location": "L11",
+      "id": "controllers_visitacontroller_visitacontroller_registrar",
+      "community": 0,
+      "norm_label": ".registrar()"
+    },
+    {
+      "label": ".atualizarDuracao()",
+      "file_type": "code",
+      "source_file": "api/controllers/VisitaController.php",
+      "source_location": "L69",
+      "id": "controllers_visitacontroller_visitacontroller_atualizarduracao",
+      "community": 0,
+      "norm_label": ".atualizarduracao()"
+    },
+    {
+      "label": ".estatisticas()",
+      "file_type": "code",
+      "source_file": "api/controllers/VisitaController.php",
+      "source_location": "L89",
+      "id": "controllers_visitacontroller_visitacontroller_estatisticas",
+      "community": 0,
+      "norm_label": ".estatisticas()"
+    },
+    {
+      "label": ".kpis()",
+      "file_type": "code",
+      "source_file": "api/controllers/VisitaController.php",
+      "source_location": "L151",
+      "id": "controllers_visitacontroller_visitacontroller_kpis",
+      "community": 0,
+      "norm_label": ".kpis()"
+    },
+    {
+      "label": ".online()",
+      "file_type": "code",
+      "source_file": "api/controllers/VisitaController.php",
+      "source_location": "L253",
+      "id": "controllers_visitacontroller_visitacontroller_online",
+      "community": 0,
+      "norm_label": ".online()"
+    },
+    {
+      "label": ".gerarSessionId()",
+      "file_type": "code",
+      "source_file": "api/controllers/VisitaController.php",
+      "source_location": "L267",
+      "id": "controllers_visitacontroller_visitacontroller_gerarsessionid",
+      "community": 0,
+      "norm_label": ".gerarsessionid()"
+    },
+    {
+      "label": ".obterIP()",
+      "file_type": "code",
+      "source_file": "api/controllers/VisitaController.php",
+      "source_location": "L272",
+      "id": "controllers_visitacontroller_visitacontroller_obterip",
+      "community": 0,
+      "norm_label": ".obterip()"
+    },
+    {
+      "label": ".detectarDispositivo()",
+      "file_type": "code",
+      "source_file": "api/controllers/VisitaController.php",
+      "source_location": "L284",
+      "id": "controllers_visitacontroller_visitacontroller_detectardispositivo",
+      "community": 0,
+      "norm_label": ".detectardispositivo()"
+    },
+    {
+      "label": ".detectarNavegador()",
+      "file_type": "code",
+      "source_file": "api/controllers/VisitaController.php",
+      "source_location": "L291",
+      "id": "controllers_visitacontroller_visitacontroller_detectarnavegador",
+      "community": 0,
+      "norm_label": ".detectarnavegador()"
+    },
+    {
+      "label": ".detectarSO()",
+      "file_type": "code",
+      "source_file": "api/controllers/VisitaController.php",
+      "source_location": "L307",
+      "id": "controllers_visitacontroller_visitacontroller_detectarso",
+      "community": 0,
+      "norm_label": ".detectarso()"
+    },
+    {
+      "label": ".extrairPagina()",
+      "file_type": "code",
+      "source_file": "api/controllers/VisitaController.php",
+      "source_location": "L322",
+      "id": "controllers_visitacontroller_visitacontroller_extrairpagina",
+      "community": 0,
+      "norm_label": ".extrairpagina()"
+    },
+    {
+      "label": ".atualizarEstatisticasDiarias()",
+      "file_type": "code",
+      "source_file": "api/controllers/VisitaController.php",
+      "source_location": "L328",
+      "id": "controllers_visitacontroller_visitacontroller_atualizarestatisticasdiarias",
+      "community": 0,
+      "norm_label": ".atualizarestatisticasdiarias()"
+    },
+    {
+      "label": ".atualizarPaginasVisitadas()",
+      "file_type": "code",
+      "source_file": "api/controllers/VisitaController.php",
+      "source_location": "L351",
+      "id": "controllers_visitacontroller_visitacontroller_atualizarpaginasvisitadas",
+      "community": 0,
+      "norm_label": ".atualizarpaginasvisitadas()"
+    },
+    {
+      "label": "Auth.php",
+      "file_type": "code",
+      "source_file": "api/middleware/Auth.php",
+      "source_location": "L1",
+      "id": "api_middleware_auth_php",
+      "community": 6,
+      "norm_label": "auth.php"
+    },
+    {
+      "label": "Auth",
+      "file_type": "code",
+      "source_file": "api/middleware/Auth.php",
+      "source_location": "L6",
+      "id": "middleware_auth_auth",
+      "community": 6,
+      "norm_label": "auth"
+    },
+    {
+      "label": ".verificar()",
+      "file_type": "code",
+      "source_file": "api/middleware/Auth.php",
+      "source_location": "L8",
+      "id": "middleware_auth_auth_verificar",
+      "community": 6,
+      "norm_label": ".verificar()"
+    },
+    {
+      "label": ".verificarAdmin()",
+      "file_type": "code",
+      "source_file": "api/middleware/Auth.php",
+      "source_location": "L31",
+      "id": "middleware_auth_auth_verificaradmin",
+      "community": 6,
+      "norm_label": ".verificaradmin()"
+    },
+    {
+      "label": ".verificarOpcional()",
+      "file_type": "code",
+      "source_file": "api/middleware/Auth.php",
+      "source_location": "L44",
+      "id": "middleware_auth_auth_verificaropcional",
+      "community": 6,
+      "norm_label": ".verificaropcional()"
+    },
+    {
+      "label": ".validarToken()",
+      "file_type": "code",
+      "source_file": "api/middleware/Auth.php",
+      "source_location": "L57",
+      "id": "middleware_auth_auth_validartoken",
+      "community": 6,
+      "norm_label": ".validartoken()"
+    },
+    {
+      "label": ".gerarToken()",
+      "file_type": "code",
+      "source_file": "api/middleware/Auth.php",
+      "source_location": "L69",
+      "id": "middleware_auth_auth_gerartoken",
+      "community": 6,
+      "norm_label": ".gerartoken()"
+    },
+    {
+      "label": ".revogarToken()",
+      "file_type": "code",
+      "source_file": "api/middleware/Auth.php",
+      "source_location": "L83",
+      "id": "middleware_auth_auth_revogartoken",
+      "community": 6,
+      "norm_label": ".revogartoken()"
+    },
+    {
+      "label": "CepService.php",
+      "file_type": "code",
+      "source_file": "api/services/CepService.php",
+      "source_location": "L1",
+      "id": "api_services_cepservice_php",
+      "community": 9,
+      "norm_label": "cepservice.php"
+    },
+    {
+      "label": "CepService",
+      "file_type": "code",
+      "source_file": "api/services/CepService.php",
+      "source_location": "L6",
+      "id": "services_cepservice_cepservice",
+      "community": 9,
+      "norm_label": "cepservice"
+    },
+    {
+      "label": ".buscar()",
+      "file_type": "code",
+      "source_file": "api/services/CepService.php",
+      "source_location": "L13",
+      "id": "services_cepservice_cepservice_buscar",
+      "community": 9,
+      "norm_label": ".buscar()"
+    },
+    {
+      "label": ".requisicao()",
+      "file_type": "code",
+      "source_file": "api/services/CepService.php",
+      "source_location": "L39",
+      "id": "services_cepservice_cepservice_requisicao",
+      "community": 9,
+      "norm_label": ".requisicao()"
+    },
+    {
+      "label": "EmailService.php",
+      "file_type": "code",
+      "source_file": "api/services/EmailService.php",
+      "source_location": "L1",
+      "id": "api_services_emailservice_php",
+      "community": 7,
+      "norm_label": "emailservice.php"
+    },
+    {
+      "label": "EmailService",
+      "file_type": "code",
+      "source_file": "api/services/EmailService.php",
+      "source_location": "L9",
+      "id": "services_emailservice_emailservice",
+      "community": 7,
+      "norm_label": "emailservice"
+    },
+    {
+      "label": ".__construct()",
+      "file_type": "code",
+      "source_file": "api/services/EmailService.php",
+      "source_location": "L20",
+      "id": "services_emailservice_emailservice_construct",
+      "community": 7,
+      "norm_label": ".__construct()"
+    },
+    {
+      "label": ".enviar()",
+      "file_type": "code",
+      "source_file": "api/services/EmailService.php",
+      "source_location": "L32",
+      "id": "services_emailservice_emailservice_enviar",
+      "community": 7,
+      "norm_label": ".enviar()"
+    },
+    {
+      "label": ".enviarTemplate()",
+      "file_type": "code",
+      "source_file": "api/services/EmailService.php",
+      "source_location": "L79",
+      "id": "services_emailservice_emailservice_enviartemplate",
+      "community": 7,
+      "norm_label": ".enviartemplate()"
+    },
+    {
+      "label": ".carregarTemplate()",
+      "file_type": "code",
+      "source_file": "api/services/EmailService.php",
+      "source_location": "L87",
+      "id": "services_emailservice_emailservice_carregartemplate",
+      "community": 7,
+      "norm_label": ".carregartemplate()"
+    },
+    {
+      "label": ".htmlParaTexto()",
+      "file_type": "code",
+      "source_file": "api/services/EmailService.php",
+      "source_location": "L101",
+      "id": "services_emailservice_emailservice_htmlparatexto",
+      "community": 7,
+      "norm_label": ".htmlparatexto()"
+    },
+    {
+      "label": "PaymentService.php",
+      "file_type": "code",
+      "source_file": "api/services/PaymentService.php",
+      "source_location": "L1",
+      "id": "api_services_paymentservice_php",
+      "community": 3,
+      "norm_label": "paymentservice.php"
+    },
+    {
+      "label": "PaymentService",
+      "file_type": "code",
+      "source_file": "api/services/PaymentService.php",
+      "source_location": "L8",
+      "id": "services_paymentservice_paymentservice",
+      "community": 3,
+      "norm_label": "paymentservice"
+    },
+    {
+      "label": ".__construct()",
+      "file_type": "code",
+      "source_file": "api/services/PaymentService.php",
+      "source_location": "L16",
+      "id": "services_paymentservice_paymentservice_construct",
+      "community": 3,
+      "norm_label": ".__construct()"
+    },
+    {
+      "label": ".criarPagamentoMercadoPago()",
+      "file_type": "code",
+      "source_file": "api/services/PaymentService.php",
+      "source_location": "L29",
+      "id": "services_paymentservice_paymentservice_criarpagamentomercadopago",
+      "community": 3,
+      "norm_label": ".criarpagamentomercadopago()"
+    },
+    {
+      "label": ".consultarPagamentoMercadoPago()",
+      "file_type": "code",
+      "source_file": "api/services/PaymentService.php",
+      "source_location": "L79",
+      "id": "services_paymentservice_paymentservice_consultarpagamentomercadopago",
+      "community": 3,
+      "norm_label": ".consultarpagamentomercadopago()"
+    },
+    {
+      "label": ".webhookMercadoPago()",
+      "file_type": "code",
+      "source_file": "api/services/PaymentService.php",
+      "source_location": "L84",
+      "id": "services_paymentservice_paymentservice_webhookmercadopago",
+      "community": 3,
+      "norm_label": ".webhookmercadopago()"
+    },
+    {
+      "label": ".requisicaoMP()",
+      "file_type": "code",
+      "source_file": "api/services/PaymentService.php",
+      "source_location": "L110",
+      "id": "services_paymentservice_paymentservice_requisicaomp",
+      "community": 3,
+      "norm_label": ".requisicaomp()"
+    },
+    {
+      "label": ".criarPagamentoStripe()",
+      "file_type": "code",
+      "source_file": "api/services/PaymentService.php",
+      "source_location": "L150",
+      "id": "services_paymentservice_paymentservice_criarpagamentostripe",
+      "community": 3,
+      "norm_label": ".criarpagamentostripe()"
+    },
+    {
+      "label": ".webhookStripe()",
+      "file_type": "code",
+      "source_file": "api/services/PaymentService.php",
+      "source_location": "L191",
+      "id": "services_paymentservice_paymentservice_webhookstripe",
+      "community": 3,
+      "norm_label": ".webhookstripe()"
+    },
+    {
+      "label": ".requisicaoStripe()",
+      "file_type": "code",
+      "source_file": "api/services/PaymentService.php",
+      "source_location": "L242",
+      "id": "services_paymentservice_paymentservice_requisicaostripe",
+      "community": 3,
+      "norm_label": ".requisicaostripe()"
+    },
+    {
+      "label": ".mapearStatus()",
+      "file_type": "code",
+      "source_file": "api/services/PaymentService.php",
+      "source_location": "L272",
+      "id": "services_paymentservice_paymentservice_mapearstatus",
+      "community": 3,
+      "norm_label": ".mapearstatus()"
+    },
+    {
+      "label": ".getPublicKey()",
+      "file_type": "code",
+      "source_file": "api/services/PaymentService.php",
+      "source_location": "L300",
+      "id": "services_paymentservice_paymentservice_getpublickey",
+      "community": 3,
+      "norm_label": ".getpublickey()"
+    },
+    {
+      "label": "eslint.config.mjs",
+      "file_type": "code",
+      "source_file": "frontend/eslint.config.mjs",
+      "source_location": "L1",
+      "id": "frontend_eslint_config_mjs",
+      "community": 11,
+      "norm_label": "eslint.config.mjs"
+    },
+    {
+      "label": "eslintConfig",
+      "file_type": "code",
+      "source_file": "frontend/eslint.config.mjs",
+      "source_location": "L5",
+      "id": "frontend_eslint_config_eslintconfig",
+      "community": 11,
+      "norm_label": "eslintconfig"
+    },
+    {
+      "label": "next-env.d.ts",
+      "file_type": "code",
+      "source_file": "frontend/next-env.d.ts",
+      "source_location": "L1",
+      "id": "frontend_next_env_d_ts",
+      "community": 14,
+      "norm_label": "next-env.d.ts"
+    },
+    {
+      "label": "next.config.ts",
+      "file_type": "code",
+      "source_file": "frontend/next.config.ts",
+      "source_location": "L1",
+      "id": "frontend_next_config_ts",
+      "community": 12,
+      "norm_label": "next.config.ts"
+    },
+    {
+      "label": "nextConfig",
+      "file_type": "code",
+      "source_file": "frontend/next.config.ts",
+      "source_location": "L3",
+      "id": "frontend_next_config_nextconfig",
+      "community": 12,
+      "norm_label": "nextconfig"
+    },
+    {
+      "label": "package.json",
+      "file_type": "code",
+      "source_file": "frontend/package.json",
+      "source_location": "L1",
+      "id": "frontend_package_json",
+      "community": 2,
+      "norm_label": "package.json"
+    },
+    {
+      "label": "name",
+      "file_type": "code",
+      "source_file": "frontend/package.json",
+      "source_location": "L2",
+      "id": "frontend_package_name",
+      "community": 2,
+      "norm_label": "name"
+    },
+    {
+      "label": "version",
+      "file_type": "code",
+      "source_file": "frontend/package.json",
+      "source_location": "L3",
+      "id": "frontend_package_version",
+      "community": 2,
+      "norm_label": "version"
+    },
+    {
+      "label": "private",
+      "file_type": "code",
+      "source_file": "frontend/package.json",
+      "source_location": "L4",
+      "id": "frontend_package_private",
+      "community": 2,
+      "norm_label": "private"
+    },
+    {
+      "label": "scripts",
+      "file_type": "code",
+      "source_file": "frontend/package.json",
+      "source_location": "L5",
+      "id": "frontend_package_scripts",
+      "community": 2,
+      "norm_label": "scripts"
+    },
+    {
+      "label": "dev",
+      "file_type": "code",
+      "source_file": "frontend/package.json",
+      "source_location": "L6",
+      "id": "frontend_package_scripts_dev",
+      "community": 2,
+      "norm_label": "dev"
+    },
+    {
+      "label": "build",
+      "file_type": "code",
+      "source_file": "frontend/package.json",
+      "source_location": "L7",
+      "id": "frontend_package_scripts_build",
+      "community": 2,
+      "norm_label": "build"
+    },
+    {
+      "label": "start",
+      "file_type": "code",
+      "source_file": "frontend/package.json",
+      "source_location": "L8",
+      "id": "frontend_package_scripts_start",
+      "community": 2,
+      "norm_label": "start"
+    },
+    {
+      "label": "lint",
+      "file_type": "code",
+      "source_file": "frontend/package.json",
+      "source_location": "L9",
+      "id": "frontend_package_scripts_lint",
+      "community": 2,
+      "norm_label": "lint"
+    },
+    {
+      "label": "dependencies",
+      "file_type": "code",
+      "source_file": "frontend/package.json",
+      "source_location": "L11",
+      "id": "frontend_package_dependencies",
+      "community": 2,
+      "norm_label": "dependencies"
+    },
+    {
+      "label": "next",
+      "file_type": "code",
+      "source_file": "frontend/package.json",
+      "source_location": "L12",
+      "id": "frontend_package_dependencies_next",
+      "community": 2,
+      "norm_label": "next"
+    },
+    {
+      "label": "react",
+      "file_type": "code",
+      "source_file": "frontend/package.json",
+      "source_location": "L13",
+      "id": "frontend_package_dependencies_react",
+      "community": 2,
+      "norm_label": "react"
+    },
+    {
+      "label": "react-dom",
+      "file_type": "code",
+      "source_file": "frontend/package.json",
+      "source_location": "L14",
+      "id": "frontend_package_dependencies_react_dom",
+      "community": 2,
+      "norm_label": "react-dom"
+    },
+    {
+      "label": "devDependencies",
+      "file_type": "code",
+      "source_file": "frontend/package.json",
+      "source_location": "L16",
+      "id": "frontend_package_devdependencies",
+      "community": 5,
+      "norm_label": "devdependencies"
+    },
+    {
+      "label": "@tailwindcss/postcss",
+      "file_type": "code",
+      "source_file": "frontend/package.json",
+      "source_location": "L17",
+      "id": "frontend_package_devdependencies_tailwindcss_postcss",
+      "community": 5,
+      "norm_label": "@tailwindcss/postcss"
+    },
+    {
+      "label": "@types/node",
+      "file_type": "code",
+      "source_file": "frontend/package.json",
+      "source_location": "L18",
+      "id": "frontend_package_devdependencies_types_node",
+      "community": 5,
+      "norm_label": "@types/node"
+    },
+    {
+      "label": "@types/react",
+      "file_type": "code",
+      "source_file": "frontend/package.json",
+      "source_location": "L19",
+      "id": "frontend_package_devdependencies_types_react",
+      "community": 5,
+      "norm_label": "@types/react"
+    },
+    {
+      "label": "@types/react-dom",
+      "file_type": "code",
+      "source_file": "frontend/package.json",
+      "source_location": "L20",
+      "id": "frontend_package_devdependencies_types_react_dom",
+      "community": 5,
+      "norm_label": "@types/react-dom"
+    },
+    {
+      "label": "eslint",
+      "file_type": "code",
+      "source_file": "frontend/package.json",
+      "source_location": "L21",
+      "id": "frontend_package_devdependencies_eslint",
+      "community": 5,
+      "norm_label": "eslint"
+    },
+    {
+      "label": "eslint-config-next",
+      "file_type": "code",
+      "source_file": "frontend/package.json",
+      "source_location": "L22",
+      "id": "frontend_package_devdependencies_eslint_config_next",
+      "community": 5,
+      "norm_label": "eslint-config-next"
+    },
+    {
+      "label": "tailwindcss",
+      "file_type": "code",
+      "source_file": "frontend/package.json",
+      "source_location": "L23",
+      "id": "frontend_package_devdependencies_tailwindcss",
+      "community": 5,
+      "norm_label": "tailwindcss"
+    },
+    {
+      "label": "typescript",
+      "file_type": "code",
+      "source_file": "frontend/package.json",
+      "source_location": "L24",
+      "id": "frontend_package_devdependencies_typescript",
+      "community": 5,
+      "norm_label": "typescript"
+    },
+    {
+      "label": "postcss.config.mjs",
+      "file_type": "code",
+      "source_file": "frontend/postcss.config.mjs",
+      "source_location": "L1",
+      "id": "frontend_postcss_config_mjs",
+      "community": 13,
+      "norm_label": "postcss.config.mjs"
+    },
+    {
+      "label": "config",
+      "file_type": "code",
+      "source_file": "frontend/postcss.config.mjs",
+      "source_location": "L1",
+      "id": "frontend_postcss_config_config",
+      "community": 13,
+      "norm_label": "config"
+    },
+    {
+      "label": "tsconfig.json",
+      "file_type": "code",
+      "source_file": "frontend/tsconfig.json",
+      "source_location": "L1",
+      "id": "frontend_tsconfig_json",
+      "community": 1,
+      "norm_label": "tsconfig.json"
+    },
+    {
+      "label": "compilerOptions",
+      "file_type": "code",
+      "source_file": "frontend/tsconfig.json",
+      "source_location": "L2",
+      "id": "frontend_tsconfig_compileroptions",
+      "community": 1,
+      "norm_label": "compileroptions"
+    },
+    {
+      "label": "target",
+      "file_type": "code",
+      "source_file": "frontend/tsconfig.json",
+      "source_location": "L3",
+      "id": "frontend_tsconfig_compileroptions_target",
+      "community": 1,
+      "norm_label": "target"
+    },
+    {
+      "label": "lib",
+      "file_type": "code",
+      "source_file": "frontend/tsconfig.json",
+      "source_location": "L4",
+      "id": "frontend_tsconfig_compileroptions_lib",
+      "community": 1,
+      "norm_label": "lib"
+    },
+    {
+      "label": "allowJs",
+      "file_type": "code",
+      "source_file": "frontend/tsconfig.json",
+      "source_location": "L5",
+      "id": "frontend_tsconfig_compileroptions_allowjs",
+      "community": 1,
+      "norm_label": "allowjs"
+    },
+    {
+      "label": "skipLibCheck",
+      "file_type": "code",
+      "source_file": "frontend/tsconfig.json",
+      "source_location": "L6",
+      "id": "frontend_tsconfig_compileroptions_skiplibcheck",
+      "community": 1,
+      "norm_label": "skiplibcheck"
+    },
+    {
+      "label": "strict",
+      "file_type": "code",
+      "source_file": "frontend/tsconfig.json",
+      "source_location": "L7",
+      "id": "frontend_tsconfig_compileroptions_strict",
+      "community": 1,
+      "norm_label": "strict"
+    },
+    {
+      "label": "noEmit",
+      "file_type": "code",
+      "source_file": "frontend/tsconfig.json",
+      "source_location": "L8",
+      "id": "frontend_tsconfig_compileroptions_noemit",
+      "community": 1,
+      "norm_label": "noemit"
+    },
+    {
+      "label": "esModuleInterop",
+      "file_type": "code",
+      "source_file": "frontend/tsconfig.json",
+      "source_location": "L9",
+      "id": "frontend_tsconfig_compileroptions_esmoduleinterop",
+      "community": 1,
+      "norm_label": "esmoduleinterop"
+    },
+    {
+      "label": "module",
+      "file_type": "code",
+      "source_file": "frontend/tsconfig.json",
+      "source_location": "L10",
+      "id": "frontend_tsconfig_compileroptions_module",
+      "community": 1,
+      "norm_label": "module"
+    },
+    {
+      "label": "moduleResolution",
+      "file_type": "code",
+      "source_file": "frontend/tsconfig.json",
+      "source_location": "L11",
+      "id": "frontend_tsconfig_compileroptions_moduleresolution",
+      "community": 1,
+      "norm_label": "moduleresolution"
+    },
+    {
+      "label": "resolveJsonModule",
+      "file_type": "code",
+      "source_file": "frontend/tsconfig.json",
+      "source_location": "L12",
+      "id": "frontend_tsconfig_compileroptions_resolvejsonmodule",
+      "community": 1,
+      "norm_label": "resolvejsonmodule"
+    },
+    {
+      "label": "isolatedModules",
+      "file_type": "code",
+      "source_file": "frontend/tsconfig.json",
+      "source_location": "L13",
+      "id": "frontend_tsconfig_compileroptions_isolatedmodules",
+      "community": 1,
+      "norm_label": "isolatedmodules"
+    },
+    {
+      "label": "jsx",
+      "file_type": "code",
+      "source_file": "frontend/tsconfig.json",
+      "source_location": "L14",
+      "id": "frontend_tsconfig_compileroptions_jsx",
+      "community": 1,
+      "norm_label": "jsx"
+    },
+    {
+      "label": "incremental",
+      "file_type": "code",
+      "source_file": "frontend/tsconfig.json",
+      "source_location": "L15",
+      "id": "frontend_tsconfig_compileroptions_incremental",
+      "community": 1,
+      "norm_label": "incremental"
+    },
+    {
+      "label": "plugins",
+      "file_type": "code",
+      "source_file": "frontend/tsconfig.json",
+      "source_location": "L16",
+      "id": "frontend_tsconfig_compileroptions_plugins",
+      "community": 1,
+      "norm_label": "plugins"
+    },
+    {
+      "label": "paths",
+      "file_type": "code",
+      "source_file": "frontend/tsconfig.json",
+      "source_location": "L21",
+      "id": "frontend_tsconfig_compileroptions_paths",
+      "community": 1,
+      "norm_label": "paths"
+    },
+    {
+      "label": "@/*",
+      "file_type": "code",
+      "source_file": "frontend/tsconfig.json",
+      "source_location": "L22",
+      "id": "frontend_tsconfig_paths",
+      "community": 1,
+      "norm_label": "@/*"
+    },
+    {
+      "label": "include",
+      "file_type": "code",
+      "source_file": "frontend/tsconfig.json",
+      "source_location": "L25",
+      "id": "frontend_tsconfig_include",
+      "community": 1,
+      "norm_label": "include"
+    },
+    {
+      "label": "exclude",
+      "file_type": "code",
+      "source_file": "frontend/tsconfig.json",
+      "source_location": "L33",
+      "id": "frontend_tsconfig_exclude",
+      "community": 1,
+      "norm_label": "exclude"
+    },
+    {
+      "label": "layout.tsx",
+      "file_type": "code",
+      "source_file": "frontend/src/app/layout.tsx",
+      "source_location": "L1",
+      "id": "frontend_src_app_layout_tsx",
+      "community": 8,
+      "norm_label": "layout.tsx"
+    },
+    {
+      "label": "geistSans",
+      "file_type": "code",
+      "source_file": "frontend/src/app/layout.tsx",
+      "source_location": "L5",
+      "id": "app_layout_geistsans",
+      "community": 8,
+      "norm_label": "geistsans"
+    },
+    {
+      "label": "geistMono",
+      "file_type": "code",
+      "source_file": "frontend/src/app/layout.tsx",
+      "source_location": "L10",
+      "id": "app_layout_geistmono",
+      "community": 8,
+      "norm_label": "geistmono"
+    },
+    {
+      "label": "metadata",
+      "file_type": "code",
+      "source_file": "frontend/src/app/layout.tsx",
+      "source_location": "L15",
+      "id": "app_layout_metadata",
+      "community": 8,
+      "norm_label": "metadata"
+    },
+    {
+      "label": "RootLayout()",
+      "file_type": "code",
+      "source_file": "frontend/src/app/layout.tsx",
+      "source_location": "L20",
+      "id": "app_layout_rootlayout",
+      "community": 8,
+      "norm_label": "rootlayout()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "frontend/src/app/page.tsx",
+      "source_location": "L1",
+      "id": "frontend_src_app_page_tsx",
+      "community": 10,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "Home()",
+      "file_type": "code",
+      "source_file": "frontend/src/app/page.tsx",
+      "source_location": "L3",
+      "id": "app_page_home",
+      "community": 10,
+      "norm_label": "home()"
+    }
+  ],
+  "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/config/Config.php",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "api_config_config_php",
+      "target": "config_config_config",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/config/Config.php",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "config_config_config",
+      "target": "config_config_config_get",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/config/Config.php",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "config_config_config",
+      "target": "config_config_config_set",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/config/Config.php",
+      "source_location": "L25",
+      "weight": 1.0,
+      "source": "config_config_config",
+      "target": "config_config_config_getall",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "api/config/Config.php",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "config_config_config_get",
+      "target": "config_database_database"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "api/config/Config.php",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "config_config_config_set",
+      "target": "config_database_database"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "api/config/Config.php",
+      "source_location": "L28",
+      "weight": 1.0,
+      "source": "config_config_config_getall",
+      "target": "config_database_database"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/config/Database.php",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "api_config_database_php",
+      "target": "config_database_database",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/config/Database.php",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "config_database_database",
+      "target": "config_database_database_getinstance",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/config/Database.php",
+      "source_location": "L43",
+      "weight": 1.0,
+      "source": "config_database_database",
+      "target": "config_database_database_query",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/config/Database.php",
+      "source_location": "L50",
+      "weight": 1.0,
+      "source": "config_database_database",
+      "target": "config_database_database_fetch",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/config/Database.php",
+      "source_location": "L55",
+      "weight": 1.0,
+      "source": "config_database_database",
+      "target": "config_database_database_fetchall",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/config/Database.php",
+      "source_location": "L60",
+      "weight": 1.0,
+      "source": "config_database_database",
+      "target": "config_database_database_insert",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/config/Database.php",
+      "source_location": "L69",
+      "weight": 1.0,
+      "source": "config_database_database",
+      "target": "config_database_database_update",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/config/Database.php",
+      "source_location": "L77",
+      "weight": 1.0,
+      "source": "config_database_database",
+      "target": "config_database_database_delete",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/config/Database.php",
+      "source_location": "L84",
+      "weight": 1.0,
+      "source": "config_database_database",
+      "target": "config_database_database_count",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "api/controllers/SeoController.php",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "controllers_seocontroller_seocontroller_getconfig",
+      "target": "config_database_database"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "api/controllers/SeoController.php",
+      "source_location": "L47",
+      "weight": 1.0,
+      "source": "controllers_seocontroller_seocontroller_salvarconfig",
+      "target": "config_database_database"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "api/controllers/SeoController.php",
+      "source_location": "L97",
+      "weight": 1.0,
+      "source": "controllers_seocontroller_seocontroller_listarpaginas",
+      "target": "config_database_database"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "api/controllers/VisitaController.php",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "controllers_visitacontroller_visitacontroller_registrar",
+      "target": "config_database_database"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "api/controllers/VisitaController.php",
+      "source_location": "L78",
+      "weight": 1.0,
+      "source": "controllers_visitacontroller_visitacontroller_atualizarduracao",
+      "target": "config_database_database"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "api/controllers/VisitaController.php",
+      "source_location": "L101",
+      "weight": 1.0,
+      "source": "controllers_visitacontroller_visitacontroller_estatisticas",
+      "target": "config_database_database"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "api/controllers/VisitaController.php",
+      "source_location": "L158",
+      "weight": 1.0,
+      "source": "controllers_visitacontroller_visitacontroller_kpis",
+      "target": "config_database_database"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "api/controllers/VisitaController.php",
+      "source_location": "L255",
+      "weight": 1.0,
+      "source": "controllers_visitacontroller_visitacontroller_online",
+      "target": "config_database_database"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "api/controllers/VisitaController.php",
+      "source_location": "L331",
+      "weight": 1.0,
+      "source": "controllers_visitacontroller_visitacontroller_atualizarestatisticasdiarias",
+      "target": "config_database_database"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "api/controllers/VisitaController.php",
+      "source_location": "L354",
+      "weight": 1.0,
+      "source": "controllers_visitacontroller_visitacontroller_atualizarpaginasvisitadas",
+      "target": "config_database_database"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "api/services/EmailService.php",
+      "source_location": "L56",
+      "weight": 1.0,
+      "source": "services_emailservice_emailservice_enviar",
+      "target": "config_database_database"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "api/config/Database.php",
+      "source_location": "L63",
+      "weight": 1.0,
+      "source": "config_database_database_insert",
+      "target": "config_database_database_count",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/controllers/SeoController.php",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "api_controllers_seocontroller_php",
+      "target": "controllers_seocontroller_seocontroller",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/controllers/SeoController.php",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "controllers_seocontroller_seocontroller",
+      "target": "controllers_seocontroller_seocontroller_getconfig",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/controllers/SeoController.php",
+      "source_location": "L25",
+      "weight": 1.0,
+      "source": "controllers_seocontroller_seocontroller",
+      "target": "controllers_seocontroller_seocontroller_salvarconfig",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/controllers/SeoController.php",
+      "source_location": "L79",
+      "weight": 1.0,
+      "source": "controllers_seocontroller_seocontroller",
+      "target": "controllers_seocontroller_seocontroller_calcularscoreseo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/controllers/SeoController.php",
+      "source_location": "L95",
+      "weight": 1.0,
+      "source": "controllers_seocontroller_seocontroller",
+      "target": "controllers_seocontroller_seocontroller_listarpaginas",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/controllers/SeoController.php",
+      "source_location": "L131",
+      "weight": 1.0,
+      "source": "controllers_seocontroller_seocontroller",
+      "target": "controllers_seocontroller_seocontroller_preview",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/controllers/SeoController.php",
+      "source_location": "L175",
+      "weight": 1.0,
+      "source": "controllers_seocontroller_seocontroller",
+      "target": "controllers_seocontroller_seocontroller_calcularscore",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/controllers/SeoController.php",
+      "source_location": "L224",
+      "weight": 1.0,
+      "source": "controllers_seocontroller_seocontroller",
+      "target": "controllers_seocontroller_seocontroller_obterdicas",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/controllers/SeoController.php",
+      "source_location": "L282",
+      "weight": 1.0,
+      "source": "controllers_seocontroller_seocontroller",
+      "target": "controllers_seocontroller_seocontroller_getconfigpadrao",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/controllers/VisitaController.php",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "api_controllers_visitacontroller_php",
+      "target": "controllers_visitacontroller_visitacontroller",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/controllers/VisitaController.php",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "controllers_visitacontroller_visitacontroller",
+      "target": "controllers_visitacontroller_visitacontroller_registrar",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/controllers/VisitaController.php",
+      "source_location": "L69",
+      "weight": 1.0,
+      "source": "controllers_visitacontroller_visitacontroller",
+      "target": "controllers_visitacontroller_visitacontroller_atualizarduracao",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/controllers/VisitaController.php",
+      "source_location": "L89",
+      "weight": 1.0,
+      "source": "controllers_visitacontroller_visitacontroller",
+      "target": "controllers_visitacontroller_visitacontroller_estatisticas",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/controllers/VisitaController.php",
+      "source_location": "L151",
+      "weight": 1.0,
+      "source": "controllers_visitacontroller_visitacontroller",
+      "target": "controllers_visitacontroller_visitacontroller_kpis",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/controllers/VisitaController.php",
+      "source_location": "L253",
+      "weight": 1.0,
+      "source": "controllers_visitacontroller_visitacontroller",
+      "target": "controllers_visitacontroller_visitacontroller_online",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/controllers/VisitaController.php",
+      "source_location": "L267",
+      "weight": 1.0,
+      "source": "controllers_visitacontroller_visitacontroller",
+      "target": "controllers_visitacontroller_visitacontroller_gerarsessionid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/controllers/VisitaController.php",
+      "source_location": "L272",
+      "weight": 1.0,
+      "source": "controllers_visitacontroller_visitacontroller",
+      "target": "controllers_visitacontroller_visitacontroller_obterip",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/controllers/VisitaController.php",
+      "source_location": "L284",
+      "weight": 1.0,
+      "source": "controllers_visitacontroller_visitacontroller",
+      "target": "controllers_visitacontroller_visitacontroller_detectardispositivo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/controllers/VisitaController.php",
+      "source_location": "L291",
+      "weight": 1.0,
+      "source": "controllers_visitacontroller_visitacontroller",
+      "target": "controllers_visitacontroller_visitacontroller_detectarnavegador",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/controllers/VisitaController.php",
+      "source_location": "L307",
+      "weight": 1.0,
+      "source": "controllers_visitacontroller_visitacontroller",
+      "target": "controllers_visitacontroller_visitacontroller_detectarso",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/controllers/VisitaController.php",
+      "source_location": "L322",
+      "weight": 1.0,
+      "source": "controllers_visitacontroller_visitacontroller",
+      "target": "controllers_visitacontroller_visitacontroller_extrairpagina",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/controllers/VisitaController.php",
+      "source_location": "L328",
+      "weight": 1.0,
+      "source": "controllers_visitacontroller_visitacontroller",
+      "target": "controllers_visitacontroller_visitacontroller_atualizarestatisticasdiarias",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/controllers/VisitaController.php",
+      "source_location": "L351",
+      "weight": 1.0,
+      "source": "controllers_visitacontroller_visitacontroller",
+      "target": "controllers_visitacontroller_visitacontroller_atualizarpaginasvisitadas",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/middleware/Auth.php",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "api_middleware_auth_php",
+      "target": "middleware_auth_auth",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/middleware/Auth.php",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "middleware_auth_auth",
+      "target": "middleware_auth_auth_verificar",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/middleware/Auth.php",
+      "source_location": "L31",
+      "weight": 1.0,
+      "source": "middleware_auth_auth",
+      "target": "middleware_auth_auth_verificaradmin",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/middleware/Auth.php",
+      "source_location": "L44",
+      "weight": 1.0,
+      "source": "middleware_auth_auth",
+      "target": "middleware_auth_auth_verificaropcional",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/middleware/Auth.php",
+      "source_location": "L57",
+      "weight": 1.0,
+      "source": "middleware_auth_auth",
+      "target": "middleware_auth_auth_validartoken",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/middleware/Auth.php",
+      "source_location": "L69",
+      "weight": 1.0,
+      "source": "middleware_auth_auth",
+      "target": "middleware_auth_auth_gerartoken",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/middleware/Auth.php",
+      "source_location": "L83",
+      "weight": 1.0,
+      "source": "middleware_auth_auth",
+      "target": "middleware_auth_auth_revogartoken",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/services/CepService.php",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "api_services_cepservice_php",
+      "target": "services_cepservice_cepservice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/services/CepService.php",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "services_cepservice_cepservice",
+      "target": "services_cepservice_cepservice_buscar",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/services/CepService.php",
+      "source_location": "L39",
+      "weight": 1.0,
+      "source": "services_cepservice_cepservice",
+      "target": "services_cepservice_cepservice_requisicao",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "api/services/CepService.php",
+      "source_location": "L22",
+      "weight": 1.0,
+      "source": "services_cepservice_cepservice_buscar",
+      "target": "services_cepservice_cepservice_requisicao",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/services/EmailService.php",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "api_services_emailservice_php",
+      "target": "services_emailservice_emailservice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/services/EmailService.php",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "services_emailservice_emailservice",
+      "target": "services_emailservice_emailservice_construct",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/services/EmailService.php",
+      "source_location": "L32",
+      "weight": 1.0,
+      "source": "services_emailservice_emailservice",
+      "target": "services_emailservice_emailservice_enviar",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/services/EmailService.php",
+      "source_location": "L79",
+      "weight": 1.0,
+      "source": "services_emailservice_emailservice",
+      "target": "services_emailservice_emailservice_enviartemplate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/services/EmailService.php",
+      "source_location": "L87",
+      "weight": 1.0,
+      "source": "services_emailservice_emailservice",
+      "target": "services_emailservice_emailservice_carregartemplate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/services/EmailService.php",
+      "source_location": "L101",
+      "weight": 1.0,
+      "source": "services_emailservice_emailservice",
+      "target": "services_emailservice_emailservice_htmlparatexto",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "api/services/EmailService.php",
+      "source_location": "L47",
+      "weight": 1.0,
+      "source": "services_emailservice_emailservice_enviar",
+      "target": "services_emailservice_emailservice_htmlparatexto",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "api/services/EmailService.php",
+      "source_location": "L84",
+      "weight": 1.0,
+      "source": "services_emailservice_emailservice_enviartemplate",
+      "target": "services_emailservice_emailservice_enviar",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "api/services/EmailService.php",
+      "source_location": "L82",
+      "weight": 1.0,
+      "source": "services_emailservice_emailservice_enviartemplate",
+      "target": "services_emailservice_emailservice_carregartemplate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/services/PaymentService.php",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "api_services_paymentservice_php",
+      "target": "services_paymentservice_paymentservice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/services/PaymentService.php",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "services_paymentservice_paymentservice",
+      "target": "services_paymentservice_paymentservice_construct",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/services/PaymentService.php",
+      "source_location": "L29",
+      "weight": 1.0,
+      "source": "services_paymentservice_paymentservice",
+      "target": "services_paymentservice_paymentservice_criarpagamentomercadopago",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/services/PaymentService.php",
+      "source_location": "L79",
+      "weight": 1.0,
+      "source": "services_paymentservice_paymentservice",
+      "target": "services_paymentservice_paymentservice_consultarpagamentomercadopago",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/services/PaymentService.php",
+      "source_location": "L84",
+      "weight": 1.0,
+      "source": "services_paymentservice_paymentservice",
+      "target": "services_paymentservice_paymentservice_webhookmercadopago",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/services/PaymentService.php",
+      "source_location": "L110",
+      "weight": 1.0,
+      "source": "services_paymentservice_paymentservice",
+      "target": "services_paymentservice_paymentservice_requisicaomp",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/services/PaymentService.php",
+      "source_location": "L150",
+      "weight": 1.0,
+      "source": "services_paymentservice_paymentservice",
+      "target": "services_paymentservice_paymentservice_criarpagamentostripe",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/services/PaymentService.php",
+      "source_location": "L191",
+      "weight": 1.0,
+      "source": "services_paymentservice_paymentservice",
+      "target": "services_paymentservice_paymentservice_webhookstripe",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/services/PaymentService.php",
+      "source_location": "L242",
+      "weight": 1.0,
+      "source": "services_paymentservice_paymentservice",
+      "target": "services_paymentservice_paymentservice_requisicaostripe",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/services/PaymentService.php",
+      "source_location": "L272",
+      "weight": 1.0,
+      "source": "services_paymentservice_paymentservice",
+      "target": "services_paymentservice_paymentservice_mapearstatus",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "api/services/PaymentService.php",
+      "source_location": "L300",
+      "weight": 1.0,
+      "source": "services_paymentservice_paymentservice",
+      "target": "services_paymentservice_paymentservice_getpublickey",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "api/services/PaymentService.php",
+      "source_location": "L60",
+      "weight": 1.0,
+      "source": "services_paymentservice_paymentservice_criarpagamentomercadopago",
+      "target": "services_paymentservice_paymentservice_requisicaomp",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "api/services/PaymentService.php",
+      "source_location": "L81",
+      "weight": 1.0,
+      "source": "services_paymentservice_paymentservice_consultarpagamentomercadopago",
+      "target": "services_paymentservice_paymentservice_requisicaomp",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "api/services/PaymentService.php",
+      "source_location": "L90",
+      "weight": 1.0,
+      "source": "services_paymentservice_paymentservice_webhookmercadopago",
+      "target": "services_paymentservice_paymentservice_consultarpagamentomercadopago",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "api/services/PaymentService.php",
+      "source_location": "L175",
+      "weight": 1.0,
+      "source": "services_paymentservice_paymentservice_criarpagamentostripe",
+      "target": "services_paymentservice_paymentservice_requisicaostripe",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/eslint.config.mjs",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "frontend_eslint_config_mjs",
+      "target": "frontend_eslint_config_eslintconfig",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/next.config.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "frontend_next_config_ts",
+      "target": "frontend_next_config_nextconfig",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/package.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "frontend_package_json",
+      "target": "frontend_package_name",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/package.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "frontend_package_json",
+      "target": "frontend_package_version",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/package.json",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "frontend_package_json",
+      "target": "frontend_package_private",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/package.json",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "frontend_package_json",
+      "target": "frontend_package_scripts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/package.json",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "frontend_package_json",
+      "target": "frontend_package_dependencies",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/package.json",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "frontend_package_json",
+      "target": "frontend_package_devdependencies",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/package.json",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "frontend_package_scripts",
+      "target": "frontend_package_scripts_dev",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/package.json",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "frontend_package_scripts",
+      "target": "frontend_package_scripts_build",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/package.json",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "frontend_package_scripts",
+      "target": "frontend_package_scripts_start",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/package.json",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "frontend_package_scripts",
+      "target": "frontend_package_scripts_lint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/package.json",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "frontend_package_dependencies",
+      "target": "frontend_package_dependencies_next",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/package.json",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "frontend_package_dependencies",
+      "target": "frontend_package_dependencies_react",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/package.json",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "frontend_package_dependencies",
+      "target": "frontend_package_dependencies_react_dom",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/package.json",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "frontend_package_devdependencies",
+      "target": "frontend_package_devdependencies_tailwindcss_postcss",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/package.json",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "frontend_package_devdependencies",
+      "target": "frontend_package_devdependencies_types_node",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/package.json",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "frontend_package_devdependencies",
+      "target": "frontend_package_devdependencies_types_react",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/package.json",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "frontend_package_devdependencies",
+      "target": "frontend_package_devdependencies_types_react_dom",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/package.json",
+      "source_location": "L21",
+      "weight": 1.0,
+      "source": "frontend_package_devdependencies",
+      "target": "frontend_package_devdependencies_eslint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/package.json",
+      "source_location": "L22",
+      "weight": 1.0,
+      "source": "frontend_package_devdependencies",
+      "target": "frontend_package_devdependencies_eslint_config_next",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/package.json",
+      "source_location": "L23",
+      "weight": 1.0,
+      "source": "frontend_package_devdependencies",
+      "target": "frontend_package_devdependencies_tailwindcss",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/package.json",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "frontend_package_devdependencies",
+      "target": "frontend_package_devdependencies_typescript",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/postcss.config.mjs",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "frontend_postcss_config_mjs",
+      "target": "frontend_postcss_config_config",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/tsconfig.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "frontend_tsconfig_json",
+      "target": "frontend_tsconfig_compileroptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/tsconfig.json",
+      "source_location": "L25",
+      "weight": 1.0,
+      "source": "frontend_tsconfig_json",
+      "target": "frontend_tsconfig_include",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/tsconfig.json",
+      "source_location": "L33",
+      "weight": 1.0,
+      "source": "frontend_tsconfig_json",
+      "target": "frontend_tsconfig_exclude",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/tsconfig.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "frontend_tsconfig_compileroptions",
+      "target": "frontend_tsconfig_compileroptions_target",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/tsconfig.json",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "frontend_tsconfig_compileroptions",
+      "target": "frontend_tsconfig_compileroptions_lib",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/tsconfig.json",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "frontend_tsconfig_compileroptions",
+      "target": "frontend_tsconfig_compileroptions_allowjs",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/tsconfig.json",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "frontend_tsconfig_compileroptions",
+      "target": "frontend_tsconfig_compileroptions_skiplibcheck",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/tsconfig.json",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "frontend_tsconfig_compileroptions",
+      "target": "frontend_tsconfig_compileroptions_strict",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/tsconfig.json",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "frontend_tsconfig_compileroptions",
+      "target": "frontend_tsconfig_compileroptions_noemit",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/tsconfig.json",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "frontend_tsconfig_compileroptions",
+      "target": "frontend_tsconfig_compileroptions_esmoduleinterop",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/tsconfig.json",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "frontend_tsconfig_compileroptions",
+      "target": "frontend_tsconfig_compileroptions_module",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/tsconfig.json",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "frontend_tsconfig_compileroptions",
+      "target": "frontend_tsconfig_compileroptions_moduleresolution",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/tsconfig.json",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "frontend_tsconfig_compileroptions",
+      "target": "frontend_tsconfig_compileroptions_resolvejsonmodule",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/tsconfig.json",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "frontend_tsconfig_compileroptions",
+      "target": "frontend_tsconfig_compileroptions_isolatedmodules",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/tsconfig.json",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "frontend_tsconfig_compileroptions",
+      "target": "frontend_tsconfig_compileroptions_jsx",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/tsconfig.json",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "frontend_tsconfig_compileroptions",
+      "target": "frontend_tsconfig_compileroptions_incremental",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/tsconfig.json",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "frontend_tsconfig_compileroptions",
+      "target": "frontend_tsconfig_compileroptions_plugins",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/tsconfig.json",
+      "source_location": "L21",
+      "weight": 1.0,
+      "source": "frontend_tsconfig_compileroptions",
+      "target": "frontend_tsconfig_compileroptions_paths",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/tsconfig.json",
+      "source_location": "L22",
+      "weight": 1.0,
+      "source": "frontend_tsconfig_compileroptions_paths",
+      "target": "frontend_tsconfig_paths",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/app/layout.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "frontend_src_app_layout_tsx",
+      "target": "app_layout_geistsans",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/app/layout.tsx",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "frontend_src_app_layout_tsx",
+      "target": "app_layout_geistmono",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/app/layout.tsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "frontend_src_app_layout_tsx",
+      "target": "app_layout_metadata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/app/layout.tsx",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "frontend_src_app_layout_tsx",
+      "target": "app_layout_rootlayout",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/app/page.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "frontend_src_app_page_tsx",
+      "target": "app_page_home",
+      "confidence_score": 1.0
+    }
+  ],
+  "hyperedges": []
+}

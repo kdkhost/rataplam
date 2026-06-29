@@ -1,0 +1,45 @@
+{
+  "files": {
+    "code": [
+      "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\api\\config\\Config.php",
+      "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\api\\config\\Database.php",
+      "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\api\\controllers\\SeoController.php",
+      "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\api\\controllers\\VisitaController.php",
+      "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\api\\middleware\\Auth.php",
+      "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\api\\services\\CepService.php",
+      "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\api\\services\\EmailService.php",
+      "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\api\\services\\PaymentService.php",
+      "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\database\\migration_visitas.sql",
+      "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\database\\schema.sql",
+      "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\frontend\\eslint.config.mjs",
+      "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\frontend\\next-env.d.ts",
+      "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\frontend\\next.config.ts",
+      "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\frontend\\package.json",
+      "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\frontend\\postcss.config.mjs",
+      "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\frontend\\tsconfig.json",
+      "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\frontend\\src\\app\\layout.tsx",
+      "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\frontend\\src\\app\\page.tsx"
+    ],
+    "document": [
+      "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\frontend\\AGENTS.md",
+      "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\frontend\\CLAUDE.md",
+      "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\frontend\\README.md"
+    ],
+    "paper": [],
+    "image": [
+      "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\frontend\\public\\file.svg",
+      "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\frontend\\public\\globe.svg",
+      "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\frontend\\public\\next.svg",
+      "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\frontend\\public\\vercel.svg",
+      "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\frontend\\public\\window.svg"
+    ],
+    "video": []
+  },
+  "total_files": 26,
+  "total_words": 8926,
+  "needs_graph": false,
+  "warning": "Corpus is ~8,926 words - fits in a single context window. You may not need a graph.",
+  "skipped_sensitive": [],
+  "graphifyignore_patterns": 0,
+  "scan_root": "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM"
+}

@@ -1,0 +1,132 @@
+{
+  "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\api\\config\\Config.php": {
+    "mtime": 1782711349.4419801,
+    "ast_hash": "d639b7773f0ced08de00835cbffb1983",
+    "semantic_hash": "d639b7773f0ced08de00835cbffb1983"
+  },
+  "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\api\\config\\Database.php": {
+    "mtime": 1782711346.9770243,
+    "ast_hash": "0c42fc5db8dc139a0b2b6345a0fe8c1a",
+    "semantic_hash": "0c42fc5db8dc139a0b2b6345a0fe8c1a"
+  },
+  "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\api\\controllers\\SeoController.php": {
+    "mtime": 1782711476.2607386,
+    "ast_hash": "423c41e8f6255b4ffa1a4ae6a14f0092",
+    "semantic_hash": "423c41e8f6255b4ffa1a4ae6a14f0092"
+  },
+  "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\api\\controllers\\VisitaController.php": {
+    "mtime": 1782711449.6129193,
+    "ast_hash": "a3fe1c03adcf1a5e7deccee6691fc42e",
+    "semantic_hash": "a3fe1c03adcf1a5e7deccee6691fc42e"
+  },
+  "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\api\\middleware\\Auth.php": {
+    "mtime": 1782711354.0527513,
+    "ast_hash": "a983b3946bef38f934f17ee9ac720d07",
+    "semantic_hash": "a983b3946bef38f934f17ee9ac720d07"
+  },
+  "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\api\\services\\CepService.php": {
+    "mtime": 1782711384.8337908,
+    "ast_hash": "e4d1df44fc221b127369602d0167a23f",
+    "semantic_hash": "e4d1df44fc221b127369602d0167a23f"
+  },
+  "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\api\\services\\EmailService.php": {
+    "mtime": 1782711362.2214563,
+    "ast_hash": "5fe17761329e9a7c86e11bab8f537b77",
+    "semantic_hash": "5fe17761329e9a7c86e11bab8f537b77"
+  },
+  "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\api\\services\\PaymentService.php": {
+    "mtime": 1782711381.611463,
+    "ast_hash": "e5caf9d918b676ac438552f0cb450ce4",
+    "semantic_hash": "e5caf9d918b676ac438552f0cb450ce4"
+  },
+  "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\database\\migration_visitas.sql": {
+    "mtime": 1782711417.5347373,
+    "ast_hash": "f02aec48c839fe9f3b7888b9e1ba8489",
+    "semantic_hash": "f02aec48c839fe9f3b7888b9e1ba8489"
+  },
+  "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\database\\schema.sql": {
+    "mtime": 1782711338.1044142,
+    "ast_hash": "927271eddf6ac91f041440ecc6bb2f0a",
+    "semantic_hash": "927271eddf6ac91f041440ecc6bb2f0a"
+  },
+  "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\frontend\\eslint.config.mjs": {
+    "mtime": 1782540982.2477882,
+    "ast_hash": "dfa1f5f6a7037bf39dc510f30b180002",
+    "semantic_hash": "dfa1f5f6a7037bf39dc510f30b180002"
+  },
+  "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\frontend\\next-env.d.ts": {
+    "mtime": 1782540982.4833324,
+    "ast_hash": "2a74d3909800ca5467fa83b0ab4a4890",
+    "semantic_hash": "2a74d3909800ca5467fa83b0ab4a4890"
+  },
+  "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\frontend\\next.config.ts": {
+    "mtime": 1782540982.5050187,
+    "ast_hash": "9b77af189a21a7a64e4bd7a426f64176",
+    "semantic_hash": "9b77af189a21a7a64e4bd7a426f64176"
+  },
+  "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\frontend\\package.json": {
+    "mtime": 1782711164.0190334,
+    "ast_hash": "2af4d34d9d3185e26dae1ddd14ba0d47",
+    "semantic_hash": "2af4d34d9d3185e26dae1ddd14ba0d47"
+  },
+  "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\frontend\\postcss.config.mjs": {
+    "mtime": 1782540982.3012846,
+    "ast_hash": "239f3ebf717465dc636818a1a619398d",
+    "semantic_hash": "239f3ebf717465dc636818a1a619398d"
+  },
+  "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\frontend\\tsconfig.json": {
+    "mtime": 1782711164.0152743,
+    "ast_hash": "ee17fd1c97c735e9f3564e3f5251f125",
+    "semantic_hash": "ee17fd1c97c735e9f3564e3f5251f125"
+  },
+  "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\frontend\\src\\app\\layout.tsx": {
+    "mtime": 1782540982.5692606,
+    "ast_hash": "94c34ef68b3949a75807a0211ec2273c",
+    "semantic_hash": "94c34ef68b3949a75807a0211ec2273c"
+  },
+  "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\frontend\\src\\app\\page.tsx": {
+    "mtime": 1782711164.0190334,
+    "ast_hash": "1e489b26bb597dc97f8d44954dd042da",
+    "semantic_hash": "1e489b26bb597dc97f8d44954dd042da"
+  },
+  "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\frontend\\AGENTS.md": {
+    "mtime": 1782711254.0402331,
+    "ast_hash": "9e09241799026ac05be315a2f0b50055",
+    "semantic_hash": "9e09241799026ac05be315a2f0b50055"
+  },
+  "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\frontend\\CLAUDE.md": {
+    "mtime": 1782711254.0402331,
+    "ast_hash": "5c27369b226fcf2be8a6cfe52224e767",
+    "semantic_hash": "5c27369b226fcf2be8a6cfe52224e767"
+  },
+  "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\frontend\\README.md": {
+    "mtime": 1782540982.205179,
+    "ast_hash": "f15aaa42d5d299d091b1171097ea56ad",
+    "semantic_hash": "f15aaa42d5d299d091b1171097ea56ad"
+  },
+  "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\frontend\\public\\file.svg": {
+    "mtime": 1782540982.3164124,
+    "ast_hash": "d09f95206c3fa0bb9bd9fefabfd0ea71",
+    "semantic_hash": "d09f95206c3fa0bb9bd9fefabfd0ea71"
+  },
+  "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\frontend\\public\\globe.svg": {
+    "mtime": 1782540982.340105,
+    "ast_hash": "2aaafa6a49b6563925fe440891e32717",
+    "semantic_hash": "2aaafa6a49b6563925fe440891e32717"
+  },
+  "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\frontend\\public\\next.svg": {
+    "mtime": 1782540982.393039,
+    "ast_hash": "8e061864f388b47f33a1c3780831193e",
+    "semantic_hash": "8e061864f388b47f33a1c3780831193e"
+  },
+  "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\frontend\\public\\vercel.svg": {
+    "mtime": 1782540982.419719,
+    "ast_hash": "c0af2f507b369b085b35ef4bbe3bcf1e",
+    "semantic_hash": "c0af2f507b369b085b35ef4bbe3bcf1e"
+  },
+  "C:\\Users\\marce\\OneDrive\\Desktop\\PROJETOS WEB\\RATAPLAM\\frontend\\public\\window.svg": {
+    "mtime": 1782540982.445711,
+    "ast_hash": "a2760511c65806022ad20adf74370ff3",
+    "semantic_hash": "a2760511c65806022ad20adf74370ff3"
+  }
+}

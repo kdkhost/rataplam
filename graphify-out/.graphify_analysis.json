@@ -1,0 +1,258 @@
+{
+  "communities": {
+    "0": [
+      "api_config_config_php",
+      "api_config_database_php",
+      "api_controllers_visitacontroller_php",
+      "config_config_config",
+      "config_config_config_get",
+      "config_config_config_getall",
+      "config_config_config_set",
+      "config_database_database",
+      "config_database_database_count",
+      "config_database_database_delete",
+      "config_database_database_fetch",
+      "config_database_database_fetchall",
+      "config_database_database_getinstance",
+      "config_database_database_insert",
+      "config_database_database_query",
+      "config_database_database_update",
+      "controllers_visitacontroller_visitacontroller",
+      "controllers_visitacontroller_visitacontroller_atualizarduracao",
+      "controllers_visitacontroller_visitacontroller_atualizarestatisticasdiarias",
+      "controllers_visitacontroller_visitacontroller_atualizarpaginasvisitadas",
+      "controllers_visitacontroller_visitacontroller_detectardispositivo",
+      "controllers_visitacontroller_visitacontroller_detectarnavegador",
+      "controllers_visitacontroller_visitacontroller_detectarso",
+      "controllers_visitacontroller_visitacontroller_estatisticas",
+      "controllers_visitacontroller_visitacontroller_extrairpagina",
+      "controllers_visitacontroller_visitacontroller_gerarsessionid",
+      "controllers_visitacontroller_visitacontroller_kpis",
+      "controllers_visitacontroller_visitacontroller_obterip",
+      "controllers_visitacontroller_visitacontroller_online",
+      "controllers_visitacontroller_visitacontroller_registrar"
+    ],
+    "1": [
+      "frontend_tsconfig_compileroptions",
+      "frontend_tsconfig_compileroptions_allowjs",
+      "frontend_tsconfig_compileroptions_esmoduleinterop",
+      "frontend_tsconfig_compileroptions_incremental",
+      "frontend_tsconfig_compileroptions_isolatedmodules",
+      "frontend_tsconfig_compileroptions_jsx",
+      "frontend_tsconfig_compileroptions_lib",
+      "frontend_tsconfig_compileroptions_module",
+      "frontend_tsconfig_compileroptions_moduleresolution",
+      "frontend_tsconfig_compileroptions_noemit",
+      "frontend_tsconfig_compileroptions_paths",
+      "frontend_tsconfig_compileroptions_plugins",
+      "frontend_tsconfig_compileroptions_resolvejsonmodule",
+      "frontend_tsconfig_compileroptions_skiplibcheck",
+      "frontend_tsconfig_compileroptions_strict",
+      "frontend_tsconfig_compileroptions_target",
+      "frontend_tsconfig_exclude",
+      "frontend_tsconfig_include",
+      "frontend_tsconfig_json",
+      "frontend_tsconfig_paths"
+    ],
+    "2": [
+      "frontend_package_dependencies",
+      "frontend_package_dependencies_next",
+      "frontend_package_dependencies_react",
+      "frontend_package_dependencies_react_dom",
+      "frontend_package_json",
+      "frontend_package_name",
+      "frontend_package_private",
+      "frontend_package_scripts",
+      "frontend_package_scripts_build",
+      "frontend_package_scripts_dev",
+      "frontend_package_scripts_lint",
+      "frontend_package_scripts_start",
+      "frontend_package_version"
+    ],
+    "3": [
+      "api_services_paymentservice_php",
+      "services_paymentservice_paymentservice",
+      "services_paymentservice_paymentservice_construct",
+      "services_paymentservice_paymentservice_consultarpagamentomercadopago",
+      "services_paymentservice_paymentservice_criarpagamentomercadopago",
+      "services_paymentservice_paymentservice_criarpagamentostripe",
+      "services_paymentservice_paymentservice_getpublickey",
+      "services_paymentservice_paymentservice_mapearstatus",
+      "services_paymentservice_paymentservice_requisicaomp",
+      "services_paymentservice_paymentservice_requisicaostripe",
+      "services_paymentservice_paymentservice_webhookmercadopago",
+      "services_paymentservice_paymentservice_webhookstripe"
+    ],
+    "4": [
+      "api_controllers_seocontroller_php",
+      "controllers_seocontroller_seocontroller",
+      "controllers_seocontroller_seocontroller_calcularscore",
+      "controllers_seocontroller_seocontroller_calcularscoreseo",
+      "controllers_seocontroller_seocontroller_getconfig",
+      "controllers_seocontroller_seocontroller_getconfigpadrao",
+      "controllers_seocontroller_seocontroller_listarpaginas",
+      "controllers_seocontroller_seocontroller_obterdicas",
+      "controllers_seocontroller_seocontroller_preview",
+      "controllers_seocontroller_seocontroller_salvarconfig"
+    ],
+    "5": [
+      "frontend_package_devdependencies",
+      "frontend_package_devdependencies_eslint",
+      "frontend_package_devdependencies_eslint_config_next",
+      "frontend_package_devdependencies_tailwindcss",
+      "frontend_package_devdependencies_tailwindcss_postcss",
+      "frontend_package_devdependencies_types_node",
+      "frontend_package_devdependencies_types_react",
+      "frontend_package_devdependencies_types_react_dom",
+      "frontend_package_devdependencies_typescript"
+    ],
+    "6": [
+      "api_middleware_auth_php",
+      "middleware_auth_auth",
+      "middleware_auth_auth_gerartoken",
+      "middleware_auth_auth_revogartoken",
+      "middleware_auth_auth_validartoken",
+      "middleware_auth_auth_verificar",
+      "middleware_auth_auth_verificaradmin",
+      "middleware_auth_auth_verificaropcional"
+    ],
+    "7": [
+      "api_services_emailservice_php",
+      "services_emailservice_emailservice",
+      "services_emailservice_emailservice_carregartemplate",
+      "services_emailservice_emailservice_construct",
+      "services_emailservice_emailservice_enviar",
+      "services_emailservice_emailservice_enviartemplate",
+      "services_emailservice_emailservice_htmlparatexto"
+    ],
+    "8": [
+      "app_layout_geistmono",
+      "app_layout_geistsans",
+      "app_layout_metadata",
+      "app_layout_rootlayout",
+      "frontend_src_app_layout_tsx"
+    ],
+    "9": [
+      "api_services_cepservice_php",
+      "services_cepservice_cepservice",
+      "services_cepservice_cepservice_buscar",
+      "services_cepservice_cepservice_requisicao"
+    ],
+    "10": [
+      "app_page_home",
+      "frontend_src_app_page_tsx"
+    ],
+    "11": [
+      "frontend_eslint_config_eslintconfig",
+      "frontend_eslint_config_mjs"
+    ],
+    "12": [
+      "frontend_next_config_nextconfig",
+      "frontend_next_config_ts"
+    ],
+    "13": [
+      "frontend_postcss_config_config",
+      "frontend_postcss_config_mjs"
+    ],
+    "14": [
+      "frontend_next_env_d_ts"
+    ]
+  },
+  "cohesion": {
+    "0": 0.08735632183908046,
+    "1": 0.1,
+    "2": 0.15384615384615385,
+    "3": 0.22727272727272727,
+    "4": 0.2,
+    "5": 0.2222222222222222,
+    "6": 0.25,
+    "7": 0.42857142857142855,
+    "8": 0.4,
+    "9": 0.6666666666666666,
+    "10": 1.0,
+    "11": 1.0,
+    "12": 1.0,
+    "13": 1.0,
+    "14": 1.0
+  },
+  "gods": [
+    {
+      "id": "config_database_database",
+      "label": "Database",
+      "degree": 23
+    },
+    {
+      "id": "frontend_tsconfig_compileroptions",
+      "label": "compilerOptions",
+      "degree": 16
+    },
+    {
+      "id": "controllers_visitacontroller_visitacontroller",
+      "label": "VisitaController",
+      "degree": 14
+    },
+    {
+      "id": "services_paymentservice_paymentservice",
+      "label": "PaymentService",
+      "degree": 11
+    },
+    {
+      "id": "controllers_seocontroller_seocontroller",
+      "label": "SeoController",
+      "degree": 9
+    },
+    {
+      "id": "middleware_auth_auth",
+      "label": "Auth",
+      "degree": 7
+    },
+    {
+      "id": "services_emailservice_emailservice",
+      "label": "EmailService",
+      "degree": 6
+    },
+    {
+      "id": "frontend_package_scripts",
+      "label": "scripts",
+      "degree": 5
+    },
+    {
+      "id": "config_config_config",
+      "label": "Config",
+      "degree": 4
+    },
+    {
+      "id": "services_cepservice_cepservice",
+      "label": "CepService",
+      "degree": 3
+    }
+  ],
+  "surprises": [],
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `Database` connect `Comunidade 0` to `Comunidade 4`, `Comunidade 7`?",
+      "why": "High betweenness centrality (0.110) - this node is a cross-community bridge."
+    },
+    {
+      "type": "verify_inferred",
+      "question": "Are the 14 inferred relationships involving `Database` (e.g. with `.get()` and `.set()`) actually correct?",
+      "why": "`Database` has 14 INFERRED edges - model-reasoned connections that need verification."
+    },
+    {
+      "type": "isolated_nodes",
+      "question": "What connects `eslintConfig`, `nextConfig`, `name` to the rest of the system?",
+      "why": "41 weakly-connected nodes found - possible documentation gaps or missing edges."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Comunidade 0` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.08735632183908046 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Comunidade 1` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.1 - nodes in this community are weakly interconnected."
+    }
+  ]
+}
