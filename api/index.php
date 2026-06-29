@@ -63,22 +63,16 @@ try {
 
     // ── Auth: esqueci senha ────────────────────────
     if ($method === 'POST' && $uri === '/api/auth/esqueci-senha') {
-        $input = json_decode(file_get_contents('php://input'), true);
-        $email = $input['email'] ?? '';
-        $usuario = \Rataplam\Config\Database::fetch("SELECT id, nome FROM usuarios WHERE email = ?", [$email]);
-        if ($usuario) {
-            $token = bin2hex(random_bytes(32));
-            \Rataplam\Config\Database::update('usuarios', ['token_reset_senha' => $token], 'id = ?', [$usuario['id']]);
-        }
-        header('Content-Type: application/json; charset=utf-8');
-        echo json_encode(['sucesso' => true, 'mensagem' => 'Se o e-mail estiver cadastrado, voce recebera as instrucoes.']);
-        exit;
+        AuthController::esqueciSenha();
+    }
+    if ($method === 'POST' && $uri === '/api/auth/resetar-senha') {
+        AuthController::resetarSenha();
     }
 
     // ── CEP (público) ───────────────────────────────
     if ($method === 'GET' && preg_match('#^/api/cep/(\d{5}-?\d{3})$#', $uri, $m)) {
         $cep = str_replace('-', '', $m[1]);
-        $resultado = \Rataplam\Services\CepService::buscar($cep);
+        $resultado = \Rataplam\Services\CepService::buscarStatic($cep);
         echo json_encode($resultado);
         exit;
     }
@@ -187,11 +181,13 @@ try {
         exit;
     }
     if ($method === 'GET' && $uri === '/api/visitas/kpis') {
+        Auth::verificarAdmin();
         $resultado = VisitaController::kpis();
         echo json_encode($resultado);
         exit;
     }
     if ($method === 'GET' && $uri === '/api/visitas/estatisticas') {
+        Auth::verificarAdmin();
         $resultado = VisitaController::estatisticas();
         echo json_encode($resultado);
         exit;
@@ -506,39 +502,63 @@ try {
 
     // ── Cron (interno, centralizado) ────────────────
     if ($method === 'GET' && $uri === '/api/cron/executar') {
+        Auth::verificarAdmin();
         CronController::executar();
     }
     if ($method === 'GET' && $uri === '/api/cron/status') {
+        Auth::verificarAdmin();
         CronController::status();
     }
     if ($method === 'POST' && preg_match('#^/api/cron/(\d+)/toggle$#', $uri, $m)) {
+        Auth::verificarAdmin();
         CronController::toggleJob((int) $m[1]);
     }
     if ($method === 'POST' && preg_match('#^/api/cron/(\d+)/executar$#', $uri, $m)) {
+        Auth::verificarAdmin();
         CronController::executarJob((int) $m[1]);
     }
 
-    // ── Webhooks (público) ──────────────────────────
+    // ── Webhooks (público - payment gateways) ────────
     if ($method === 'POST' && $uri === '/api/webhooks/mercadopago') {
         $input = json_decode(file_get_contents('php://input'), true);
+        $paymentService = new \Rataplam\Services\PaymentService();
+        $resultado = $paymentService->webhookMercadoPago($input);
+
         \Rataplam\Config\Database::insert('webhook_logs', [
             'gateway' => 'mercadopago',
             'event_type' => $input['type'] ?? 'unknown',
             'payload' => json_encode($input),
-            'processado' => 0,
+            'processado' => $resultado['sucesso'] ? 1 : 0,
         ]);
+
+        // Process payment immediately
+        if ($resultado['sucesso'] && isset($resultado['external_reference'])) {
+            $status = $paymentService->mapearStatus('mercadopago', $resultado['status'] ?? '');
+            if ($status !== 'pendente') {
+                \Rataplam\Config\Database::update('pedidos', ['status' => $status], 'numero_pedido = ? OR id = ?', [
+                    $resultado['external_reference'], $resultado['external_reference']
+                ]);
+            }
+        }
+
         http_response_code(200);
         echo json_encode(['received' => true]);
         exit;
     }
     if ($method === 'POST' && $uri === '/api/webhooks/stripe') {
-        $input = json_decode(file_get_contents('php://input'), true);
+        $payload = file_get_contents('php://input');
+        $signature = $_SERVER['HTTP_STRIPE_SIGNATURE'] ?? '';
+        $input = json_decode($payload, true);
+        $paymentService = new \Rataplam\Services\PaymentService();
+        $resultado = $paymentService->webhookStripe($payload, $signature);
+
         \Rataplam\Config\Database::insert('webhook_logs', [
             'gateway' => 'stripe',
             'event_type' => $input['type'] ?? 'unknown',
-            'payload' => json_encode($input),
-            'processado' => 0,
+            'payload' => $payload,
+            'processado' => $resultado['sucesso'] ? 1 : 0,
         ]);
+
         http_response_code(200);
         echo json_encode(['received' => true]);
         exit;

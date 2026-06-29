@@ -6,9 +6,14 @@ namespace Rataplam\Services;
 class CepService
 {
     private array $apis = [
-        'brasilapi' => 'https://brasilapi.com.br/api/cep/v1/',
-        'viacep' => 'https://viacep.com.br/ws/',
+        'viacep' => ['url' => 'https://viacep.com.br/ws/', 'suffix' => '/json'],
+        'brasilapi' => ['url' => 'https://brasilapi.com.br/api/cep/v1/', 'suffix' => ''],
     ];
+
+    public static function buscarStatic(string $cep): ?array
+    {
+        return (new self())->buscar($cep);
+    }
 
     public function buscar(string $cep): ?array
     {
@@ -18,8 +23,8 @@ class CepService
             return null;
         }
 
-        foreach ($this->apis as $nome => $url) {
-            $resultado = $this->requisicao($url . $cep . '/json');
+        foreach ($this->apis as $nome => $config) {
+            $resultado = $this->requisicao($config['url'] . $cep . $config['suffix']);
             if ($resultado && isset($resultado['logradouro'])) {
                 return [
                     'cep' => $cep,
@@ -43,7 +48,8 @@ class CepService
             CURLOPT_URL => $url,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_TIMEOUT => 5,
-            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_SSL_VERIFYPEER => true,
+            CURLOPT_SSL_VERIFYHOST => 2,
         ]);
 
         $response = curl_exec($ch);

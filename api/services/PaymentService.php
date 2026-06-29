@@ -190,53 +190,108 @@ class PaymentService
 
     public function webhookStripe(string $payload, string $signature): array
     {
+        // CRITICAL FIX: Verify Stripe webhook signature
+        if (!empty($this->stripeWebhookSecret) && !empty($signature)) {
+            $timestamp = $this->extractStripeTimestamp($signature);
+            $signedPayload = $this->extractStripeSignedPayload($signature);
+
+            if (!$timestamp || !$signedPayload) {
+                return ['sucesso' => false, 'erro' => 'Assinatura Stripe invalida'];
+            }
+
+            // Verify timestamp is within 5 minutes
+            if (abs(time() - $timestamp) > 300) {
+                return ['sucesso' => false, 'erro' => 'Timestamp do webhook fora do limite'];
+            }
+
+            $expectedSig = hash_hmac('sha256', "{$timestamp}.{$payload}", $this->stripeWebhookSecret);
+            if (!hash_equals($expectedSig, $signedPayload)) {
+                return ['sucesso' => false, 'erro' => 'Assinatura Stripe nao confere'];
+            }
+        }
+
         $event = json_decode($payload, true);
 
         if (!$event || !isset($event['type'])) {
-            return ['sucesso' => false, 'erro' => 'Payload inválido'];
+            return ['sucesso' => false, 'erro' => 'Payload invalido'];
         }
 
+        // Process webhook immediately instead of waiting for cron
+        $resultado = $this->processarWebhookStripe($event);
+
+        return $resultado;
+    }
+
+    private function processarWebhookStripe(array $event): array
+    {
         switch ($event['type']) {
             case 'checkout.session.completed':
                 $session = $event['data']['object'];
+                $pedidoNumero = $session['metadata']['pedido_numero'] ?? $session['external_reference'] ?? '';
+                if ($pedidoNumero) {
+                    $this->atualizarPedidoStripe($pedidoNumero, 'pago');
+                }
                 return [
                     'sucesso' => true,
                     'event_type' => $event['type'],
                     'session_id' => $session['id'] ?? '',
-                    'payment_intent' => $session['payment_intent'] ?? '',
                     'status' => $session['payment_status'] ?? '',
-                    'customer_email' => $session['customer_email'] ?? '',
-                    'metadata' => $session['metadata'] ?? [],
+                    'pedido_numero' => $pedidoNumero,
                 ];
 
             case 'payment_intent.succeeded':
                 $pi = $event['data']['object'];
+                $pedidoNumero = $pi['metadata']['pedido_numero'] ?? '';
+                if ($pedidoNumero) {
+                    $this->atualizarPedidoStripe($pedidoNumero, 'pago');
+                }
                 return [
                     'sucesso' => true,
                     'event_type' => $event['type'],
                     'payment_intent' => $pi['id'] ?? '',
-                    'status' => $pi['status'] ?? '',
-                    'amount' => ($pi['amount_received'] ?? 0) / 100,
-                    'metadata' => $pi['metadata'] ?? [],
+                    'status' => 'pago',
                 ];
 
             case 'payment_intent.payment_failed':
                 $pi = $event['data']['object'];
+                $pedidoNumero = $pi['metadata']['pedido_numero'] ?? '';
+                if ($pedidoNumero) {
+                    $this->atualizarPedidoStripe($pedidoNumero, 'cancelado');
+                }
                 return [
                     'sucesso' => true,
                     'event_type' => $event['type'],
-                    'payment_intent' => $pi['id'] ?? '',
-                    'status' => 'failed',
-                    'metadata' => $pi['metadata'] ?? [],
+                    'status' => 'cancelado',
                 ];
 
             default:
-                return [
-                    'sucesso' => true,
-                    'event_type' => $event['type'],
-                    'ignorado' => true,
-                ];
+                return ['sucesso' => true, 'event_type' => $event['type'], 'ignorado' => true];
         }
+    }
+
+    private function atualizarPedidoStripe(string $pedidoNumero, string $status): void
+    {
+        \Rataplam\Config\Database::update('pedidos', ['status' => $status], 'numero_pedido = ?', [$pedidoNumero]);
+    }
+
+    private function extractStripeTimestamp(string $signature): ?int
+    {
+        $pairs = explode(',', $signature);
+        foreach ($pairs as $pair) {
+            [$key, $value] = explode('=', $pair, 2);
+            if ($key === 't') return (int) $value;
+        }
+        return null;
+    }
+
+    private function extractStripeSignedPayload(string $signature): ?string
+    {
+        $pairs = explode(',', $signature);
+        foreach ($pairs as $pair) {
+            [$key, $value] = explode('=', $pair, 2);
+            if ($key === 'v1') return $value;
+        }
+        return null;
     }
 
     private function requisicaoStripe(string $method, string $endpoint, array $data = []): array

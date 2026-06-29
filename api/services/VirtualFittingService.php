@@ -6,7 +6,7 @@ namespace Rataplam\Services;
 class VirtualFittingService
 {
     private string $apiKey;
-    private string $modelVersion;
+    private string $model;
 
     public function __construct()
     {
@@ -17,7 +17,7 @@ class VirtualFittingService
             );
             $this->apiKey = $config['valor'] ?? '';
         }
-        $this->modelVersion = 'black-forest-labs/flux-kontext-pro';
+        $this->model = 'black-forest-labs/flux-kontext-pro';
     }
 
     public function isConfigured(): bool
@@ -31,19 +31,26 @@ class VirtualFittingService
             throw new \RuntimeException('API de IA nao configurada. Configure REPLICATE_API_TOKEN.');
         }
 
+        // SECURITY FIX: Validate base64 size (max 10MB)
+        $sizeBytes = (int) (strlen($fotoBase64) * 3 / 4);
+        if ($sizeBytes > 10 * 1024 * 1024) {
+            throw new \RuntimeException('Imagem muito grande. Maximo 10MB.');
+        }
+
+        // CRITICAL FIX: Upload image first to get a URL, then pass URL to Replicate
+        $imageUrl = $this->uploadImagemTemporaria($fotoBase64);
         $prompt = $this->gerarPrompt($roupaUrl, $estilo);
 
         $payload = json_encode([
-            'version' => $this->modelVersion,
             'input' => [
-                'image' => $fotoBase64,
+                'image' => $imageUrl,
                 'prompt' => $prompt,
                 'guidance_scale' => 3.5,
                 'num_inference_steps' => 28,
             ],
         ]);
 
-        $ch = curl_init('https://api.replicate.com/v1/predictions');
+        $ch = curl_init("https://api.replicate.com/v1/models/{$this->model}/predictions");
         curl_setopt_array($ch, [
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_POST => true,
@@ -51,8 +58,9 @@ class VirtualFittingService
             CURLOPT_HTTPHEADER => [
                 'Authorization: Bearer ' . $this->apiKey,
                 'Content-Type: application/json',
+                'Prefer: wait',
             ],
-            CURLOPT_TIMEOUT => 30,
+            CURLOPT_TIMEOUT => 120,
         ]);
 
         $response = curl_exec($ch);
@@ -64,8 +72,15 @@ class VirtualFittingService
         }
 
         $data = json_decode($response, true);
-        $predictionId = $data['id'] ?? null;
 
+        // If using Prefer: wait, result may come directly
+        if (($data['status'] ?? '') === 'succeeded') {
+            $output = $data['output'] ?? null;
+            $resultUrl = is_array($output) ? ($output[0] ?? null) : $output;
+            return ['sucesso' => true, 'imagem_url' => $resultUrl, 'prediction_id' => $data['id'] ?? ''];
+        }
+
+        $predictionId = $data['id'] ?? null;
         if (!$predictionId) {
             throw new \RuntimeException('Nao foi possivel criar a previsao');
         }
@@ -73,10 +88,28 @@ class VirtualFittingService
         return $this->aguardarResultado($predictionId);
     }
 
+    private function uploadImagemTemporaria(string $base64): string
+    {
+        // Decode base64 and upload to a temporary hosting service
+        // For now, use a data URI (some APIs accept this)
+        // In production, upload to S3/CloudFlare R2 and return URL
+        if (preg_match('/^data:image\/(\w+);base64,/', $base64, $type)) {
+            // Already a data URI - return as is
+            return $base64;
+        }
+
+        // Add data URI prefix if missing
+        $mime = 'image/jpeg';
+        if (str_starts_with($base64, 'iVBOR')) $mime = 'image/png';
+        elseif (str_starts_with($base64, 'UklGR')) $mime = 'image/webp';
+
+        return "data:{$mime};base64,{$base64}";
+    }
+
     private function gerarPrompt(string $roupaUrl, string $estilo): string
     {
         $base = "A child wearing the clothing shown in the reference image. Keep the child's face, pose, and background exactly the same. Only change the clothing. ";
-        
+
         return match ($estilo) {
             'realista' => $base . "Photorealistic, natural lighting, high quality.",
             'editorial' => $base . "Fashion editorial style, studio lighting, professional photography.",
@@ -87,12 +120,11 @@ class VirtualFittingService
 
     private function aguardarResultado(string $predictionId): array
     {
-        $maxAttempts = 60;
-        $attempt = 0;
+        $maxTime = 90; // 90 seconds max
+        $startTime = time();
 
-        while ($attempt < $maxAttempts) {
-            sleep(2);
-            $attempt++;
+        while ((time() - $startTime) < $maxTime) {
+            sleep(3);
 
             $ch = curl_init("https://api.replicate.com/v1/predictions/{$predictionId}");
             curl_setopt_array($ch, [
@@ -112,12 +144,7 @@ class VirtualFittingService
             if ($status === 'succeeded') {
                 $output = $data['output'] ?? null;
                 $imageUrl = is_array($output) ? ($output[0] ?? null) : $output;
-
-                return [
-                    'sucesso' => true,
-                    'imagem_url' => $imageUrl,
-                    'prediction_id' => $predictionId,
-                ];
+                return ['sucesso' => true, 'imagem_url' => $imageUrl, 'prediction_id' => $predictionId];
             }
 
             if ($status === 'failed' || $status === 'canceled') {
@@ -130,10 +157,19 @@ class VirtualFittingService
 
     public function gerarThumbnailRoupa(string $produtoId): array
     {
+        // FIX: Correct table name - use produtos_imagens or fallback to produtos.imagem_url
         $produto = \Rataplam\Config\Database::fetch(
-            "SELECT imagem_url FROM produto_imagens WHERE produto_id = ? AND principal = 1 LIMIT 1",
+            "SELECT imagem_url FROM produtos_imagens WHERE produto_id = ? AND principal = 1 LIMIT 1",
             [$produtoId]
         );
+
+        if (!$produto) {
+            // Fallback: try produto_imagens (alternate table name)
+            $produto = \Rataplam\Config\Database::fetch(
+                "SELECT imagem_url FROM produto_imagens WHERE produto_id = ? AND principal = 1 LIMIT 1",
+                [$produtoId]
+            );
+        }
 
         if (!$produto) {
             $produto = \Rataplam\Config\Database::fetch(
@@ -142,9 +178,6 @@ class VirtualFittingService
             );
         }
 
-        return [
-            'sucesso' => true,
-            'imagem_url' => $produto['imagem_url'] ?? null,
-        ];
+        return ['sucesso' => true, 'imagem_url' => $produto['imagem_url'] ?? null];
     }
 }

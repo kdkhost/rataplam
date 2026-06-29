@@ -12,7 +12,7 @@ class Auth
 
         if (empty($token)) {
             http_response_code(401);
-            echo json_encode(['erro' => 'Token de autenticação não fornecido']);
+            echo json_encode(['erro' => 'Token de autenticacao nao fornecido']);
             exit;
         }
 
@@ -21,7 +21,7 @@ class Auth
 
         if (!$dados) {
             http_response_code(401);
-            echo json_encode(['erro' => 'Token inválido ou expirado']);
+            echo json_encode(['erro' => 'Token invalido ou expirado']);
             exit;
         }
 
@@ -56,10 +56,13 @@ class Auth
 
     private static function validarToken(string $token): ?array
     {
-        \Rataplam\Config\Database::query("SET SESSION sql_mode = ''");
-
+        // SECURITY FIX: Removed "SET SESSION sql_mode = ''" - should not be done per-request
+        // SECURITY FIX: Added ativo check - deactivated users cannot authenticate
         $resultado = \Rataplam\Config\Database::fetch(
-            "SELECT id, nome, email, role FROM usuarios WHERE id = (SELECT usuario_id FROM tokens WHERE token = ? AND expira_em > NOW())",
+            "SELECT u.id, u.nome, u.email, u.role
+             FROM usuarios u
+             INNER JOIN tokens t ON t.usuario_id = u.id
+             WHERE t.token = ? AND t.expira_em > NOW() AND u.ativo = 1",
             [$token]
         );
 
@@ -70,6 +73,19 @@ class Auth
     {
         $token = bin2hex(random_bytes(32));
         $expira = date('Y-m-d H:i:s', strtotime('+7 days'));
+
+        // Clean up old tokens for this user (keep max 5 active sessions)
+        $tokens = \Rataplam\Config\Database::fetchAll(
+            "SELECT id FROM tokens WHERE usuario_id = ? ORDER BY expira_em DESC",
+            [$userId]
+        );
+        if (count($tokens) > 4) {
+            $oldIds = array_slice(array_column($tokens, 'id'), 5);
+            if (!empty($oldIds)) {
+                $placeholders = implode(',', array_fill(0, count($oldIds), '?'));
+                \Rataplam\Config\Database::query("DELETE FROM tokens WHERE id IN ({$placeholders})", $oldIds);
+            }
+        }
 
         \Rataplam\Config\Database::insert('tokens', [
             'usuario_id' => $userId,

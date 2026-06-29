@@ -1,13 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useCarrinho } from '@/lib/carrinho';
 import { useAuth } from '@/lib/auth';
 import { api, formatarMoeda } from '@/lib/api';
-import { maskCpf, maskTelefone, maskCep } from '@/lib/masks';
+import { maskCpf, maskTelefone, maskCep, maskCartao, maskValidade } from '@/lib/masks';
 import { useCep } from '@/lib/useCep';
 
 export default function CheckoutPage() {
@@ -22,6 +22,7 @@ export default function CheckoutPage() {
   const [gateway, setGateway] = useState<'mercadopago' | 'stripe'>('mercadopago');
   const [cupom, setCupom] = useState('');
   const [desconto, setDesconto] = useState(0);
+  const [freteConfig, setFreteConfig] = useState({ frete_gratis_valor: 199.90, frete_fixo: 15.90 });
 
   const [dados, setDados] = useState({
     nome: usuario?.nome || '', email: usuario?.email || '', cpf: '', telefone: '',
@@ -29,7 +30,18 @@ export default function CheckoutPage() {
   });
 
   const [cartao, setCartao] = useState({ numero: '', nome: '', validade: '', cvv: '', parcelas: 1 });
-  const frete = total >= 199.90 ? 0 : 15.90;
+  const frete = total >= freteConfig.frete_gratis_valor ? 0 : freteConfig.frete_fixo;
+
+  useEffect(() => {
+    api.get('/api/admin/configuracoes').then((data) => {
+      const map: Record<string, string> = {};
+      (data.configuracoes || []).forEach((c: { chave: string; valor: string }) => { map[c.chave] = c.valor; });
+      setFreteConfig({
+        frete_gratis_valor: parseFloat(map.frete_gratis_valor) || 199.90,
+        frete_fixo: parseFloat(map.frete_fixo) || 15.90,
+      });
+    }).catch(() => {});
+  }, []);
 
   const handleCepChange = (valor: string) => {
     setDados((prev) => ({ ...prev, cep: valor }));
@@ -227,9 +239,10 @@ export default function CheckoutPage() {
                     <input type="text" placeholder="CVV" value={cartao.cvv} onChange={(e) => setCartao((p) => ({ ...p, cvv: e.target.value }))} className="w-full px-3 py-2 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 outline-none" />
                   </div>
                   <select value={cartao.parcelas} onChange={(e) => setCartao((p) => ({ ...p, parcelas: Number(e.target.value) }))} className="w-full px-3 py-2 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 outline-none">
-                    {Array.from({ length: 12 }, (_, i) => i + 1).map((n) => (
-                      <option key={n} value={n}>{n}x {n === 1 ? `de ${formatarMoeda(total / n)}` : `de ${formatarMoeda(total / n)} sem juros`}</option>
-                    ))}
+                    {Array.from({ length: 12 }, (_, i) => i + 1).map((n) => {
+                      const valorParcela = (total + frete - desconto) / n;
+                      return <option key={n} value={n}>{n}x {n === 1 ? `de ${formatarMoeda(valorParcela)}` : `de ${formatarMoeda(valorParcela)} sem juros`}</option>;
+                    })}
                   </select>
                 </div>
               </div>

@@ -32,7 +32,7 @@ class EmailService
     public function enviar(string $destinatario, string $assunto, string $html, string $template = '', array $dados = []): bool
     {
         try {
-            $boundary = md5(uniqid(time()));
+            $boundary = bin2hex(random_bytes(16));
 
             $headers = "From: =?UTF-8?B?" . base64_encode($this->deNome) . "?= <{$this->deEmail}>\r\n";
             $headers .= "Reply-To: {$this->replyTo}\r\n";
@@ -86,14 +86,29 @@ class EmailService
 
     private function carregarTemplate(string $template, array $dados): string
     {
-        $caminho = __DIR__ . '/../templates/email/' . $template . '.php';
+        $caminho = __DIR__ . '/../templates/email/' . preg_replace('/[^a-z0-9_-]/i', '', $template) . '.php';
 
         if (!file_exists($caminho)) {
             $caminho = __DIR__ . '/../templates/email/base.php';
+            if (!file_exists($caminho)) {
+                return '<p>Template de email nao encontrado.</p>';
+            }
         }
 
+        // SECURITY FIX: Use variable variables instead of extract() to prevent code injection
+        // Only allow known template variables
+        $allowedVars = [
+            'assunto', 'nome', 'numero', 'itens', 'subtotal', 'desconto',
+            'frete', 'total', 'endereco', 'data', 'status', 'email',
+            'produto_nome', 'link', 'mensagem', 'token', 'nova_senha',
+        ];
+
         ob_start();
-        extract($dados);
+        foreach ($dados as $key => $value) {
+            if (in_array($key, $allowedVars, true)) {
+                $$key = $value;
+            }
+        }
         include $caminho;
         return ob_get_clean();
     }

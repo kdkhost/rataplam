@@ -2,12 +2,31 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { useState, useEffect } from 'react';
 import { useCarrinho } from '@/lib/carrinho';
-import { formatarMoeda } from '@/lib/api';
+import { api, formatarMoeda } from '@/lib/api';
+
+interface Config {
+  frete_gratis_valor: number;
+  frete_fixo: number;
+}
 
 export default function CarrinhoPage() {
   const { itens, total, totalItens, remover, atualizarQuantidade, limpar } = useCarrinho();
-  const frete = total >= 199.90 ? 0 : 15.90;
+  const [config, setConfig] = useState<Config>({ frete_gratis_valor: 199.90, frete_fixo: 15.90 });
+
+  useEffect(() => {
+    api.get('/api/admin/configuracoes').then((data) => {
+      const map: Record<string, string> = {};
+      (data.configuracoes || []).forEach((c: { chave: string; valor: string }) => { map[c.chave] = c.valor; });
+      setConfig({
+        frete_gratis_valor: parseFloat(map.frete_gratis_valor) || 199.90,
+        frete_fixo: parseFloat(map.frete_fixo) || 15.90,
+      });
+    }).catch(() => {});
+  }, []);
+
+  const frete = total >= config.frete_gratis_valor ? 0 : config.frete_fixo;
 
   if (itens.length === 0) {
     return (
