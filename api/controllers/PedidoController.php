@@ -150,6 +150,16 @@ class PedidoController
                 'endereco' => "{$input['logradouro'] ?? ''}, {$input['numero'] ?? ''} - {$input['bairro'] ?? ''}, {$input['cidade'] ?? ''}/{$input['estado'] ?? ''}",
                 'data' => date('d/m/Y H:i'),
             ]);
+
+            // Notify admin of new order
+            $adminEmail = \Rataplam\Config\Config::get('smtp_de_email', 'contato@rataplam.com.br');
+            $emailService->enviarTemplate($adminEmail, 'novo_pedido_admin', [
+                'assunto' => "Novo Pedido #{$numero} - RATAPLAM",
+                'numero' => $numero,
+                'nome' => $input['nome'] ?? 'Cliente',
+                'total' => $total,
+                'metodo' => $input['gateway'] ?? 'mercadopago',
+            ]);
         } catch (\Throwable $e) { /* email falha silenciosamente */ }
 
         header('Content-Type: application/json; charset=utf-8');
@@ -250,7 +260,10 @@ class PedidoController
                 $templateMap = [
                     'pago' => 'pagamento_aprovado',
                     'enviado' => 'pedido_enviado',
+                    'entregue' => 'pedido_entregue',
                     'cancelado' => 'pedido_cancelado',
+                    'reembolsado' => 'reembolso_aprovado',
+                    'em_separacao' => 'pedido_em_separacao',
                 ];
                 $template = $templateMap[$updateData['status']] ?? null;
                 if ($template && $statusAnterior['email_comprador']) {

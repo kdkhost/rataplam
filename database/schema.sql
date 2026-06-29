@@ -647,3 +647,16 @@ INSERT INTO banners (titulo, subtitulo, imagem, link, ordem) VALUES
 ('Roupas Infantis RATAPLAM', 'Qualidade e conforto para o seu pequeno', '/images/banners/banner1.jpg', '/loja', 1),
 ('Nova Coleção', 'Confira as novidades da temporada', '/images/banners/banner2.jpg', '/loja?novo=1', 2),
 ('Frete Grátis', 'Acima de R$ 199,90', '/images/banners/banner3.jpg', '/loja', 3);
+
+-- ============================================
+-- TABELA DE RELATORIOS CACHE
+-- ============================================
+
+CREATE TABLE IF NOT EXISTS relatorios_cache (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    tipo VARCHAR(50) NOT NULL,
+    data DATE NOT NULL,
+    dados JSON,
+    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_tipo_data (tipo, data)
+) ENGINE=InnoDB;

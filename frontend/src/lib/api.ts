@@ -1,12 +1,30 @@
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
 
+let csrfToken: string | null = null;
+
+async function fetchCsrfToken(): Promise<string> {
+  if (csrfToken) return csrfToken;
+  try {
+    const res = await fetch(`${API_BASE}/api/csrf-token`);
+    const data = await res.json();
+    if (data.token) { csrfToken = data.token; return data.token; }
+  } catch { /* ignore */ }
+  return '';
+}
+
 async function requisicao(url: string, opcoes: RequestInit = {}) {
   const token = typeof window !== 'undefined' ? localStorage.getItem('rataplam_token') : null;
+  const method = (opcoes.method || 'GET').toUpperCase();
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
     ...((opcoes.headers as Record<string, string>) || {}),
   };
   if (token) headers['Authorization'] = `Bearer ${token}`;
+
+  if (method !== 'GET') {
+    const csrf = await fetchCsrfToken();
+    if (csrf) headers['X-CSRF-Token'] = csrf;
+  }
 
   const res = await fetch(`${API_BASE}${url}`, { ...opcoes, headers });
   const data = await res.json();
@@ -21,8 +39,10 @@ export const api = {
   delete: (url: string) => requisicao(url, { method: 'DELETE' }),
   upload: async (url: string, formData: FormData) => {
     const token = typeof window !== 'undefined' ? localStorage.getItem('rataplam_token') : null;
+    const csrf = await fetchCsrfToken();
     const headers: Record<string, string> = {};
     if (token) headers['Authorization'] = `Bearer ${token}`;
+    if (csrf) headers['X-CSRF-Token'] = csrf;
 
     const res = await fetch(`${API_BASE}${url}`, {
       method: 'POST',

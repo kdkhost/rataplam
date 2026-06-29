@@ -40,6 +40,25 @@ try {
         \Rataplam\Middleware\RateLimit::verificar(100, 60);
     }
 
+    // ── CSRF Token endpoint ───────────────────────
+    \Rataplam\Middleware\CsrfProtection::init();
+    if ($method === 'GET' && $uri === '/api/csrf-token') {
+        $token = \Rataplam\Middleware\CsrfProtection::gerarToken();
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode(['sucesso' => true, 'token' => $token]);
+        exit;
+    }
+
+    // ── CSRF verification for state-changing requests ──
+    if (in_array($method, ['POST', 'PUT', 'DELETE', 'PATCH'], true)
+        && !str_starts_with($uri, '/api/webhooks/')
+        && !str_starts_with($uri, '/api/auth/login')
+        && !str_starts_with($uri, '/api/auth/cadastro')
+        && !str_starts_with($uri, '/api/csrf-token')
+        && !str_starts_with($uri, '/api/visitas')) {
+        \Rataplam\Middleware\CsrfProtection::verificar();
+    }
+
     // ── Auth (público) ──────────────────────────────
     if ($method === 'POST' && $uri === '/api/auth/login') {
         AuthController::login();

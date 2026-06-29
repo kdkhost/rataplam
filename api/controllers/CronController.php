@@ -56,6 +56,10 @@ class CronController
                 case 'atualizar_estoque_minimo': $resultado = self::atualizarEstoqueMinimo(); break;
                 case 'limpar_logs_antigos': $resultado = self::limparLogsAntigos(); break;
                 case 'sincronizar_webhooks': $resultado = self::sincronizarWebhooks(); break;
+                case 'gerar_relatorio_vendas': $resultado = self::gerarRelatorioVendas(); break;
+                case 'alertar_estoque_baixo': $resultado = self::alertarEstoqueBaixo(); break;
+                case 'enviar_lembrete_carrinho': $resultado = self::enviarLembreteCarrinho(); break;
+                case 'enviar_pedido_avaliacao': $resultado = self::enviarPedidoAvaliacao(); break;
                 default: $resultado = ['mensagem' => 'Job nao implementado']; break;
             }
 
@@ -229,6 +233,119 @@ class CronController
             $processados++;
         }
         return ['mensagem' => "Webhooks processados: {$processados}", 'dados' => ['processados' => $processados]];
+    }
+
+    private static function gerarRelatorioVendas(): array
+    {
+        $hoje = date('Y-m-d');
+        $ontem = date('Y-m-d', strtotime('-1 day'));
+
+        $vendasOntem = Database::fetch(
+            "SELECT COUNT(*) as total, COALESCE(SUM(total), 0) as receita FROM pedidos WHERE DATE(created_at) = ? AND status != 'cancelado'",
+            [$ontem]
+        );
+
+        Database::insert('relatorios_cache', [
+            'tipo' => 'vendas_diarias',
+            'data' => $ontem,
+            'dados' => json_encode($vendasOntem),
+        ]);
+
+        return [
+            'mensagem' => "Relatorio de vendas gerado para {$ontem}",
+            'dados' => ['total_pedidos' => $vendasOntem['total'] ?? 0, 'receita' => $vendasOntem['receita'] ?? 0],
+        ];
+    }
+
+    private static function alertarEstoqueBaixo(): array
+    {
+        $baixos = Database::fetchAll(
+            "SELECT id, nome, estoque, estoque_minimo FROM produtos WHERE estoque <= estoque_minimo AND estoque_minimo > 0 AND ativo = 1"
+        );
+
+        if (!empty($baixos)) {
+            try {
+                $emailService = new EmailService();
+                $adminEmail = \Rataplam\Config\Config::get('smtp_de_email', 'contato@rataplam.com.br');
+                $emailService->enviarTemplate($adminEmail, 'estoque_baixo_admin', [
+                    'assunto' => 'Alerta: Estoque Baixo - RATAPLAM',
+                    'produtos' => $baixos,
+                ]);
+            } catch (\Throwable $e) { /* falha silenciosa */ }
+        }
+
+        return [
+            'mensagem' => count($baixos) . " produtos com estoque baixo",
+            'dados' => ['produtos' => $baixos],
+        ];
+    }
+
+    private static function enviarLembreteCarrinho(): array
+    {
+        $carrinhos = Database::fetchAll(
+            "SELECT DISTINCT c.usuario_id, u.nome, u.email,
+                    JSON_ARRAYAGG(JSON_OBJECT('nome', p.nome, 'preco', p.preco)) as itens
+             FROM carrinho c
+             JOIN usuarios u ON c.usuario_id = u.id
+             JOIN produtos p ON c.produto_id = p.id
+             WHERE c.updated_at < DATE_SUB(NOW(), INTERVAL 24 HOUR)
+               AND c.updated_at > DATE_SUB(NOW(), INTERVAL 48 HOUR)
+               AND u.email IS NOT NULL
+             GROUP BY c.usuario_id, u.nome, u.email
+             LIMIT 50"
+        );
+
+        $enviados = 0;
+        try {
+            $emailService = new EmailService();
+            foreach ($carrinhos as $c) {
+                $itens = json_decode($c['itens'] ?? '[]', true);
+                $emailService->enviarTemplate($c['email'], 'lembrete_carrinho', [
+                    'assunto' => 'Voce esqueceu algo no carrinho? - RATAPLAM',
+                    'nome' => $c['nome'],
+                    'itens' => $itens,
+                    'link' => 'https://www.rataplam.com.br/carrinho',
+                ]);
+                $enviados++;
+            }
+        } catch (\Throwable $e) { /* falha silenciosa */ }
+
+        return [
+            'mensagem' => "Lembretes de carrinho enviados: {$enviados}",
+            'dados' => ['enviados' => $enviados],
+        ];
+    }
+
+    private static function enviarPedidoAvaliacao(): array
+    {
+        $pedidos = Database::fetchAll(
+            "SELECT id, numero_pedido, nome_comprador, email_comprador
+             FROM pedidos
+             WHERE status = 'entregue'
+               AND DATE(updated_at) = DATE_SUB(CURDATE(), INTERVAL 3 DAY)
+               AND email_comprador IS NOT NULL
+               AND email_comprador != ''
+             LIMIT 50"
+        );
+
+        $enviados = 0;
+        try {
+            $emailService = new EmailService();
+            foreach ($pedidos as $p) {
+                $emailService->enviarTemplate($p['email_comprador'], 'avaliacao_pedido', [
+                    'assunto' => 'Avalie seu pedido - RATAPLAM',
+                    'nome' => $p['nome_comprador'],
+                    'numero' => $p['numero_pedido'],
+                    'link' => 'https://www.rataplam.com.br/conta/pedidos/' . $p['id'],
+                ]);
+                $enviados++;
+            }
+        } catch (\Throwable $e) { /* falha silenciosa */ }
+
+        return [
+            'mensagem' => "Emails de avaliacao enviados: {$enviados}",
+            'dados' => ['enviados' => $enviados],
+        ];
     }
 
     private static function calcularProximaExecucao(string $cronExpr): string
