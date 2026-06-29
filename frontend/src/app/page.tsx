@@ -39,6 +39,26 @@ const testimonials = [
   { name: 'Juliana Santos', location: 'Belo Horizonte, MG', text: 'Entrega rapida e roupas lindas. Ja sou cliente fiel ha 2 anos. Minha filha so quer usar RATAPLAM!', rating: 5 },
 ];
 
+const fallbackProducts: Produto[] = [
+  { id: 1, slug: 'macacao-cachorro', nome: 'Macacao Cachorro', preco: 89.90, imagem: 'https://static.wixstatic.com/media/e23129_e7615472cc5d4c2b8eae2d876d360ea3~mv2.jpg', estoque: 20 },
+  { id: 2, slug: 'macacao-nemo', nome: 'Macacao Nemo', preco: 99.90, imagem: 'https://static.wixstatic.com/media/e23129_b887b8b44bd743749d0eeb3740846160~mv2.png', estoque: 20 },
+  { id: 3, slug: 'macacao-selva', nome: 'Macacao Selva', preco: 94.90, imagem: 'https://static.wixstatic.com/media/e23129_74b957d328f247a7b23710257ada6d72~mv2.jpg', estoque: 20 },
+  { id: 4, slug: 'vestido-delicate', nome: 'Vestido Delicate', preco: 119.90, imagem: 'https://static.wixstatic.com/media/e23129_9f4c1c93c54d4137b82477ff0e685358~mv2.png', estoque: 20 },
+  { id: 5, slug: 'bermuda-tropical', nome: 'Bermuda Tropical', preco: 69.90, imagem: 'https://static.wixstatic.com/media/e23129_41db3354d3834c6ab8815821e5817913~mv2.jpg', estoque: 20 },
+  { id: 6, slug: 'blusa-friends-trip', nome: 'Blusa Friends Trip', preco: 59.90, imagem: 'https://static.wixstatic.com/media/e23129_c8f4906b9df04133a3121e86e1753485~mv2.png', estoque: 20 },
+  { id: 7, slug: 'biquini-liana', nome: 'Biquini Liana', preco: 79.90, imagem: 'https://static.wixstatic.com/media/e23129_8165b0bff17049beb94aa0d3359b9bbd~mv2.png', estoque: 20 },
+  { id: 8, slug: 'sapatinho-trico', nome: 'Sapatinho Trico', preco: 49.90, imagem: 'https://static.wixstatic.com/media/e23129_4659ca570c404bb2b4d3831ff9dfd4b7~mv2.jpg', estoque: 20 },
+];
+
+const fallbackCategories: Categoria[] = [
+  { id: 1, nome: 'Macacoes', slug: 'macacoes', imagem: 'https://static.wixstatic.com/media/e23129_74b957d328f247a7b23710257ada6d72~mv2.jpg' },
+  { id: 2, nome: 'Bermudas', slug: 'bermudas', imagem: 'https://static.wixstatic.com/media/e23129_41db3354d3834c6ab8815821e5817913~mv2.jpg' },
+  { id: 3, nome: 'Blusas', slug: 'blusas', imagem: 'https://static.wixstatic.com/media/e23129_c8f4906b9df04133a3121e86e1753485~mv2.png' },
+  { id: 4, nome: 'Biquinis', slug: 'biquinis', imagem: 'https://static.wixstatic.com/media/e23129_8165b0bff17049beb94aa0d3359b9bbd~mv2.png' },
+  { id: 5, nome: 'Calcas', slug: 'calcas', imagem: 'https://static.wixstatic.com/media/e23129_10c8ee98b97b48da930b65d821c3a821~mv2.png' },
+  { id: 6, nome: 'Acessorios', slug: 'acessorios', imagem: 'https://static.wixstatic.com/media/e23129_4659ca570c404bb2b4d3831ff9dfd4b7~mv2.jpg' },
+];
+
 const trustItems = [
   { icon: <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0H21M3.375 14.25h-.375a3 3 0 01-3-3V7.5a3 3 0 013-3h.375m0 0h16.5m-16.5 0a3 3 0 00-3 3v3.75a3 3 0 003 3h.375m16.5 0h.375a3 3 0 003-3V7.5a3 3 0 00-3-3h-.375m0 0V4.125a2.25 2.25 0 00-2.25-2.25H10.5m0 0h3m-3 0V1.5a2.25 2.25 0 00-2.25-2.25H5.625a2.25 2.25 0 00-2.25 2.25V4.125" /></svg>, title: 'Frete Gratis', description: 'Acima de R$ 199,00 para todo o Brasil' },
   { icon: <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>, title: 'Pagamento Seguro', description: 'Criptografia e protecao de dados' },
@@ -61,8 +81,8 @@ export default function Home() {
       try {
         const dados = await api.get('/api/produtos?limit=8&destaque=true');
         setProducts(dados.produtos || []);
-      } catch (erro) {
-        console.error('Erro ao carregar produtos:', erro);
+      } catch {
+        setProducts(fallbackProducts);
       } finally {
         setCarregandoProdutos(false);
       }
@@ -75,8 +95,8 @@ export default function Home() {
       try {
         const dados = await api.get('/api/admin/categorias');
         setCategories(dados.categorias || dados || []);
-      } catch (erro) {
-        console.error('Erro ao carregar categorias:', erro);
+      } catch {
+        setCategories(fallbackCategories);
       } finally {
         setCarregandoCategorias(false);
       }
