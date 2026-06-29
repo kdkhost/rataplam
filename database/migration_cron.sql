@@ -45,4 +45,8 @@ INSERT INTO cron_jobs (nome, descricao, expressao_cron, proxima_execucao, ativo)
 ('backup_banco_dados', 'Gera backup diario do banco de dados', '0 2 * * *', NULL, 1),
 ('limpar_logs_antigos', 'Remove logs com mais de 90 dias', '0 4 1 * *', NULL, 1),
 ('calcular_frete_gratis', 'Recalcula quem ganhou frete gratis', '0 */2 * * *', NULL, 1),
-('sincronizar_webhooks', 'Processa webhooks pendentes de pagamento', '*/5 * * * *', NULL, 1);
+('sincronizar_webhooks', 'Processa webhooks pendentes de pagamento', '*/5 * * * *', NULL, 1),
+('gerar_relatorio_vendas', 'Gera relatorio diario de vendas para dashboard', '30 0 * * *', NULL, 1),
+('alertar_estoque_baixo', 'Envia email quando produtos estao abaixo do minimo', '0 9 * * *', NULL, 1),
+('enviar_lembrete_carrinho', 'Envia email para clientes com carrinho abandonado ha 24h', '0 10 * * *', NULL, 1),
+('enviar_pedido_avaliacao', 'Envia email pedindo avaliacao 3 dias apos entrega', '0 11 * * *', NULL, 1);

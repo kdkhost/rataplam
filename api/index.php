@@ -11,6 +11,13 @@ use Rataplam\Controllers\VisitaController;
 use Rataplam\Controllers\SeoController;
 use Rataplam\Controllers\CronController;
 use Rataplam\Controllers\ProvadorController;
+use Rataplam\Controllers\CarrinhoController;
+use Rataplam\Controllers\EnderecoController;
+use Rataplam\Controllers\FavoritoController;
+use Rataplam\Controllers\VariacaoController;
+use Rataplam\Controllers\PagamentoController;
+use Rataplam\Controllers\RelatorioController;
+use Rataplam\Controllers\LogController;
 use Rataplam\Middleware\Auth;
 
 header('Content-Type: application/json; charset=utf-8');
@@ -120,39 +127,7 @@ try {
         if ($method === 'PUT') PedidoController::atualizar((int) $m[1]);
     }
 
-    // ── Endereços (autenticado) ─────────────────────
-    if ($method === 'GET' && $uri === '/api/enderecos') {
-        $dados = Auth::verificar();
-        $enderecos = \Rataplam\Config\Database::fetchAll("SELECT * FROM enderecos WHERE usuario_id = ? ORDER BY principal DESC, created_at DESC", [$dados['id']]);
-        header('Content-Type: application/json; charset=utf-8');
-        echo json_encode(['sucesso' => true, 'enderecos' => $enderecos]);
-        exit;
-    }
-    if ($method === 'POST' && $uri === '/api/enderecos') {
-        $dados = Auth::verificar();
-        $input = json_decode(file_get_contents('php://input'), true);
-        $id = \Rataplam\Config\Database::insert('enderecos', array_merge($input, ['usuario_id' => $dados['id']]));
-        header('Content-Type: application/json; charset=utf-8');
-        echo json_encode(['sucesso' => true, 'id' => $id]);
-        exit;
-    }
-    if (preg_match('#^/api/enderecos/(\d+)$#', $uri, $m)) {
-        $dados = Auth::verificar();
-        $id = (int) $m[1];
-        if ($method === 'PUT') {
-            $input = json_decode(file_get_contents('php://input'), true);
-            \Rataplam\Config\Database::update('enderecos', $input, 'id = ? AND usuario_id = ?', [$id, $dados['id']]);
-            header('Content-Type: application/json; charset=utf-8');
-            echo json_encode(['sucesso' => true]);
-            exit;
-        }
-        if ($method === 'DELETE') {
-            \Rataplam\Config\Database::delete('enderecos', 'id = ? AND usuario_id = ?', [$id, $dados['id']]);
-            header('Content-Type: application/json; charset=utf-8');
-            echo json_encode(['sucesso' => true]);
-            exit;
-        }
-    }
+    // ── Endereços (legado inline - removido, agora usa EnderecoController) ──
 
     // ── Admin: Dashboard KPIs ───────────────────────
     if ($method === 'GET' && $uri === '/api/admin/dashboard/kpis') {
@@ -435,45 +410,102 @@ try {
         exit;
     }
 
-    // ── Lista de Desejos (autenticado) ────────────────
+    // ── Carrinho (autenticado ou visitante com session) ─
+    if ($method === 'GET' && $uri === '/api/carrinho') {
+        CarrinhoController::listar();
+    }
+    if ($method === 'POST' && $uri === '/api/carrinho') {
+        CarrinhoController::adicionar();
+    }
+    if ($method === 'PUT' && preg_match('#^/api/carrinho/(\d+)$#', $uri, $m)) {
+        CarrinhoController::atualizar((int) $m[1]);
+    }
+    if ($method === 'DELETE' && preg_match('#^/api/carrinho/(\d+)$#', $uri, $m)) {
+        CarrinhoController::excluir((int) $m[1]);
+    }
+    if ($method === 'DELETE' && $uri === '/api/carrinho') {
+        CarrinhoController::limpar();
+    }
+
+    // ── Endereços (autenticado) ─────────────────────
+    if ($method === 'GET' && $uri === '/api/enderecos') {
+        EnderecoController::listar();
+    }
+    if ($method === 'POST' && $uri === '/api/enderecos') {
+        EnderecoController::criar();
+    }
+    if ($method === 'PUT' && preg_match('#^/api/enderecos/(\d+)$#', $uri, $m)) {
+        EnderecoController::atualizar((int) $m[1]);
+    }
+    if ($method === 'DELETE' && preg_match('#^/api/enderecos/(\d+)$#', $uri, $m)) {
+        EnderecoController::excluir((int) $m[1]);
+    }
+    if ($method === 'PUT' && preg_match('#^/api/enderecos/(\d+)/principal$#', $uri, $m)) {
+        EnderecoController::definirPrincipal((int) $m[1]);
+    }
+
+    // ── Favoritos (autenticado) ──────────────────────
     if ($method === 'GET' && $uri === '/api/favoritos') {
-        $dados = Auth::verificar();
-        $favoritos = \Rataplam\Config\Database::fetchAll(
-            "SELECT p.*, ld.created_at as adicionado_em FROM lista_desejos ld JOIN produtos p ON ld.produto_id = p.id WHERE ld.usuario_id = ? ORDER BY ld.created_at DESC",
-            [$dados['id']]
-        );
-        header('Content-Type: application/json; charset=utf-8');
-        echo json_encode(['sucesso' => true, 'favoritos' => $favoritos]);
-        exit;
+        FavoritoController::listar();
     }
     if ($method === 'POST' && $uri === '/api/favoritos') {
-        $dados = Auth::verificar();
-        $input = json_decode(file_get_contents('php://input'), true);
-        $produtoId = (int) ($input['produto_id'] ?? 0);
-        $existe = \Rataplam\Config\Database::fetch(
-            "SELECT id FROM lista_desejos WHERE usuario_id = ? AND produto_id = ?",
-            [$dados['id'], $produtoId]
-        );
-        if ($existe) {
-            http_response_code(400);
-            echo json_encode(['erro' => 'Produto ja esta na lista de desejos']);
-            exit;
-        }
-        $id = \Rataplam\Config\Database::insert('lista_desejos', [
-            'usuario_id' => $dados['id'],
-            'produto_id' => $produtoId,
-        ]);
-        header('Content-Type: application/json; charset=utf-8');
-        echo json_encode(['sucesso' => true, 'id' => $id]);
-        exit;
+        FavoritoController::adicionar();
     }
     if ($method === 'DELETE' && preg_match('#^/api/favoritos/(\d+)$#', $uri, $m)) {
-        $dados = Auth::verificar();
-        $produtoId = (int) $m[1];
-        \Rataplam\Config\Database::delete('lista_desejos', 'usuario_id = ? AND produto_id = ?', [$dados['id'], $produtoId]);
-        header('Content-Type: application/json; charset=utf-8');
-        echo json_encode(['sucesso' => true]);
-        exit;
+        FavoritoController::excluir((int) $m[1]);
+    }
+    if ($method === 'GET' && preg_match('#^/api/favoritos/(\d+)/verificar$#', $uri, $m)) {
+        FavoritoController::verificar((int) $m[1]);
+    }
+
+    // ── Variações (admin: CRUD) ──────────────────────
+    if ($method === 'GET' && preg_match('#^/api/admin/produtos/(\d+)/variacoes$#', $uri, $m)) {
+        VariacaoController::listar((int) $m[1]);
+    }
+    if ($method === 'POST' && preg_match('#^/api/admin/produtos/(\d+)/variacoes$#', $uri, $m)) {
+        VariacaoController::criar((int) $m[1]);
+    }
+    if ($method === 'PUT' && preg_match('#^/api/admin/variacoes/(\d+)$#', $uri, $m)) {
+        VariacaoController::atualizar((int) $m[1]);
+    }
+    if ($method === 'DELETE' && preg_match('#^/api/admin/variacoes/(\d+)$#', $uri, $m)) {
+        VariacaoController::excluir((int) $m[1]);
+    }
+
+    // ── Pagamentos ───────────────────────────────────
+    if ($method === 'POST' && $uri === '/api/pagamentos') {
+        PagamentoController::criar();
+    }
+    if ($method === 'GET' && preg_match('#^/api/pagamentos/(\d+)/status$#', $uri, $m)) {
+        PagamentoController::status((int) $m[1]);
+    }
+    if ($method === 'POST' && $uri === '/api/pagamentos/webhook/mercadopago') {
+        PagamentoController::webhookMercadoPago();
+    }
+    if ($method === 'POST' && $uri === '/api/pagamentos/webhook/stripe') {
+        PagamentoController::webhookStripe();
+    }
+
+    // ── Relatórios (admin) ──────────────────────────
+    if ($method === 'GET' && $uri === '/api/admin/relatorios/vendas') {
+        RelatorioController::vendas();
+    }
+    if ($method === 'GET' && $uri === '/api/admin/relatorios/estoque') {
+        RelatorioController::estoque();
+    }
+    if ($method === 'GET' && $uri === '/api/admin/relatorios/financeiro') {
+        RelatorioController::financeiro();
+    }
+
+    // ── Logs (admin) ────────────────────────────────
+    if ($method === 'GET' && $uri === '/api/admin/logs/webhooks') {
+        LogController::webhooks();
+    }
+    if ($method === 'GET' && $uri === '/api/admin/logs/emails') {
+        LogController::emails();
+    }
+    if ($method === 'DELETE' && preg_match('#^/api/admin/logs/(\d+)/limpar$#', $uri, $m)) {
+        LogController::limpar((int) $m[1]);
     }
 
     // ── Cupons (validação pública) ──────────────────

@@ -46,6 +46,8 @@ export default function ContaPage() {
             <Link href="/conta" className="block px-4 py-2.5 text-sm font-medium text-blue-600 bg-blue-50 rounded-xl">Dados Pessoais</Link>
             <Link href="/conta/pedidos" className="block px-4 py-2.5 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-xl transition-colors">Meus Pedidos</Link>
             <Link href="/conta/enderecos" className="block px-4 py-2.5 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-xl transition-colors">Enderecos</Link>
+            <Link href="/conta/favoritos" className="block px-4 py-2.5 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-xl transition-colors">Favoritos</Link>
+            <Link href="/conta/trocar-senha" className="block px-4 py-2.5 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-xl transition-colors">Trocar Senha</Link>
             <button onClick={handleLogout} className="w-full text-left px-4 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 rounded-xl transition-colors">Sair</button>
           </nav>
         </aside>
