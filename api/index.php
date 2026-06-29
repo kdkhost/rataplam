@@ -35,6 +35,11 @@ $uri = rtrim($uri, '/');
 $method = $_SERVER['REQUEST_METHOD'];
 
 try {
+    // ── Rate Limiting ─────────────────────────────
+    if (!str_starts_with($uri, '/api/webhooks/') && !str_starts_with($uri, '/api/visitas')) {
+        \Rataplam\Middleware\RateLimit::verificar(100, 60);
+    }
+
     // ── Auth (público) ──────────────────────────────
     if ($method === 'POST' && $uri === '/api/auth/login') {
         AuthController::login();

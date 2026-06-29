@@ -100,9 +100,23 @@ export default function CheckoutPage() {
         gateway,
         cupom: cupom || undefined,
       };
-      const data = await api.post('/api/pedidos', payload);
-      limpar();
-      router.push(`/checkout/confirmacao?pedido=${data.numero_pedido}&total=${(total + frete - desconto).toFixed(2)}`);
+      const pedidoData = await api.post('/api/pedidos', payload);
+
+      try {
+        const pagamentoData = await api.post('/api/pagamentos', {
+          gateway,
+          pedido_id: pedidoData.pedido_id,
+        });
+        limpar();
+        if (pagamentoData.link_pagamento) {
+          window.location.href = pagamentoData.link_pagamento;
+          return;
+        }
+        router.push(`/checkout/confirmacao?pedido=${pedidoData.numero_pedido}&total=${(total + frete - desconto).toFixed(2)}`);
+      } catch {
+        limpar();
+        router.push(`/checkout/confirmacao?pedido=${pedidoData.numero_pedido}&total=${(total + frete - desconto).toFixed(2)}`);
+      }
     } catch (e: unknown) {
       setErro((e as { erro?: string }).erro || 'Erro ao processar pedido');
     } finally {

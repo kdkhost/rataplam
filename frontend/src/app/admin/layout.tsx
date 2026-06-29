@@ -15,6 +15,7 @@ const menuItems = [
   { href: '/admin/avaliacoes', label: 'Avaliacoes', icon: '⭐' },
   { href: '/admin/banners', label: 'Banners', icon: '🖼️' },
   { href: '/admin/seo', label: 'SEO', icon: '🔍' },
+  { href: '/admin/variacoes', label: 'Variacoes', icon: '🎨' },
   { href: '/admin/vendedores', label: 'Vendedores', icon: '🧑‍💼' },
   { href: '/admin/relatorios', label: 'Relatorios', icon: '📈' },
   { href: '/admin/logs', label: 'Logs', icon: '📋' },

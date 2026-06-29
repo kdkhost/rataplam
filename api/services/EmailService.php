@@ -101,6 +101,7 @@ class EmailService
             'assunto', 'nome', 'numero', 'itens', 'subtotal', 'desconto',
             'frete', 'total', 'endereco', 'data', 'status', 'email',
             'produto_nome', 'link', 'mensagem', 'token', 'nova_senha',
+            'metodo', 'produtos', 'quantidade', 'preco',
         ];
 
         ob_start();
