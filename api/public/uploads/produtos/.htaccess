@@ -1,14 +1,23 @@
-RewriteEngine On
+# Protecao do diretorio de uploads
+# Nao listar arquivos
+Options -Indexes
 
-# Allow direct access to image files
-RewriteCond %{REQUEST_FILENAME} -f
-RewriteCond %{REQUEST_FILENAME} \.(jpg|jpeg|png|gif|webp)$
-RewriteRule ^ - [L]
-
-# Deny access to other files
-<FilesMatch "\.(?i:php|phtml|php3|php4|php5|php7|pl|py|jsp|asp|htm|shtml|sh|cgi)$">
-  Deny from all
+# Bloquear executacao de scripts no diretorio de uploads
+<FilesMatch "\.(php|php5|phtml|pl|py|jsp|asp|htm|shtml|sh|cgi)$">
+    Deny from all
 </FilesMatch>
 
-# Prevent directory listing
-Options -Indexes
+# Permitir acesso apenas a imagens
+<FilesMatch "\.(jpg|jpeg|png|gif|webp|svg|ico)$">
+    Allow from all
+</FilesMatch>
+
+# Cache de imagens
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+</IfModule>

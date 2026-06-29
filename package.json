@@ -1,0 +1,16 @@
+{
+  "name": "rataplam",
+  "version": "1.0.0",
+  "description": "RATAPLAM - Loja de Roupas Infantis",
+  "scripts": {
+    "dev": "cd frontend && npm run dev",
+    "build": "cd frontend && npm run build",
+    "start": "cd frontend && npm start",
+    "lint": "cd frontend && npm run lint",
+    "setup-db": "echo 'Import database schemas via phpMyAdmin or mysql CLI. See DEPLOY.md'",
+    "install": "cd frontend && npm install",
+    "composer-install": "cd api && composer install --no-dev --optimize-autoloader"
+  },
+  "keywords": ["rataplam", "roupas-infantis", "ecommerce"],
+  "license": "UNLICENSED"
+}

@@ -100,8 +100,8 @@ class VirtualFittingService
 
         // Add data URI prefix if missing
         $mime = 'image/jpeg';
-        if (str_starts_with($base64, 'iVBOR')) $mime = 'image/png';
-        elseif (str_starts_with($base64, 'UklGR')) $mime = 'image/webp';
+        if (strpos($base64, 'iVBOR') === 0) $mime = 'image/png';
+        elseif (strpos($base64, 'UklGR') === 0) $mime = 'image/webp';
 
         return "data:{$mime};base64,{$base64}";
     }
@@ -110,12 +110,12 @@ class VirtualFittingService
     {
         $base = "A child wearing the clothing shown in the reference image. Keep the child's face, pose, and background exactly the same. Only change the clothing. ";
 
-        return match ($estilo) {
-            'realista' => $base . "Photorealistic, natural lighting, high quality.",
-            'editorial' => $base . "Fashion editorial style, studio lighting, professional photography.",
-            'casual' => $base . "Casual everyday style, natural lighting.",
-            default => $base . "Photorealistic, natural lighting.",
-        };
+        switch ($estilo) {
+            case 'realista': return $base . "Photorealistic, natural lighting, high quality.";
+            case 'editorial': return $base . "Fashion editorial style, studio lighting, professional photography.";
+            case 'casual': return $base . "Casual everyday style, natural lighting.";
+            default: return $base . "Photorealistic, natural lighting.";
+        }
     }
 
     private function aguardarResultado(string $predictionId): array

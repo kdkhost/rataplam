@@ -1,0 +1,14 @@
+{
+    "name": "rataplam/api",
+    "description": "RATAPLAM - API Backend PHP",
+    "type": "project",
+    "license": "proprietary",
+    "require": {
+        "php": ">=7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Rataplam\\": "src/"
+        }
+    }
+}

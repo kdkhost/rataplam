@@ -1,0 +1,12 @@
+RewriteEngine On
+
+# API routes - proxy to PHP backend
+RewriteCond %{REQUEST_URI} ^/api/
+RewriteRule ^api/(.*)$ api/$1 [L,QSA]
+
+# Everything else - serve from frontend
+RewriteCond %{REQUEST_URI} !^/api/
+RewriteCond %{REQUEST_URI} !^/uploads/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ frontend/.next/$1 [L,QSA]

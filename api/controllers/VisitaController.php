@@ -90,13 +90,13 @@ class VisitaController
     {
         $periodo = $_GET['periodo'] ?? '7d';
 
-        $whereData = match ($periodo) {
-            '24h' => 'created_at >= DATE_SUB(NOW(), INTERVAL 24 HOUR)',
-            '7d' => 'created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)',
-            '30d' => 'created_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)',
-            '90d' => 'created_at >= DATE_SUB(NOW(), INTERVAL 90 DAY)',
-            default => 'created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)',
-        };
+        switch ($periodo) {
+            case '24h': $whereData = 'created_at >= DATE_SUB(NOW(), INTERVAL 24 HOUR)'; break;
+            case '30d': $whereData = 'created_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)'; break;
+            case '90d': $whereData = 'created_at >= DATE_SUB(NOW(), INTERVAL 90 DAY)'; break;
+            case '7d':
+            default: $whereData = 'created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)'; break;
+        }
 
         $totalVisitas = Database::count('visitas', $whereData);
         $totalUnicas = Database::fetch(

@@ -47,17 +47,17 @@ class CronController
         Database::update('cron_jobs', ['status' => 'executando'], 'id = ?', [$job['id']]);
 
         try {
-            $resultado = match ($job['nome']) {
-                'limpar_tokens_expirados' => self::limparTokensExpirados(),
-                'limpar_carrinho_abandonado' => self::limparCarrinhoAbandonado(),
-                'gerar_estatisticas_diarias' => self::gerarEstatisticasDiarias(),
-                'enviar_emails_pendentes' => self::enviarEmailsPendentes(),
-                'cancelar_pedidos_pendentes' => self::cancelarPedidosPendentes(),
-                'atualizar_estoque_minimo' => self::atualizarEstoqueMinimo(),
-                'limpar_logs_antigos' => self::limparLogsAntigos(),
-                'sincronizar_webhooks' => self::sincronizarWebhooks(),
-                default => ['mensagem' => 'Job nao implementado'],
-            };
+            switch ($job['nome']) {
+                case 'limpar_tokens_expirados': $resultado = self::limparTokensExpirados(); break;
+                case 'limpar_carrinho_abandonado': $resultado = self::limparCarrinhoAbandonado(); break;
+                case 'gerar_estatisticas_diarias': $resultado = self::gerarEstatisticasDiarias(); break;
+                case 'enviar_emails_pendentes': $resultado = self::enviarEmailsPendentes(); break;
+                case 'cancelar_pedidos_pendentes': $resultado = self::cancelarPedidosPendentes(); break;
+                case 'atualizar_estoque_minimo': $resultado = self::atualizarEstoqueMinimo(); break;
+                case 'limpar_logs_antigos': $resultado = self::limparLogsAntigos(); break;
+                case 'sincronizar_webhooks': $resultado = self::sincronizarWebhooks(); break;
+                default: $resultado = ['mensagem' => 'Job nao implementado']; break;
+            }
 
             $fim = date('Y-m-d H:i:s');
             $proximaExecucao = self::calcularProximaExecucao($job['expressao_cron']);
@@ -213,12 +213,12 @@ class CronController
                         [$payload['external_reference'] ?? '', $payload['external_reference'] ?? 0]
                     );
                     if ($pedido) {
-                        $status = match ($payload['data']['status'] ?? '') {
-                            'approved' => 'pago',
-                            'cancelled' => 'cancelado',
-                            'refunded' => 'reembolsado',
-                            default => 'pendente',
-                        };
+                        switch ($payload['data']['status'] ?? '') {
+                            case 'approved': $status = 'pago'; break;
+                            case 'cancelled': $status = 'cancelado'; break;
+                            case 'refunded': $status = 'reembolsado'; break;
+                            default: $status = 'pendente'; break;
+                        }
                         if ($status !== 'pendente') {
                             Database::update('pedidos', ['status' => $status], 'id = ?', [$pedido['id']]);
                         }
@@ -239,11 +239,11 @@ class CronController
         $minuto = $parts[0];
         $hora = $parts[1];
 
-        if (str_contains($minuto, '*/')) {
+        if (strpos($minuto, '*/') !== false) {
             $intervalo = (int) str_replace('*/', '', $minuto);
             return date('Y-m-d H:i:s', time() + ($intervalo * 60));
         }
-        if (str_contains($hora, '*/')) {
+        if (strpos($hora, '*/') !== false) {
             $intervalo = (int) str_replace('*/', '', $hora);
             return date('Y-m-d H:i:s', time() + ($intervalo * 3600));
         }

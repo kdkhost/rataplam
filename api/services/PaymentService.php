@@ -354,10 +354,10 @@ class PaymentService
 
     public function getPublicKey(string $gateway): string
     {
-        return match ($gateway) {
-            'mercadopago' => $this->mpPublicKey,
-            'stripe' => $this->stripePublishable,
-            default => '',
-        };
+        switch ($gateway) {
+            case 'mercadopago': return $this->mpPublicKey;
+            case 'stripe': return $this->stripePublishable;
+            default: return '';
+        }
     }
 }
