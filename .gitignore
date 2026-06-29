@@ -4,3 +4,6 @@ out/
 .env
 .env.local
 *.log
+api/vendor/
+api/cache/
+api/public/test.php
