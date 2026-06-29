@@ -56,7 +56,7 @@ export default function AdminCupons() {
           { chave: 'ativo', label: 'Status', render: (v) => <Badge variante={v ? 'sucesso' : 'erro'}>{v ? 'Ativo' : 'Inativo'}</Badge> },
         ]}
         dados={cupons}
-        onEditar={(c) => { setEditando(c as unknown as Cupom); setForm({ codigo: c.codigo as string, descricao: '', tipo: c.tipo as string, valor: String(c.valor), valor_minimo: String(c.valor_minimo), limite_uso: String(c.limite_uso), data_inicio: '', data_fim: '' }); setModalAberto(true); }}
+        onEditar={(c) => { setEditando(c as unknown as Cupom); setForm({ codigo: c.codigo as string, descricao: (c.descricao as string) || '', tipo: c.tipo as string, valor: String(c.valor), valor_minimo: String(c.valor_minimo ?? ''), limite_uso: String(c.limite_uso ?? ''), data_inicio: (c.data_inicio as string) || '', data_fim: (c.data_fim as string) || '' }); setModalAberto(true); }}
         onExcluir={(c) => setConfirmar(c as unknown as Cupom)}
         loading={carregando}
       />

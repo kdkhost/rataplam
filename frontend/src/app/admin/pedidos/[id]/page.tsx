@@ -8,15 +8,17 @@ import Link from 'next/link';
 interface Pedido { id: number; numero_pedido: string; status: string; total: number; nome_comprador: string; email_comprador: string; cpf_comprador: string; telefone_comprador: string; cep_entrega: string; logradouro_entrega: string; numero_entrega: string; bairro_entrega: string; cidade_entrega: string; estado_entrega: string; metodo_pagamento: string; created_at: string; }
 interface Item { id: number; nome_produto: string; quantidade: number; preco_unitario: number; preco_total: number; }
 
-const STATUS_OP = ['pendente', 'pago', 'processando', 'enviado', 'entregue', 'cancelado'];
+const STATUS_OP = ['pendente', 'pago', 'processando', 'em_separacao', 'enviado', 'entregue', 'cancelado', 'reembolsado'];
 
 const statusVariante: Record<string, 'aviso' | 'info' | 'padrao' | 'sucesso' | 'erro'> = {
   pendente: 'aviso',
   pago: 'info',
   processando: 'padrao',
+  em_separacao: 'info',
   enviado: 'info',
   entregue: 'sucesso',
   cancelado: 'erro',
+  reembolsado: 'erro',
 };
 
 export default function AdminPedidoDetalhe({ params }: { params: Promise<{ id: string }> }) {

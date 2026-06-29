@@ -36,8 +36,7 @@ export default function AdminCron() {
   const executarTodos = async () => {
     setExecutando(true);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/cron/executar`);
-      const data = await res.json();
+      const data = await api.get('/api/cron/executar');
       setToast(`${data.executados} jobs executados`);
       carregar();
     } catch { setToast('Erro ao executar cron'); }

@@ -88,9 +88,12 @@ export default function AdminVariacoes() {
     { chave: 'cor', label: 'Cor' },
     { chave: 'tamanho', label: 'Tamanho' },
     { chave: 'sku', label: 'SKU' },
-    { chave: 'estoque', label: 'Estoque', render: (v: unknown) => { const vv = v as Variacao; return <span className={`font-medium ${vv.estoque === 0 ? 'text-red-600' : vv.estoque <= 5 ? 'text-yellow-600' : 'text-green-600'}`}>{vv.estoque}</span>; } },
-    { chave: 'preco_adicional', label: 'Adicional', render: (v: unknown) => formatarMoeda((v as Variacao).preco_adicional) },
-    { chave: 'ativa', label: 'Status', render: (v: unknown) => <Badge variante={(v as Variacao).ativa ? 'sucesso' : 'erro'}>{(v as Variacao).ativa ? 'Ativa' : 'Inativa'}</Badge> },
+    { chave: 'estoque', label: 'Estoque', render: (v: unknown) => {
+      const estoque = v as number;
+      return <span className={`font-medium ${estoque === 0 ? 'text-red-600' : estoque <= 5 ? 'text-yellow-600' : 'text-green-600'}`}>{estoque}</span>;
+    }},
+    { chave: 'preco_adicional', label: 'Adicional', render: (v: unknown) => formatarMoeda(v as number) },
+    { chave: 'ativa', label: 'Status', render: (v: unknown) => <Badge variante={v ? 'sucesso' : 'erro'}>{v ? 'Ativa' : 'Inativa'}</Badge> },
   ];
 
   const itensPaginados = variacoes.slice((pagina - 1) * 20, pagina * 20);
