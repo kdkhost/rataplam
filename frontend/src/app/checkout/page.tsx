@@ -80,7 +80,11 @@ export default function CheckoutPage() {
     if (!cupom.trim()) return;
     try {
       const data = await api.post('/api/cupons/validar', { codigo: cupom });
-      if (data.desconto) setDesconto(data.desconto);
+      if (data.tipo === 'percentual') {
+        setDesconto(total * (data.valor / 100));
+      } else {
+        setDesconto(data.valor || data.desconto || 0);
+      }
     } catch {
       setErro('Cupom invalido');
     }

@@ -40,6 +40,15 @@ export default function ProdutoPage() {
     carregar();
   }, [params.slug]);
 
+  useEffect(() => {
+    if (!produto?.variacoes?.length) return;
+    if (!tamanhoSel && !corSel) { setVariacaoSel(null); return; }
+    const match = produto.variacoes.find(v =>
+      (!tamanhoSel || v.tamanho === tamanhoSel) && (!corSel || v.cor === corSel)
+    );
+    setVariacaoSel(match?.id ?? null);
+  }, [tamanhoSel, corSel, produto]);
+
   const handleAdicionar = () => {
     if (!produto) return;
     adicionar({
