@@ -37,7 +37,7 @@ export default function AdminCron() {
     setExecutando(true);
     try {
       const data = await api.get('/api/cron/executar');
-      setToast(`${data.executados} jobs executados`);
+      setToast(`${data.executados ?? 0} jobs executados`);
       carregar();
     } catch { setToast('Erro ao executar cron'); }
     finally { setExecutando(false); }
@@ -45,14 +45,14 @@ export default function AdminCron() {
 
   const toggleJob = async (id: number) => {
     try {
-      await api.post(`/api/admin/cron/${id}`, {});
+      await api.post(`/api/admin/cron/${id}/toggle`, {});
       carregar();
     } catch { setToast('Erro ao alterar job'); }
   };
 
   const executarJob = async (id: number) => {
     try {
-      await api.put(`/api/admin/cron/${id}`, {});
+      await api.post(`/api/admin/cron/${id}/executar`, {});
       setToast('Job executado');
       carregar();
     } catch { setToast('Erro ao executar job'); }

@@ -14,6 +14,7 @@ const menuItems = [
   { href: '/admin/cupons', label: 'Cupons', icon: 'ticket' },
   { href: '/admin/avaliacoes', label: 'Avaliacoes', icon: 'star' },
   { href: '/admin/banners', label: 'Banners', icon: 'image' },
+  { href: '/admin/blog', label: 'Blog', icon: 'edit' },
   { href: '/admin/seo', label: 'SEO', icon: 'search' },
   { href: '/admin/variacoes', label: 'Variacoes', icon: 'layers' },
   { href: '/admin/vendedores', label: 'Vendedores', icon: 'briefcase' },
@@ -115,6 +116,12 @@ function Icon({ name, className = '' }: { name: string; className?: string }) {
       return (
         <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      );
+    case 'edit':
+      return (
+        <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
         </svg>
       );
     default:

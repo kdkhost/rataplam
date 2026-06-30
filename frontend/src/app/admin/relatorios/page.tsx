@@ -30,10 +30,10 @@ interface FinanceiroData {
 }
 
 const periodos = [
-  { valor: '7d', label: 'Ultimos 7 dias' },
-  { valor: '30d', label: 'Ultimos 30 dias' },
-  { valor: '90d', label: 'Ultimos 90 dias' },
-  { valor: '12m', label: 'Ultimo ano' },
+  { valor: 'dia', label: 'Hoje' },
+  { valor: 'mes', label: 'Este Mês' },
+  { valor: 'semana', label: 'Últimas Semanas' },
+  { valor: 'ano', label: 'Este Ano' },
 ];
 
 const statusCores: Record<string, 'sucesso' | 'erro' | 'aviso' | 'info' | 'padrao'> = {
@@ -42,7 +42,7 @@ const statusCores: Record<string, 'sucesso' | 'erro' | 'aviso' | 'info' | 'padra
 
 export default function AdminRelatorios() {
   const [aba, setAba] = useState<Aba>('vendas');
-  const [periodo, setPeriodo] = useState('30d');
+  const [periodo, setPeriodo] = useState('mes');
   const [vendas, setVendas] = useState<VendasData | null>(null);
   const [estoque, setEstoque] = useState<EstoqueData | null>(null);
   const [financeiro, setFinanceiro] = useState<FinanceiroData | null>(null);
@@ -54,13 +54,58 @@ export default function AdminRelatorios() {
       const params = `?periodo=${periodo}`;
       if (aba === 'vendas') {
         const data = await api.get(`/api/admin/relatorios/vendas${params}`);
-        setVendas(data);
+        // Normaliza a resposta do backend para o formato esperado pelo componente
+        const resumo = data?.resumo ?? {};
+        const porStatus = data?.por_status ?? [];
+        const topProdutos = data?.top_produtos ?? [];
+        setVendas({
+          total_vendas: parseFloat(resumo.receita_total ?? 0),
+          total_pedidos: parseInt(resumo.total_pedidos ?? 0, 10),
+          ticket_medio: parseFloat(resumo.ticket_medio ?? 0),
+          pedidos_por_status: porStatus.map((s: { status: string; quantidade: number }) => ({
+            status: s.status,
+            total: s.quantidade,
+          })),
+          top_produtos: topProdutos.map((p: { nome_produto: string; receita: string; total_vendido: number }) => ({
+            nome: p.nome_produto,
+            total: parseFloat(p.receita ?? 0),
+            quantidade: p.total_vendido,
+          })),
+        });
       } else if (aba === 'estoque') {
         const data = await api.get(`/api/admin/relatorios/estoque${params}`);
-        setEstoque(data);
+        const resumo = data?.resumo ?? {};
+        const produtos = data?.produtos ?? [];
+        const porCategoria = data?.por_categoria ?? [];
+        setEstoque({
+          sem_estoque: parseInt(resumo.sem_estoque ?? 0, 10),
+          estoque_baixo: produtos
+            .filter((p: { estoque: number }) => p.estoque <= 10)
+            .slice(0, 20)
+            .map((p: { nome: string; estoque: number; categoria_nome: string }) => ({
+              nome: p.nome,
+              estoque: p.estoque,
+              categoria: p.categoria_nome ?? '',
+            })),
+          por_categoria: porCategoria.map((c: { categoria: string; total_produtos: number }) => ({
+            categoria: c.categoria,
+            total: c.total_produtos,
+          })),
+        });
       } else {
         const data = await api.get(`/api/admin/relatorios/financeiro${params}`);
-        setFinanceiro(data);
+        const resumo = data?.resumo ?? {};
+        const receita = data?.receita ?? [];
+        setFinanceiro({
+          receita_total: parseFloat(resumo.receita_bruta ?? 0),
+          descontos: parseFloat(resumo.total_descontos ?? 0),
+          frete_total: parseFloat(resumo.total_frete ?? 0),
+          lucro_estimado: parseFloat(resumo.receita_liquida ?? 0),
+          receita_por_mes: receita.map((r: { periodo: string; receita_bruta: string }) => ({
+            mes: r.periodo,
+            total: parseFloat(r.receita_bruta ?? 0),
+          })),
+        });
       }
     } catch {
       // erro silencioso

@@ -32,7 +32,10 @@ export default function TrocarSenhaPage() {
     if (!validar()) return;
     setSalvando(true);
     try {
-      await api.put('/api/auth/me', { password: form.nova_senha });
+      await api.put('/api/auth/me', {
+        senha_atual: form.senha_atual,
+        password: form.nova_senha,
+      });
       setToastTipo('sucesso');
       setToast('Senha alterada com sucesso!');
       setTimeout(() => router.push('/conta'), 2000);

@@ -264,6 +264,44 @@ class VisitaController
         exit;
     }
 
+    public static function comprasRecentes(): void
+    {
+        // Cache simples em memória — busca últimos 5 pedidos pagos/enviados/entregues
+        $pedidos = Database::fetchAll(
+            "SELECT p.id, p.numero_pedido, p.created_at,
+                    pi.nome_produto,
+                    img.url as imagem_url
+             FROM pedidos p
+             JOIN pedido_itens pi ON pi.pedido_id = p.id
+             LEFT JOIN produtos_imagens img ON img.produto_id = pi.produto_id AND img.principal = 1
+             WHERE p.status IN ('pago', 'enviado', 'entregue')
+             ORDER BY p.created_at DESC
+             LIMIT 5"
+        );
+
+        $compras = [];
+        foreach ($pedidos as $pedido) {
+            $diff = time() - strtotime($pedido['created_at']);
+            if ($diff < 3600) {
+                $tempo = 'há ' . floor($diff / 60) . ' min';
+            } elseif ($diff < 86400) {
+                $tempo = 'há ' . floor($diff / 3600) . 'h';
+            } else {
+                $tempo = 'há ' . floor($diff / 86400) . ' dias';
+            }
+
+            $compras[] = [
+                'produto' => $pedido['nome_produto'],
+                'imagem' => $pedido['imagem_url'] ?: '/images/produto-placeholder.jpg',
+                'tempo' => $tempo,
+            ];
+        }
+
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode(['sucesso' => true, 'compras' => $compras]);
+        exit;
+    }
+
     private static function gerarSessionId(): string
     {
         return md5(uniqid((string) mt_rand(), true));

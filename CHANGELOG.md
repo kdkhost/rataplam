@@ -1,5 +1,79 @@
 # Changelog - RATAPLAM
 
+## [2.1.0] - 2026-06-29 - "Completude: Blog, Gaps e Correções"
+
+### ✨ Adicionado
+
+#### Backend PHP
+- **`BlogController.php`** — CRUD completo de posts: `listar()`, `buscarPorSlug()`, `adminListar()`, `criar()`, `atualizar()`, `excluir()`, geração de slug único com normalização de caracteres acentuados
+- **Rotas blog** em `index.php`: `GET /api/blog`, `GET /api/blog/slug/:slug`, `GET/POST /api/admin/blog`, `PUT/DELETE /api/admin/blog/:id`
+- **`AdminController::criarCliente()`** — endpoint `POST /api/admin/clientes` para criar clientes e vendedores com validação completa
+- **`VisitaController::comprasRecentes()`** — `GET /api/visitas/compras-recentes` retorna últimos 5 pedidos pagos com produto, imagem e tempo relativo (usado pelo `CompraAlert`)
+
+#### Frontend — Novos proxies Next.js
+- `api/blog/route.ts` — proxy público para listagem de posts
+- `api/blog/slug/[slug]/route.ts` — proxy público para post individual por slug
+- `api/admin/blog/route.ts` — proxy admin para CRUD de posts
+- `api/admin/blog/[id]/route.ts` — proxy admin PUT/DELETE por ID
+- `api/admin/logs/webhooks/route.ts` — proxy para logs de webhooks
+- `api/admin/logs/emails/route.ts` — proxy para logs de e-mails
+- `api/admin/variacoes/[id]/route.ts` — proxy PUT/DELETE para variações
+- `api/admin/cron/[id]/executar/route.ts` — proxy POST execução manual de job
+- `api/admin/cron/[id]/toggle/route.ts` — proxy POST ativar/desativar job
+- `api/cron/executar/route.ts` — proxy GET para execução geral do cron
+- `api/visitas/compras-recentes/route.ts` — proxy para compras recentes
+
+#### Frontend — Novas páginas admin
+- **`admin/blog/page.tsx`** — página completa de gerenciamento do blog com CRUD (título, resumo, conteúdo HTML, imagem, categoria, tags, status, data de publicação), paginação, busca e filtro por status
+
+#### Banco de dados
+- **`database/migration_blog.sql`** — tabela `blog_posts` com campos completos, índices FULLTEXT, e 3 posts de exemplo
+
+#### Arquivos de ambiente
+- **`api/.env.example`** — reescrito com todas as variáveis documentadas, corrigido `DB_SECRET` → `DB_PASS`
+- **`frontend/.env.example`** — criado com `API_URL`, `NEXT_PUBLIC_API_URL` e `NEXT_PUBLIC_SITE_URL`
+
+### 🔧 Corrigido
+
+#### Backend PHP
+- **`index.php` — `PUT /api/auth/me`**: agora suporta troca de senha com verificação da senha atual (`senha_atual` + `password`); antes só atualizava nome/CPF/telefone
+- **`index.php` — `GET /api/cron/executar`**: aceita autenticação por `?key=CHAVE` **ou** Bearer token admin; antes bloqueava o cron externo com 401
+- **`AdminController::listarClientes()`**: agora filtra por `?role=vendedor` (qualquer role); antes ignorava o parâmetro
+- **`index.php`**: adicionado `POST /api/admin/clientes` que antes estava ausente
+
+#### Frontend
+- **`admin/dashboard/page.tsx`**: corrigido para usar endpoints reais (`relatorios/vendas`, `relatorios/estoque`, `visitas/estatisticas`, `admin/avaliacoes`, `admin/cupons`) — antes chamava `/api/admin/relatorios?tipo=kpis` inexistente, resultando em zeros
+- **`admin/relatorios/page.tsx`**: normalização dos dados do backend (`resumo`, `por_status`, `top_produtos`) para o formato esperado; períodos corrigidos de `7d/30d/90d` para `dia/semana/mes/ano`
+- **`admin/clientes/page.tsx`**: botão "editar" agora abre modal de detalhes/ações; antes chamava `toggleAtivo` equivocadamente
+- **`admin/cron/page.tsx`**: corrigido `toggleJob` para chamar `/api/admin/cron/${id}/toggle` e `executarJob` para `/api/admin/cron/${id}/executar`
+- **`conta/trocar-senha/page.tsx`**: corrigido para enviar `senha_atual` junto com `password` na requisição
+- **`api/admin/relatorios/route.ts`**: proxy reescrito para mapear `?tipo=vendas|estoque|financeiro` para as rotas reais do backend
+- **`api/admin/vendedores/route.ts`** e **`[id]/route.ts`**: redirecionados para `/api/admin/clientes` com `role=vendedor`
+- **`api/admin/clientes/route.ts`**: adicionado método `POST`
+- **`api/produtos/[slug]/avaliacoes/route.ts`**: corrigido mismatch slug vs ID numérico — resolve o slug para ID antes de chamar o backend
+- **`DashboardKpis.tsx`**: corrigido bug onde "Esta Semana" e "Este Mês" comparavam o valor consigo mesmo (crescimento sempre 0%); agora usa `crescimento_semana`/`crescimento_mes` do backend para calcular o `valorAnterior`
+- **`sitemap.ts`**: adicionados posts do blog, `politica-privacidade`, `provador-virtual`, `rastrear-pedido`; revalidação com `next: { revalidate }`
+- **`admin/layout.tsx`**: adicionado "Blog" ao menu lateral com ícone dedicado
+
+### 📦 Dependências / Migrações
+
+Para atualizar ambiente existente:
+```bash
+# Banco de dados
+mysql -u user -p rataplam < database/migration_blog.sql
+
+# Variáveis de ambiente (backend)
+# Renomear DB_SECRET → DB_PASS no seu .env
+
+# Variáveis de ambiente (frontend)
+# Adicionar ao .env.local:
+# API_URL=http://localhost:8080
+# NEXT_PUBLIC_API_URL=http://localhost:8080
+# NEXT_PUBLIC_SITE_URL=https://rataplam.com.br
+```
+
+---
+
 Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),

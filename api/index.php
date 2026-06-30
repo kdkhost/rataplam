@@ -19,6 +19,7 @@ use Rataplam\Controllers\PagamentoController;
 use Rataplam\Controllers\RelatorioController;
 use Rataplam\Controllers\LogController;
 use Rataplam\Controllers\FreteController;
+use Rataplam\Controllers\BlogController;
 use Rataplam\Middleware\Auth;
 
 header('Content-Type: application/json; charset=utf-8');
@@ -77,6 +78,32 @@ try {
         Auth::verificar();
         $input = json_decode(file_get_contents('php://input'), true);
         $dados = \Rataplam\Middleware\Auth::verificar();
+
+        // Troca de senha: requer senha_atual + password (nova senha)
+        if (!empty($input['password'])) {
+            $usuario = \Rataplam\Config\Database::fetch('SELECT senha_hash FROM usuarios WHERE id = ?', [$dados['id']]);
+            $senhaAtual = $input['senha_atual'] ?? $input['current_password'] ?? '';
+            if (!$usuario || !password_verify($senhaAtual, $usuario['senha_hash'])) {
+                http_response_code(400);
+                header('Content-Type: application/json; charset=utf-8');
+                echo json_encode(['erro' => 'Senha atual incorreta']);
+                exit;
+            }
+            $novaSenha = $input['password'];
+            if (strlen($novaSenha) < 6) {
+                http_response_code(400);
+                header('Content-Type: application/json; charset=utf-8');
+                echo json_encode(['erro' => 'A nova senha deve ter no minimo 6 caracteres']);
+                exit;
+            }
+            \Rataplam\Config\Database::update('usuarios', [
+                'senha_hash' => password_hash($novaSenha, PASSWORD_DEFAULT),
+            ], 'id = ?', [$dados['id']]);
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode(['sucesso' => true]);
+            exit;
+        }
+
         $camposPermitidos = ['nome', 'cpf', 'telefone'];
         $atualizar = array_intersect_key($input, array_flip($camposPermitidos));
         if (!empty($atualizar)) {
@@ -178,6 +205,9 @@ try {
         echo json_encode($resultado);
         exit;
     }
+    if ($method === 'GET' && $uri === '/api/visitas/compras-recentes') {
+        VisitaController::comprasRecentes();
+    }
     if ($method === 'GET' && $uri === '/api/visitas/kpis') {
         Auth::verificarAdmin();
         $resultado = VisitaController::kpis();
@@ -262,6 +292,10 @@ try {
     if ($method === 'GET' && $uri === '/api/admin/clientes') {
         Auth::verificarAdmin();
         AdminController::listarClientes();
+    }
+    if ($method === 'POST' && $uri === '/api/admin/clientes') {
+        Auth::verificarAdmin();
+        AdminController::criarCliente();
     }
     if (preg_match('#^/api/admin/clientes/(\d+)$#', $uri, $m)) {
         Auth::verificarAdmin();
@@ -550,7 +584,12 @@ try {
 
     // ── Cron (interno, centralizado) ────────────────
     if ($method === 'GET' && $uri === '/api/cron/executar') {
-        Auth::verificarAdmin();
+        // Aceita autenticação por key de sistema OU por Bearer token admin
+        $cronKey = $_GET['key'] ?? $_SERVER['HTTP_X_CRON_KEY'] ?? '';
+        $cronKeyEsperada = getenv('CRON_SECRET_KEY') ?: 'rataplam_cron_' . md5('rataplam');
+        if ($cronKey !== $cronKeyEsperada) {
+            Auth::verificarAdmin(); // fallback: aceita admin Bearer token
+        }
         CronController::executar();
     }
     if ($method === 'GET' && $uri === '/api/cron/status') {
@@ -629,6 +668,29 @@ try {
     }
     if ($method === 'GET' && $uri === '/api/provador/status') {
         ProvadorController::status();
+    }
+
+    // ── Blog (público) ──────────────────────────────
+    if ($method === 'GET' && $uri === '/api/blog') {
+        BlogController::listar();
+    }
+    if ($method === 'GET' && preg_match('#^/api/blog/slug/([a-z0-9-]+)$#', $uri, $m)) {
+        BlogController::buscarPorSlug($m[1]);
+    }
+
+    // ── Blog (admin) ────────────────────────────────
+    if ($method === 'GET' && $uri === '/api/admin/blog') {
+        Auth::verificarAdmin();
+        BlogController::adminListar();
+    }
+    if ($method === 'POST' && $uri === '/api/admin/blog') {
+        Auth::verificarAdmin();
+        BlogController::criar();
+    }
+    if (preg_match('#^/api/admin/blog/(\d+)$#', $uri, $m)) {
+        Auth::verificarAdmin();
+        if ($method === 'PUT') BlogController::atualizar((int) $m[1]);
+        if ($method === 'DELETE') BlogController::excluir((int) $m[1]);
     }
 
     // ── 404 ─────────────────────────────────────────

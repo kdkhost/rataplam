@@ -2,10 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const API_URL = process.env.API_URL || 'http://localhost:8080';
 
-/**
- * Proxy para atualização/exclusão de vendedores.
- * Vendedores são usuários com role='vendedor', gerenciados via /api/admin/clientes/:id.
- */
 export async function PUT(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -13,12 +9,9 @@ export async function PUT(
   const { id } = await params;
   const auth = req.headers.get('authorization');
   const body = await req.json();
-  const res = await fetch(`${API_URL}/api/admin/clientes/${id}`, {
+  const res = await fetch(`${API_URL}/api/admin/variacoes/${id}`, {
     method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      ...(auth ? { Authorization: auth } : {}),
-    },
+    headers: { 'Content-Type': 'application/json', ...(auth ? { Authorization: auth } : {}) },
     body: JSON.stringify(body),
   });
   const data = await res.json();
@@ -31,14 +24,9 @@ export async function DELETE(
 ) {
   const { id } = await params;
   const auth = _req.headers.get('authorization');
-  // Desativa em vez de deletar (soft delete via ativo=0)
-  const res = await fetch(`${API_URL}/api/admin/clientes/${id}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      ...(auth ? { Authorization: auth } : {}),
-    },
-    body: JSON.stringify({ ativo: 0 }),
+  const res = await fetch(`${API_URL}/api/admin/variacoes/${id}`, {
+    method: 'DELETE',
+    headers: { ...(auth ? { Authorization: auth } : {}) },
   });
   const data = await res.json();
   return NextResponse.json(data, { status: res.status });

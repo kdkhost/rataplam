@@ -10,6 +10,7 @@ class AdminController
     public static function listarClientes(): void
     {
         $busca = $_GET['busca'] ?? '';
+        $role = $_GET['role'] ?? '';
         $pagina = max(1, (int)($_GET['pagina'] ?? 1));
         $limite = 20;
         $offset = ($pagina - 1) * $limite;
@@ -17,8 +18,12 @@ class AdminController
         $where = '1=1';
         $params = [];
         if ($busca) {
-            $where = '(u.nome LIKE ? OR u.email LIKE ? OR u.cpf LIKE ?)';
+            $where .= ' AND (u.nome LIKE ? OR u.email LIKE ? OR u.cpf LIKE ?)';
             $params = ["%{$busca}%", "%{$busca}%", "%{$busca}%"];
+        }
+        if ($role) {
+            $where .= ' AND u.role = ?';
+            $params[] = $role;
         }
 
         $total = Database::fetch("SELECT COUNT(*) as t FROM usuarios u WHERE {$where}", $params);
@@ -29,6 +34,47 @@ class AdminController
 
         header('Content-Type: application/json; charset=utf-8');
         echo json_encode(['sucesso' => true, 'clientes' => $clientes, 'total_paginas' => ceil(($total['t'] ?? 0) / $limite)]);
+        exit;
+    }
+
+    public static function criarCliente(): void
+    {
+        $input = json_decode(file_get_contents('php://input'), true);
+        $nome = trim($input['nome'] ?? '');
+        $email = trim($input['email'] ?? '');
+        $senha = $input['senha'] ?? '';
+        $role = in_array($input['role'] ?? 'cliente', ['admin', 'vendedor', 'cliente']) ? $input['role'] : 'cliente';
+
+        if (empty($nome) || empty($email) || empty($senha)) {
+            http_response_code(400);
+            echo json_encode(['erro' => 'Nome, e-mail e senha sao obrigatorios']);
+            exit;
+        }
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            http_response_code(400);
+            echo json_encode(['erro' => 'E-mail invalido']);
+            exit;
+        }
+        if (strlen($senha) < 6) {
+            http_response_code(400);
+            echo json_encode(['erro' => 'Senha deve ter no minimo 6 caracteres']);
+            exit;
+        }
+        if (Database::count('usuarios', 'email = ?', [$email]) > 0) {
+            http_response_code(400);
+            echo json_encode(['erro' => 'E-mail ja cadastrado']);
+            exit;
+        }
+        $id = Database::insert('usuarios', [
+            'nome' => $nome,
+            'email' => $email,
+            'senha_hash' => password_hash($senha, PASSWORD_DEFAULT),
+            'telefone' => $input['telefone'] ?? '',
+            'role' => $role,
+            'ativo' => 1,
+        ]);
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode(['sucesso' => true, 'id' => $id]);
         exit;
     }
 
