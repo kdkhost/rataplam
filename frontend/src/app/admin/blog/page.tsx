@@ -31,7 +31,7 @@ const formVazio = {
   imagem: '',
   categoria: '',
   tags: '',
-  status: 'rascunho' as const,
+  status: 'rascunho' as 'rascunho' | 'publicado' | 'arquivado',
   publicado_em: '',
 };
 
@@ -129,8 +129,8 @@ export default function AdminBlog() {
 
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Blog</h2>
-          <p className="text-sm text-gray-500">Gerencie os posts do blog da loja</p>
+          <h2 className="text-2xl font-bold text-foreground">Blog</h2>
+          <p className="text-sm text-muted-foreground">Gerencie os posts do blog da loja</p>
         </div>
         <Botao onClick={abrirNovo}>
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -145,9 +145,9 @@ export default function AdminBlog() {
           placeholder="Buscar por título ou resumo..."
           value={busca}
           onChange={(e) => setBusca(e.target.value)}
-          className="flex-1"
+          className="flex-1 bg-card text-foreground border-input"
         />
-        <Select value={filtroStatus} onChange={(e) => setFiltroStatus(e.target.value)} className="sm:w-48">
+        <Select value={filtroStatus} onChange={(e) => setFiltroStatus(e.target.value)} className="sm:w-48 bg-card text-foreground border-input">
           <option value="">Todos os status</option>
           <option value="publicado">Publicados</option>
           <option value="rascunho">Rascunhos</option>
@@ -200,6 +200,7 @@ export default function AdminBlog() {
             value={form.titulo}
             onChange={(e) => setForm((p) => ({ ...p, titulo: e.target.value }))}
             placeholder="Título do post"
+            className="bg-card text-foreground border-input"
           />
 
           <Textarea
@@ -208,6 +209,7 @@ export default function AdminBlog() {
             onChange={(e) => setForm((p) => ({ ...p, resumo: e.target.value }))}
             placeholder="Breve descrição exibida na listagem"
             rows={3}
+            className="bg-card text-foreground border-input"
           />
 
           <Textarea
@@ -216,6 +218,7 @@ export default function AdminBlog() {
             onChange={(e) => setForm((p) => ({ ...p, conteudo: e.target.value }))}
             placeholder="<p>Conteúdo completo do post em HTML...</p>"
             rows={10}
+            className="bg-card text-foreground border-input"
           />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -224,12 +227,14 @@ export default function AdminBlog() {
               value={form.imagem}
               onChange={(e) => setForm((p) => ({ ...p, imagem: e.target.value }))}
               placeholder="https://..."
+              className="bg-card text-foreground border-input"
             />
             <Input
               label="Categoria"
               value={form.categoria}
               onChange={(e) => setForm((p) => ({ ...p, categoria: e.target.value }))}
               placeholder="Ex: Dicas, Tendências, Bebê"
+              className="bg-card text-foreground border-input"
             />
           </div>
 
@@ -239,11 +244,13 @@ export default function AdminBlog() {
               value={form.tags}
               onChange={(e) => setForm((p) => ({ ...p, tags: e.target.value }))}
               placeholder="moda, infantil, verão"
+              className="bg-card text-foreground border-input"
             />
             <Select
               label="Status"
               value={form.status}
               onChange={(e) => setForm((p) => ({ ...p, status: e.target.value as typeof form.status }))}
+              className="bg-card text-foreground border-input"
             >
               <option value="rascunho">Rascunho</option>
               <option value="publicado">Publicado</option>
@@ -256,6 +263,7 @@ export default function AdminBlog() {
             type="datetime-local"
             value={form.publicado_em}
             onChange={(e) => setForm((p) => ({ ...p, publicado_em: e.target.value }))}
+            className="bg-card text-foreground border-input"
           />
 
           <div className="flex gap-3 justify-end pt-2">

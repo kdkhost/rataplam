@@ -109,8 +109,8 @@ export default function AdminVendedores() {
       {toast && <Toast mensagem={toast} onFechar={() => setToast('')} />}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Vendedores</h2>
-          <p className="text-sm text-gray-500">{vendedores.length} vendedores cadastrados</p>
+          <h2 className="text-2xl font-bold text-foreground">Vendedores</h2>
+          <p className="text-sm text-muted-foreground">{vendedores.length} vendedores cadastrados</p>
         </div>
         <Botao onClick={abrirNovo}>
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>

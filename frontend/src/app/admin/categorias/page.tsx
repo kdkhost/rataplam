@@ -39,7 +39,7 @@ export default function AdminCategorias() {
     <div>
       {toast && <Toast mensagem={toast} onFechar={() => setToast('')} />}
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold text-gray-900">Categorias</h2>
+        <h2 className="text-2xl font-bold text-foreground">Categorias</h2>
         <Botao onClick={() => { setEditando(null); setForm({ nome: '', slug: '', descricao: '' }); setModalAberto(true); }}>
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
           Nova Categoria
@@ -62,10 +62,10 @@ export default function AdminCategorias() {
 
       <Modal aberto={modalAberto} onFechar={() => setModalAberto(false)} titulo={editando ? 'Editar Categoria' : 'Nova Categoria'}>
         <div className="space-y-4">
-          <Input label="Nome" value={form.nome} onChange={(e) => setForm((p) => ({ ...p, nome: e.target.value }))} />
-          <Input label="Slug" value={form.slug} onChange={(e) => setForm((p) => ({ ...p, slug: e.target.value }))} />
-          <Textarea label="Descrição" value={form.descricao} onChange={(e) => setForm((p) => ({ ...p, descricao: e.target.value }))} rows={3} />
-          <div className="flex gap-3 justify-end pt-4 border-t">
+          <Input label="Nome" value={form.nome} onChange={(e) => setForm((p) => ({ ...p, nome: e.target.value }))} className="bg-card text-foreground border-input" />
+          <Input label="Slug" value={form.slug} onChange={(e) => setForm((p) => ({ ...p, slug: e.target.value }))} className="bg-card text-foreground border-input" />
+          <Textarea label="Descrição" value={form.descricao} onChange={(e) => setForm((p) => ({ ...p, descricao: e.target.value }))} rows={3} className="bg-card text-foreground border-input" />
+          <div className="flex gap-3 justify-end pt-4 border-t border-border">
             <Botao variante="secundario" onClick={() => setModalAberto(false)}>Cancelar</Botao>
             <Botao onClick={salvar}>{editando ? 'Salvar' : 'Criar'}</Botao>
           </div>

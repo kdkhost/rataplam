@@ -22,7 +22,7 @@ class BlogController
         $params = [];
 
         if ($status === 'publicado') {
-            $where .= " AND status = 'publicado' AND publicado_em <= NOW()";
+            $where .= " AND status = 'publicado' AND publicado_em <= " . \Rataplam\Config\Database::now();
         } elseif (in_array($status, ['rascunho', 'publicado', 'arquivado'], true)) {
             $where .= ' AND status = ?';
             $params[] = $status;
@@ -61,7 +61,7 @@ class BlogController
     public static function buscarPorSlug(string $slug): void
     {
         $post = Database::fetch(
-            "SELECT * FROM blog_posts WHERE slug = ? AND status = 'publicado' AND publicado_em <= NOW()",
+            "SELECT * FROM blog_posts WHERE slug = ? AND status = 'publicado' AND publicado_em <= " . \Rataplam\Config\Database::now(),
             [$slug]
         );
 

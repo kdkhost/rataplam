@@ -28,10 +28,7 @@ export default function EsqueciSenhaPage() {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2 mb-6">
-            <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center">
-              <span className="text-white font-bold text-lg">R</span>
-            </div>
-            <span className="text-xl font-bold text-gray-900">RATAPLAM</span>
+            <img src="https://static.wixstatic.com/media/e23129_6d74875b94694dba867fa650748fdbca~mv2.jpg" alt="RATAPLAM" className="h-10 w-auto" />
           </Link>
           <h1 className="text-2xl font-bold text-gray-900">Esqueceu a senha?</h1>
           <p className="text-gray-500 mt-2 text-sm">Informe seu e-mail para redefinir sua senha</p>

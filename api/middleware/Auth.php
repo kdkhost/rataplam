@@ -62,7 +62,7 @@ class Auth
             "SELECT u.id, u.nome, u.email, u.role
              FROM usuarios u
              INNER JOIN tokens t ON t.usuario_id = u.id
-             WHERE t.token = ? AND t.expira_em > NOW() AND u.ativo = 1",
+             WHERE t.token = ? AND t.expira_em > " . \Rataplam\Config\Database::now() . " AND u.ativo = 1",
             [$token]
         );
 

@@ -66,26 +66,26 @@ export default function AdminConfiguracoes() {
     ],
   };
 
-  if (carregando) return <div className="animate-pulse space-y-4">{Array.from({ length: 4 }).map((_, i) => <div key={i} className="h-12 bg-gray-200 rounded-xl" />)}</div>;
+  if (carregando) return <div className="animate-pulse space-y-4">{Array.from({ length: 4 }).map((_, i) => <div key={i} className="h-12 bg-muted rounded-xl" />)}</div>;
 
   return (
     <div>
       {toast && <Toast mensagem={toast} onFechar={() => setToast('')} />}
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold text-gray-900">Configurações</h2>
+        <h2 className="text-2xl font-bold text-foreground">Configurações</h2>
         <Botao onClick={salvar}>Salvar Configurações</Botao>
       </div>
 
-      <div className="flex gap-2 mb-6 border-b border-gray-200">
+      <div className="flex gap-2 mb-6 border-b border-border">
         {abas.map((a) => (
           <button key={a.chave} onClick={() => setAba(a.chave)}
-            className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-colors ${aba === a.chave ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>
+            className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-colors ${aba === a.chave ? 'border-blue-600 text-blue-600' : 'border-transparent text-muted-foreground hover:text-foreground'}`}>
             {a.label}
           </button>
         ))}
       </div>
 
-      <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
+      <div className="bg-card rounded-2xl border border-border p-6 shadow-sm">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {(campos[aba] || []).map((c) => (
             <Input key={c.chave} label={c.label} type={c.tipo || 'text'} value={config[c.chave] || ''} onChange={(e) => set(c.chave, e.target.value)} />

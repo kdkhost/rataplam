@@ -57,7 +57,7 @@ class PedidoController
         $cupomCodigo = strtoupper(trim($input['cupom'] ?? ''));
         if ($cupomCodigo) {
             $cupom = Database::fetch(
-                "SELECT * FROM cupons WHERE codigo = ? AND ativo = 1 AND (data_inicio IS NULL OR data_inicio <= CURDATE()) AND (data_fim IS NULL OR data_fim >= CURDATE())",
+                "SELECT * FROM cupons WHERE codigo = ? AND ativo = 1 AND (data_inicio IS NULL OR data_inicio <= " . Database::curdate() . ") AND (data_fim IS NULL OR data_fim >= " . Database::curdate() . ")",
                 [$cupomCodigo]
             );
             if ($cupom && ($cupom['limite_uso'] == 0 || $cupom['usos_realizados'] < $cupom['limite_uso'])) {
@@ -147,7 +147,7 @@ class PedidoController
                 'desconto' => $desconto,
                 'frete' => $frete,
                 'total' => $total,
-                'endereco' => "{$input['logradouro'] ?? ''}, {$input['numero'] ?? ''} - {$input['bairro'] ?? ''}, {$input['cidade'] ?? ''}/{$input['estado'] ?? ''}",
+                'endereco' => ($input['logradouro'] ?? '') . ', ' . ($input['numero'] ?? '') . ' - ' . ($input['bairro'] ?? '') . ', ' . ($input['cidade'] ?? '') . '/' . ($input['estado'] ?? ''),
                 'data' => date('d/m/Y H:i'),
             ]);
 

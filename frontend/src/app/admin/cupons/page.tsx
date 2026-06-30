@@ -40,7 +40,7 @@ export default function AdminCupons() {
     <div>
       {toast && <Toast mensagem={toast} onFechar={() => setToast('')} />}
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold text-gray-900">Cupons de Desconto</h2>
+        <h2 className="text-2xl font-bold text-foreground">Cupons de Desconto</h2>
         <Botao onClick={() => { setEditando(null); setForm({ codigo: '', descricao: '', tipo: 'percentual', valor: '', valor_minimo: '', limite_uso: '', data_inicio: '', data_fim: '' }); setModalAberto(true); }}>
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
           Novo Cupom
@@ -66,22 +66,22 @@ export default function AdminCupons() {
       <Modal aberto={modalAberto} onFechar={() => setModalAberto(false)} titulo={editando ? 'Editar Cupom' : 'Novo Cupom'}>
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
-            <Input label="Código" value={form.codigo} onChange={(e) => setForm((p) => ({ ...p, codigo: e.target.value.toUpperCase() }))} />
-            <Select label="Tipo" value={form.tipo} onChange={(e) => setForm((p) => ({ ...p, tipo: e.target.value }))}>
+            <Input label="Código" value={form.codigo} onChange={(e) => setForm((p) => ({ ...p, codigo: e.target.value.toUpperCase() }))} className="bg-card text-foreground border-input" />
+            <Select label="Tipo" value={form.tipo} onChange={(e) => setForm((p) => ({ ...p, tipo: e.target.value }))} className="bg-card text-foreground border-input">
               <option value="percentual">Percentual (%)</option><option value="fixo">Valor Fixo (R$)</option>
             </Select>
           </div>
           <div className="grid grid-cols-3 gap-4">
-            <Input label="Valor" type="number" step="0.01" value={form.valor} onChange={(e) => setForm((p) => ({ ...p, valor: e.target.value }))} />
-            <Input label="Mín. Compra (R$)" type="number" step="0.01" value={form.valor_minimo} onChange={(e) => setForm((p) => ({ ...p, valor_minimo: e.target.value }))} />
-            <Input label="Limite de Uso" type="number" value={form.limite_uso} onChange={(e) => setForm((p) => ({ ...p, limite_uso: e.target.value }))} />
+            <Input label="Valor" type="number" step="0.01" value={form.valor} onChange={(e) => setForm((p) => ({ ...p, valor: e.target.value }))} className="bg-card text-foreground border-input" />
+            <Input label="Mín. Compra (R$)" type="number" step="0.01" value={form.valor_minimo} onChange={(e) => setForm((p) => ({ ...p, valor_minimo: e.target.value }))} className="bg-card text-foreground border-input" />
+            <Input label="Limite de Uso" type="number" value={form.limite_uso} onChange={(e) => setForm((p) => ({ ...p, limite_uso: e.target.value }))} className="bg-card text-foreground border-input" />
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <Input label="Data Início" type="date" value={form.data_inicio} onChange={(e) => setForm((p) => ({ ...p, data_inicio: e.target.value }))} />
-            <Input label="Data Fim" type="date" value={form.data_fim} onChange={(e) => setForm((p) => ({ ...p, data_fim: e.target.value }))} />
+            <Input label="Data Início" type="date" value={form.data_inicio} onChange={(e) => setForm((p) => ({ ...p, data_inicio: e.target.value }))} className="bg-card text-foreground border-input" />
+            <Input label="Data Fim" type="date" value={form.data_fim} onChange={(e) => setForm((p) => ({ ...p, data_fim: e.target.value }))} className="bg-card text-foreground border-input" />
           </div>
-          <Textarea label="Descrição" value={form.descricao} onChange={(e) => setForm((p) => ({ ...p, descricao: e.target.value }))} rows={2} />
-          <div className="flex gap-3 justify-end pt-4 border-t">
+          <Textarea label="Descrição" value={form.descricao} onChange={(e) => setForm((p) => ({ ...p, descricao: e.target.value }))} rows={2} className="bg-card text-foreground border-input" />
+          <div className="flex gap-3 justify-end pt-4 border-t border-border">
             <Botao variante="secundario" onClick={() => setModalAberto(false)}>Cancelar</Botao>
             <Botao onClick={salvar}>{editando ? 'Salvar' : 'Criar'}</Botao>
           </div>

@@ -1,8 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
+import ScrollReveal from '@/components/ScrollReveal';
 
 const perguntas = [
   { pergunta: 'Como faco um pedido?', resposta: 'Escolha os produtos, adicione ao carrinho e finalize a compra. Voce recebera um e-mail de confirmacao.' },
@@ -17,40 +16,40 @@ const perguntas = [
 
 export default function PerguntasFrequentesPage() {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header />
-      <main className="py-16">
-        <div className="max-w-3xl mx-auto px-4">
-          <nav className="text-sm text-gray-500 mb-6">
-            <Link href="/" className="hover:text-gray-700">Inicio</Link> / <span className="text-gray-900">Perguntas Frequentes</span>
-          </nav>
+    <div className="py-16">
+      <div className="max-w-3xl mx-auto px-4">
+        <nav className="text-sm text-muted-foreground mb-6">
+          <Link href="/" className="hover:text-foreground">Inicio</Link> / <span className="text-foreground">Perguntas Frequentes</span>
+        </nav>
 
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Perguntas Frequentes</h1>
-          <p className="text-gray-600 mb-10">Encontre respostas para as duvidas mais comuns</p>
+        <h1 className="text-4xl font-bold text-foreground mb-4">Perguntas Frequentes</h1>
+        <p className="text-muted-foreground mb-10">Encontre respostas para as duvidas mais comuns</p>
 
-          <div className="space-y-3">
-            {perguntas.map((item, i) => (
-              <details key={i} className="group bg-white rounded-2xl shadow-sm overflow-hidden">
-                <summary className="flex items-center justify-between px-6 py-4 cursor-pointer font-medium text-gray-900 hover:bg-gray-50 transition-colors">
+        <div className="space-y-3">
+          {perguntas.map((item, i) => (
+            <ScrollReveal key={i} direction="up" delay={i * 80}>
+              <details className="group bg-card rounded-2xl shadow-sm border border-border overflow-hidden">
+                <summary className="flex items-center justify-between px-6 py-4 cursor-pointer font-medium text-foreground hover:bg-muted transition-colors">
                   {item.pergunta}
-                  <svg className="w-5 h-5 text-gray-400 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-5 h-5 text-muted-foreground group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 </summary>
-                <div className="px-6 pb-4 text-gray-600 text-sm leading-relaxed">{item.resposta}</div>
+                <div className="px-6 pb-4 text-muted-foreground text-sm leading-relaxed">{item.resposta}</div>
               </details>
-            ))}
-          </div>
+            </ScrollReveal>
+          ))}
+        </div>
 
-          <div className="mt-12 text-center bg-white rounded-2xl shadow-sm p-8">
-            <p className="text-gray-500 mb-4">Nao encontrou sua duvida?</p>
+        <ScrollReveal direction="up" delay={perguntas.length * 80}>
+          <div className="mt-12 text-center bg-card rounded-2xl shadow-sm border border-border p-8">
+            <p className="text-muted-foreground mb-4">Nao encontrou sua duvida?</p>
             <Link href="/contato" className="inline-block px-6 py-3 bg-gradient-to-r from-rose-500 to-violet-500 text-white rounded-xl font-semibold hover:from-rose-600 hover:to-violet-600 transition-all shadow-lg shadow-rose-200">
               Fale Conosco
             </Link>
           </div>
-        </div>
-      </main>
-      <Footer />
+        </ScrollReveal>
+      </div>
     </div>
   );
 }

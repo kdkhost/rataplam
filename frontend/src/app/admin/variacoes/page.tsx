@@ -103,15 +103,15 @@ export default function AdminVariacoes() {
       {toast && <Toast mensagem={toast} onFechar={() => setToast('')} />}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Variacoes de Produtos</h1>
-          <p className="text-sm text-gray-500 mt-1">{variacoes.length} variacoes cadastradas</p>
+          <h1 className="text-2xl font-bold text-foreground">Variacoes de Produtos</h1>
+          <p className="text-sm text-muted-foreground mt-1">{variacoes.length} variacoes cadastradas</p>
         </div>
         <Botao onClick={abrirNovo}>Nova Variacao</Botao>
       </div>
 
       <div className="mb-4">
         <input type="text" placeholder="Buscar por cor, tamanho, SKU ou produto..." value={busca} onChange={(e) => setBusca(e.target.value)}
-          className="w-full md:w-96 px-4 py-2 border border-gray-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-500" />
+          className="w-full md:w-96 px-4 py-2 border border-border rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-500 bg-card text-foreground border-input" />
       </div>
 
       <Tabela colunas={colunas} dados={itensPaginados} loading={carregando} onEditar={(r) => abrirEditar(r as Variacao)} onExcluir={(v) => setConfirmarExcluir(v as Variacao)} />
@@ -123,8 +123,8 @@ export default function AdminVariacoes() {
         <Modal titulo={varEditando ? 'Editar Variacao' : 'Nova Variacao'} aberto={modalAberto} onFechar={() => setModalAberto(false)}>
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Produto *</label>
-              <select value={form.produto_id} onChange={(e) => setForm((p) => ({ ...p, produto_id: e.target.value }))} className="w-full px-3 py-2 border border-gray-300 rounded-xl text-sm" disabled={!!varEditando}>
+              <label className="block text-sm font-medium text-foreground mb-1">Produto *</label>
+              <select value={form.produto_id} onChange={(e) => setForm((p) => ({ ...p, produto_id: e.target.value }))} className="w-full px-3 py-2 border border-input rounded-xl text-sm bg-card text-foreground" disabled={!!varEditando}>
                 <option value="">Selecione...</option>
                 {produtos.map((p) => <option key={p.id} value={p.id}>{p.nome}</option>)}
               </select>
@@ -139,7 +139,7 @@ export default function AdminVariacoes() {
               <Input label="Preco Adicional" value={form.preco_adicional} onChange={(e) => setForm((p) => ({ ...p, preco_adicional: e.target.value }))} placeholder="0.00" />
             </div>
             <div className="flex gap-3 pt-4">
-              <button onClick={() => setModalAberto(false)} className="flex-1 py-2.5 border border-gray-300 text-gray-700 rounded-xl font-medium hover:bg-gray-50">Cancelar</button>
+              <button onClick={() => setModalAberto(false)} className="flex-1 py-2.5 border border-input text-foreground rounded-xl font-medium hover:bg-muted">Cancelar</button>
               <button onClick={salvar} className="flex-1 py-2.5 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700">{varEditando ? 'Salvar' : 'Criar'}</button>
             </div>
           </div>

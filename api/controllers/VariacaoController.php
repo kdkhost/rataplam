@@ -66,8 +66,11 @@ class VariacaoController
                 exit;
             }
 
+            $nome = $cor . ' - ' . $tamanho;
+
             $id = Database::insert('variacoes', [
                 'produto_id' => $produtoId,
+                'nome' => $nome,
                 'cor' => $cor,
                 'tamanho' => $tamanho,
                 'sku' => $input['sku'] ?? '',
@@ -109,6 +112,12 @@ class VariacaoController
 
             if (isset($atualizar['preco_adicional'])) {
                 $atualizar['preco_adicional'] = (float)$atualizar['preco_adicional'];
+            }
+
+            if (isset($atualizar['cor']) || isset($atualizar['tamanho'])) {
+                $cor = $atualizar['cor'] ?? ($existente['cor'] ?? '');
+                $tamanho = $atualizar['tamanho'] ?? ($existente['tamanho'] ?? '');
+                $atualizar['nome'] = $cor . ' - ' . $tamanho;
             }
 
             if (!empty($atualizar)) {

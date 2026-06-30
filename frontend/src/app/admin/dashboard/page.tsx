@@ -36,33 +36,26 @@ export default function AdminDashboard() {
           api.get('/api/admin/cupons'),
         ]);
 
-        // KPIs de vendas
         const vendas = vendasRes.status === 'fulfilled' ? vendasRes.value : null;
         const estoque = estoqueRes.status === 'fulfilled' ? estoqueRes.value : null;
         const visitasData = visitasRes.status === 'fulfilled' ? visitasRes.value : null;
         const avaliacoes = avaliacoesRes.status === 'fulfilled' ? avaliacoesRes.value : null;
         const cupons = cuponsRes.status === 'fulfilled' ? cuponsRes.value : null;
 
-        // Extrair dados de vendas do dia
         const vendasDia = vendas?.vendas?.[0] ?? null;
-        // Extrair dados de vendas do mês (reutilizamos resumo geral que abrange o período)
         const resumo = vendas?.resumo ?? null;
 
-        // Visitas hoje (do resumo de estatísticas)
         const visitantesHoje = visitasData?.resumo?.visitantes_unicos ?? 0;
 
-        // Por dia para o gráfico
         const porDia: DiaVisitas[] = (visitasData?.por_dia ?? []).map((v: { data: string; unicas: number }) => ({
           data: new Date(v.data).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }),
           visitas: v.unicas,
         }));
 
-        // Avaliacoes pendentes (aprovada = 0)
         const avaliacoesPendentes = (avaliacoes?.avaliacoes ?? []).filter(
           (a: { aprovada: number }) => a.aprovada === 0
         ).length;
 
-        // Cupons ativos
         const cuponsAtivos = (cupons?.cupons ?? []).filter((c: { ativo: number }) => c.ativo === 1).length;
 
         setKpi({
@@ -77,7 +70,6 @@ export default function AdminDashboard() {
         });
         setVisitas(porDia);
       } catch {
-        // silencioso — mostra zeros
       } finally {
         setCarregando(false);
       }
@@ -89,40 +81,39 @@ export default function AdminDashboard() {
 
   return (
     <div className="space-y-8">
-      {/* KPI Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {carregando ? (
           [...Array(4)].map((_, i) => (
-            <div key={i} className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm animate-pulse">
-              <div className="h-4 bg-gray-100 rounded w-24 mb-3" />
-              <div className="h-8 bg-gray-100 rounded w-16" />
+            <div key={i} className="bg-card rounded-2xl border border-border p-6 shadow-sm animate-pulse">
+              <div className="h-4 bg-muted rounded w-24 mb-3" />
+              <div className="h-8 bg-muted rounded w-16" />
             </div>
           ))
         ) : (
           <>
-            <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
-              <p className="text-sm text-gray-500 mb-1">Pedidos Hoje</p>
-              <p className="text-3xl font-extrabold text-gray-900">{kpi?.pedidos_hoje ?? 0}</p>
+            <div className="bg-card rounded-2xl border border-border p-6 shadow-sm">
+              <p className="text-sm text-muted-foreground mb-1">Pedidos Hoje</p>
+              <p className="text-3xl font-extrabold text-foreground">{kpi?.pedidos_hoje ?? 0}</p>
               <p className="text-xs text-green-600 mt-1">
                 R$ {(kpi?.receita_hoje ?? 0).toFixed(2).replace('.', ',')}
               </p>
             </div>
-            <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
-              <p className="text-sm text-gray-500 mb-1">Pedidos no Mês</p>
-              <p className="text-3xl font-extrabold text-gray-900">{kpi?.pedidos_mes ?? 0}</p>
+            <div className="bg-card rounded-2xl border border-border p-6 shadow-sm">
+              <p className="text-sm text-muted-foreground mb-1">Pedidos no Mês</p>
+              <p className="text-3xl font-extrabold text-foreground">{kpi?.pedidos_mes ?? 0}</p>
               <p className="text-xs text-green-600 mt-1">
                 R$ {(kpi?.receita_mes ?? 0).toFixed(2).replace('.', ',')}
               </p>
             </div>
-            <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
-              <p className="text-sm text-gray-500 mb-1">Visitantes Únicos</p>
-              <p className="text-3xl font-extrabold text-gray-900">{kpi?.visitantes ?? 0}</p>
-              <p className="text-xs text-gray-400 mt-1">últimos 30 dias</p>
+            <div className="bg-card rounded-2xl border border-border p-6 shadow-sm">
+              <p className="text-sm text-muted-foreground mb-1">Visitantes Únicos</p>
+              <p className="text-3xl font-extrabold text-foreground">{kpi?.visitantes ?? 0}</p>
+              <p className="text-xs text-muted-foreground mt-1">últimos 30 dias</p>
             </div>
-            <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
-              <p className="text-sm text-gray-500 mb-1">Estoque Baixo</p>
+            <div className="bg-card rounded-2xl border border-border p-6 shadow-sm">
+              <p className="text-sm text-muted-foreground mb-1">Estoque Baixo</p>
               <p className="text-3xl font-extrabold text-orange-500">{kpi?.produtos_estoque_baixo ?? 0}</p>
-              <p className="text-xs text-gray-400 mt-1">
+              <p className="text-xs text-muted-foreground mt-1">
                 Cupons ativos: {kpi?.cupons_ativos ?? 0} · Avaliações: {kpi?.avaliacoes_pendentes ?? 0}
               </p>
             </div>
@@ -130,11 +121,9 @@ export default function AdminDashboard() {
         )}
       </div>
 
-      {/* Gráfico + Quick Links */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Gráfico de Visitas */}
-        <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Visitas — Últimos 30 Dias</h3>
+        <div className="bg-card rounded-2xl border border-border p-6 shadow-sm">
+          <h3 className="text-lg font-semibold text-foreground mb-4">Visitas — Últimos 30 Dias</h3>
           {visitas.length > 0 ? (
             <div className="flex items-end gap-1 h-48">
               {visitas.map((v, i) => (
@@ -143,7 +132,7 @@ export default function AdminDashboard() {
                   className="flex-1 flex flex-col items-center gap-1"
                   title={`${v.data}: ${v.visitas}`}
                 >
-                  <span className="text-[10px] text-gray-400">{v.visitas}</span>
+                  <span className="text-[10px] text-muted-foreground">{v.visitas}</span>
                   <div
                     className="w-full bg-gradient-to-t from-pink-500 to-violet-500 rounded-t transition-all hover:from-pink-600 hover:to-violet-600"
                     style={{
@@ -151,20 +140,19 @@ export default function AdminDashboard() {
                       minHeight: '4px',
                     }}
                   />
-                  <span className="text-[9px] text-gray-400">{v.data.split('/')[0]}</span>
+                  <span className="text-[9px] text-muted-foreground">{v.data.split('/')[0]}</span>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="h-48 flex items-center justify-center text-gray-400 text-sm">
+            <div className="h-48 flex items-center justify-center text-muted-foreground text-sm">
               Sem dados de visitas
             </div>
           )}
         </div>
 
-        {/* Quick Links */}
-        <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Acesso Rápido</h3>
+        <div className="bg-card rounded-2xl border border-border p-6 shadow-sm">
+          <h3 className="text-lg font-semibold text-foreground mb-4">Acesso Rápido</h3>
           <div className="grid grid-cols-2 gap-3">
             <Link
               href="/admin/pedidos"
@@ -231,12 +219,12 @@ export default function AdminDashboard() {
             </Link>
             <Link
               href="/"
-              className="flex items-center gap-3 p-4 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors"
+              className="flex items-center gap-3 p-4 rounded-xl bg-muted hover:bg-muted transition-colors"
             >
-              <svg className="w-6 h-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-6 h-6 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
               </svg>
-              <span className="text-sm font-medium text-gray-700">Ver Loja</span>
+              <span className="text-sm font-medium text-foreground">Ver Loja</span>
             </Link>
           </div>
         </div>

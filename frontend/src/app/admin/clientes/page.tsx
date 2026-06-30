@@ -58,15 +58,15 @@ export default function AdminClientes() {
       {toast && <Toast mensagem={toast} onFechar={() => setToast('')} />}
 
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-900">Clientes</h2>
-        <p className="text-sm text-gray-500">Gerencie os clientes da loja</p>
+        <h2 className="text-2xl font-bold text-foreground">Clientes</h2>
+        <p className="text-sm text-muted-foreground">Gerencie os clientes da loja</p>
       </div>
 
       <Input
         placeholder="Buscar por nome, e-mail ou CPF..."
         value={busca}
         onChange={(e) => { setBusca(e.target.value); setPagina(1); }}
-        className="mb-4 max-w-md"
+        className="mb-4 max-w-md bg-card text-foreground border-input"
       />
 
       <Tabela
@@ -99,7 +99,6 @@ export default function AdminClientes() {
 
       <Paginacao pagina={pagina} totalPaginas={totalPaginas} onMudar={setPagina} />
 
-      {/* Modal de visualização/ações do cliente */}
       {clienteVer && (
         <Modal
           aberto={!!clienteVer}
@@ -110,44 +109,44 @@ export default function AdminClientes() {
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <p className="text-xs text-gray-500 mb-0.5">Nome</p>
-                <p className="font-medium text-gray-900">{clienteVer.nome}</p>
+                <p className="text-xs text-muted-foreground mb-0.5">Nome</p>
+                <p className="font-medium text-foreground">{clienteVer.nome}</p>
               </div>
               <div>
-                <p className="text-xs text-gray-500 mb-0.5">E-mail</p>
-                <p className="font-medium text-gray-900">{clienteVer.email}</p>
+                <p className="text-xs text-muted-foreground mb-0.5">E-mail</p>
+                <p className="font-medium text-foreground">{clienteVer.email}</p>
               </div>
               <div>
-                <p className="text-xs text-gray-500 mb-0.5">CPF</p>
-                <p className="font-medium text-gray-900">{clienteVer.cpf || '—'}</p>
+                <p className="text-xs text-muted-foreground mb-0.5">CPF</p>
+                <p className="font-medium text-foreground">{clienteVer.cpf || '—'}</p>
               </div>
               <div>
-                <p className="text-xs text-gray-500 mb-0.5">Telefone</p>
-                <p className="font-medium text-gray-900">{clienteVer.telefone || '—'}</p>
+                <p className="text-xs text-muted-foreground mb-0.5">Telefone</p>
+                <p className="font-medium text-foreground">{clienteVer.telefone || '—'}</p>
               </div>
               <div>
-                <p className="text-xs text-gray-500 mb-0.5">Perfil</p>
+                <p className="text-xs text-muted-foreground mb-0.5">Perfil</p>
                 <Badge variante={clienteVer.role === 'admin' ? 'info' : clienteVer.role === 'vendedor' ? 'aviso' : 'padrao'}>
                   {clienteVer.role}
                 </Badge>
               </div>
               <div>
-                <p className="text-xs text-gray-500 mb-0.5">Status</p>
+                <p className="text-xs text-muted-foreground mb-0.5">Status</p>
                 <Badge variante={clienteVer.ativo ? 'sucesso' : 'erro'}>
                   {clienteVer.ativo ? 'Ativo' : 'Inativo'}
                 </Badge>
               </div>
               <div>
-                <p className="text-xs text-gray-500 mb-0.5">Total de Pedidos</p>
-                <p className="font-medium text-gray-900">{clienteVer.total_pedidos ?? 0}</p>
+                <p className="text-xs text-muted-foreground mb-0.5">Total de Pedidos</p>
+                <p className="font-medium text-foreground">{clienteVer.total_pedidos ?? 0}</p>
               </div>
               <div>
-                <p className="text-xs text-gray-500 mb-0.5">Cadastro</p>
-                <p className="font-medium text-gray-900">{formatarData(clienteVer.created_at)}</p>
+                <p className="text-xs text-muted-foreground mb-0.5">Cadastro</p>
+                <p className="font-medium text-foreground">{formatarData(clienteVer.created_at)}</p>
               </div>
             </div>
 
-            <div className="flex gap-3 pt-4 border-t border-gray-100">
+            <div className="flex gap-3 pt-4 border-t border-border">
               <Botao
                 variante="secundario"
                 onClick={() => { toggleAtivo(clienteVer); setClienteVer(null); }}

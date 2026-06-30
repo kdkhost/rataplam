@@ -65,43 +65,43 @@ export default function AdminCron() {
     return <Badge variante={v[s] || 'padrao'}>{s}</Badge>;
   };
 
-  if (carregando) return <div className="animate-pulse space-y-4">{Array.from({ length: 4 }).map((_, i) => <div key={i} className="h-16 bg-gray-200 rounded-xl" />)}</div>;
+  if (carregando) return <div className="animate-pulse space-y-4">{Array.from({ length: 4 }).map((_, i) => <div key={i} className="h-16 bg-muted rounded-xl" />)}</div>;
 
   return (
     <div>
       {toast && <Toast mensagem={toast} onFechar={() => setToast('')} />}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Cron Jobs</h2>
-          <p className="text-sm text-gray-500">Tarefas agendadas do sistema</p>
+          <h2 className="text-2xl font-bold text-foreground">Cron Jobs</h2>
+          <p className="text-sm text-muted-foreground">Tarefas agendadas do sistema</p>
         </div>
         <Botao onClick={executarTodos} disabled={executando}>
           {executando ? 'Executando...' : 'Executar Todos Agora'}
         </Botao>
       </div>
 
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden mb-8">
+      <div className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden mb-8">
         <table className="w-full text-sm">
-          <thead className="bg-gray-50 border-b border-gray-100">
+          <thead className="bg-muted border-b border-border">
             <tr>
-              <th className="text-left px-4 py-3 font-medium text-gray-600">Nome</th>
-              <th className="text-left px-4 py-3 font-medium text-gray-600">Descricao</th>
-              <th className="text-left px-4 py-3 font-medium text-gray-600">Cron</th>
-              <th className="text-left px-4 py-3 font-medium text-gray-600">Status</th>
-              <th className="text-left px-4 py-3 font-medium text-gray-600">Ultima Execucao</th>
-              <th className="text-left px-4 py-3 font-medium text-gray-600">Proxima</th>
-              <th className="text-left px-4 py-3 font-medium text-gray-600">Acoes</th>
+              <th className="text-left px-4 py-3 font-medium text-muted-foreground">Nome</th>
+              <th className="text-left px-4 py-3 font-medium text-muted-foreground">Descricao</th>
+              <th className="text-left px-4 py-3 font-medium text-muted-foreground">Cron</th>
+              <th className="text-left px-4 py-3 font-medium text-muted-foreground">Status</th>
+              <th className="text-left px-4 py-3 font-medium text-muted-foreground">Ultima Execucao</th>
+              <th className="text-left px-4 py-3 font-medium text-muted-foreground">Proxima</th>
+              <th className="text-left px-4 py-3 font-medium text-muted-foreground">Acoes</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-50">
+          <tbody className="divide-y divide-border">
             {jobs.map(job => (
-              <tr key={job.id} className="hover:bg-gray-50">
-                <td className="px-4 py-3 font-medium text-gray-900">{job.nome}</td>
-                <td className="px-4 py-3 text-gray-500">{job.descricao}</td>
-                <td className="px-4 py-3 font-mono text-xs text-gray-600">{job.expressao_cron}</td>
+              <tr key={job.id} className="hover:bg-muted">
+                <td className="px-4 py-3 font-medium text-foreground">{job.nome}</td>
+                <td className="px-4 py-3 text-muted-foreground">{job.descricao}</td>
+                <td className="px-4 py-3 font-mono text-xs text-muted-foreground">{job.expressao_cron}</td>
                 <td className="px-4 py-3">{statusBadge(job.status)}</td>
-                <td className="px-4 py-3 text-gray-500 text-xs">{job.ultimo_execucao ? formatarDataHora(job.ultimo_execucao) : '-'}</td>
-                <td className="px-4 py-3 text-gray-500 text-xs">{job.proxima_execucao ? formatarDataHora(job.proxima_execucao) : '-'}</td>
+                <td className="px-4 py-3 text-muted-foreground text-xs">{job.ultimo_execucao ? formatarDataHora(job.ultimo_execucao) : '-'}</td>
+                <td className="px-4 py-3 text-muted-foreground text-xs">{job.proxima_execucao ? formatarDataHora(job.proxima_execucao) : '-'}</td>
                 <td className="px-4 py-3">
                   <div className="flex gap-2">
                     <button onClick={() => executarJob(job.id)} className="text-xs px-2 py-1 text-blue-600 hover:bg-blue-50 rounded">Executar</button>
@@ -117,28 +117,28 @@ export default function AdminCron() {
       </div>
 
       <div>
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Logs Recentes</h3>
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+        <h3 className="text-lg font-semibold text-foreground mb-4">Logs Recentes</h3>
+        <div className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden">
           <table className="w-full text-sm">
-            <thead className="bg-gray-50 border-b border-gray-100">
+            <thead className="bg-muted border-b border-border">
               <tr>
-                <th className="text-left px-4 py-3 font-medium text-gray-600">Job</th>
-                <th className="text-left px-4 py-3 font-medium text-gray-600">Inicio</th>
-                <th className="text-left px-4 py-3 font-medium text-gray-600">Fim</th>
-                <th className="text-left px-4 py-3 font-medium text-gray-600">Status</th>
-                <th className="text-left px-4 py-3 font-medium text-gray-600">Mensagem</th>
+                <th className="text-left px-4 py-3 font-medium text-muted-foreground">Job</th>
+                <th className="text-left px-4 py-3 font-medium text-muted-foreground">Inicio</th>
+                <th className="text-left px-4 py-3 font-medium text-muted-foreground">Fim</th>
+                <th className="text-left px-4 py-3 font-medium text-muted-foreground">Status</th>
+                <th className="text-left px-4 py-3 font-medium text-muted-foreground">Mensagem</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-50">
+            <tbody className="divide-y divide-border">
               {logs.length === 0 ? (
-                <tr><td colSpan={5} className="px-4 py-8 text-center text-gray-400">Nenhum log ainda</td></tr>
+                <tr><td colSpan={5} className="px-4 py-8 text-center text-muted-foreground">Nenhum log ainda</td></tr>
               ) : logs.map(log => (
-                <tr key={log.id} className="hover:bg-gray-50">
-                  <td className="px-4 py-3 font-medium text-gray-900">{log.job_nome}</td>
-                  <td className="px-4 py-3 text-gray-500 text-xs">{formatarDataHora(log.inicio)}</td>
-                  <td className="px-4 py-3 text-gray-500 text-xs">{log.fim ? formatarDataHora(log.fim) : '-'}</td>
+                <tr key={log.id} className="hover:bg-muted">
+                  <td className="px-4 py-3 font-medium text-foreground">{log.job_nome}</td>
+                  <td className="px-4 py-3 text-muted-foreground text-xs">{formatarDataHora(log.inicio)}</td>
+                  <td className="px-4 py-3 text-muted-foreground text-xs">{log.fim ? formatarDataHora(log.fim) : '-'}</td>
                   <td className="px-4 py-3">{statusBadge(log.status)}</td>
-                  <td className="px-4 py-3 text-gray-500 text-xs max-w-xs truncate">{log.mensagem}</td>
+                  <td className="px-4 py-3 text-muted-foreground text-xs max-w-xs truncate">{log.mensagem}</td>
                 </tr>
               ))}
             </tbody>

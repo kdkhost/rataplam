@@ -92,8 +92,8 @@ export default function AdminSeo() {
   }, [dados]);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white border-b border-gray-200 px-6 py-4">
+    <div className="min-h-screen bg-muted">
+      <header className="bg-card border-b border-border px-6 py-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-purple-600 rounded-xl flex items-center justify-center">
@@ -102,28 +102,28 @@ export default function AdminSeo() {
               </svg>
             </div>
             <div>
-              <h1 className="text-lg font-bold text-gray-900">Configuração SEO</h1>
-              <p className="text-xs text-gray-500">Otimização para buscadores e redes sociais</p>
+              <h1 className="text-lg font-bold text-foreground">Configuração SEO</h1>
+              <p className="text-xs text-muted-foreground">Otimização para buscadores e redes sociais</p>
             </div>
           </div>
           <nav className="flex items-center gap-6">
-            <a href="/admin/dashboard" className="text-sm font-medium text-gray-500 hover:text-gray-700">Dashboard</a>
+            <a href="/admin/dashboard" className="text-sm font-medium text-muted-foreground hover:text-foreground">Dashboard</a>
             <a href="/admin/seo" className="text-sm font-medium text-purple-600">SEO</a>
-            <a href="/" className="text-sm font-medium text-gray-500 hover:text-gray-700">Loja</a>
+            <a href="/" className="text-sm font-medium text-muted-foreground hover:text-foreground">Loja</a>
           </nav>
         </div>
       </header>
 
       <main className="max-w-7xl mx-auto px-6 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          <div className="bg-white rounded-2xl border border-gray-100 p-4 shadow-sm">
-            <h3 className="text-sm font-semibold text-gray-700 mb-3">Páginas</h3>
+          <div className="bg-card rounded-2xl border border-border p-4 shadow-sm">
+            <h3 className="text-sm font-semibold text-foreground mb-3">Páginas</h3>
             <div className="space-y-1">
               {['home', 'loja', 'produto', 'carrinho', 'checkout', 'contato', 'sobre'].map((p) => (
                 <button
                   key={p}
                   onClick={() => setPaginaAtual(p)}
-                  className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${paginaAtual === p ? 'bg-purple-50 text-purple-700 font-medium' : 'text-gray-600 hover:bg-gray-50'}`}
+                  className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${paginaAtual === p ? 'bg-purple-50 text-purple-700 font-medium' : 'text-muted-foreground hover:bg-muted'}`}
                 >
                   <div className="flex items-center justify-between">
                     <span className="capitalize">{p}</span>
@@ -136,7 +136,7 @@ export default function AdminSeo() {
           <div className="lg:col-span-3">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h2 className="text-lg font-semibold text-gray-900">Editando: {paginaAtual}</h2>
+                <h2 className="text-lg font-semibold text-foreground">Editando: {paginaAtual}</h2>
                 {mensagem && (
                   <p className={`text-sm mt-1 ${mensagem.includes('Erro') ? 'text-red-600' : 'text-green-600'}`}>
                     {mensagem}

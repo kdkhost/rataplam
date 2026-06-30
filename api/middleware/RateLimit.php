@@ -7,7 +7,7 @@ class RateLimit
 {
     private static string $cacheDir = __DIR__ . '/../cache/ratelimit';
 
-    public static function verificar(int $limite = 100, int $janelaSegundos = 60): bool
+    public static function verificar(int $limite = 200, int $janelaSegundos = 60): bool
     {
         $ip = self::getIp();
         $chave = md5($ip);

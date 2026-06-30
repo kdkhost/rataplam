@@ -43,8 +43,8 @@ export default function AdminPedidos() {
     <div>
       {toast && <Toast mensagem={toast} onFechar={() => setToast('')} />}
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-900">Pedidos</h2>
-        <p className="text-sm text-gray-500">Gerencie todos os pedidos da loja</p>
+        <h2 className="text-2xl font-bold text-foreground">Pedidos</h2>
+        <p className="text-sm text-muted-foreground">Gerencie todos os pedidos da loja</p>
       </div>
 
       <div className="flex gap-3 mb-4">

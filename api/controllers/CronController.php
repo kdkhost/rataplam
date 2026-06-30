@@ -105,13 +105,13 @@ class CronController
 
     private static function limparTokensExpirados(): array
     {
-        $deleted = Database::delete('tokens', 'expira_em < NOW()');
+        $deleted = Database::delete('tokens', 'expira_em < ' . Database::now());
         return ['mensagem' => "Tokens expirados removidos: {$deleted}", 'dados' => ['removidos' => $deleted]];
     }
 
     private static function limparCarrinhoAbandonado(): array
     {
-        $deleted = Database::delete('carrinho', 'updated_at < DATE_SUB(NOW(), INTERVAL 7 DAY)');
+        $deleted = Database::delete('carrinho', 'updated_at < ' . Database::dateSub('7 DAY'));
         return ['mensagem' => "Itens de carrinho abandonado removidos: {$deleted}", 'dados' => ['removidos' => $deleted]];
     }
 
@@ -158,12 +158,16 @@ class CronController
     private static function cancelarPedidosPendentes(): array
     {
         $pedidos = Database::fetchAll(
-            "SELECT id, email_comprador, nome_comprador, numero_pedido FROM pedidos WHERE status = 'pendente' AND created_at < DATE_SUB(NOW(), INTERVAL 24 HOUR)"
+            "SELECT id, email_comprador, nome_comprador, numero_pedido FROM pedidos WHERE status = 'pendente' AND created_at < " . Database::dateSub('24 HOUR')
         );
         $cancelados = 0;
         foreach ($pedidos as $pedido) {
             Database::update('pedidos', ['status' => 'cancelado'], 'id = ?', [$pedido['id']]);
-            Database::query("UPDATE produtos p JOIN pedido_itens pi ON p.id = pi.produto_id SET p.estoque = p.estoque + pi.quantidade WHERE pi.pedido_id = ?", [$pedido['id']]);
+            // Restore stock: get items first, then update each product
+            $itens = Database::fetchAll("SELECT produto_id, quantidade FROM pedido_itens WHERE pedido_id = ?", [$pedido['id']]);
+            foreach ($itens as $item) {
+                Database::query("UPDATE produtos SET estoque = estoque + ? WHERE id = ?", [$item['quantidade'], $item['produto_id']]);
+            }
             if ($pedido['email_comprador']) {
                 try {
                     $emailService = new EmailService();
@@ -192,9 +196,9 @@ class CronController
 
     private static function limparLogsAntigos(): array
     {
-        $deletedWebhooks = Database::delete('webhook_logs', 'created_at < DATE_SUB(NOW(), INTERVAL 90 DAY)');
-        $deletedEmails = Database::delete('email_logs', 'created_at < DATE_SUB(NOW(), INTERVAL 90 DAY)');
-        $deletedCron = Database::delete('cron_logs', 'criado_em < DATE_SUB(NOW(), INTERVAL 90 DAY)');
+        $deletedWebhooks = Database::delete('webhook_logs', 'created_at < ' . Database::dateSub('90 DAY'));
+        $deletedEmails = Database::delete('email_logs', 'created_at < ' . Database::dateSub('90 DAY'));
+        $deletedCron = Database::delete('cron_logs', 'criado_em < ' . Database::dateSub('90 DAY'));
         return [
             'mensagem' => "Logs antigos removidos: {$deletedWebhooks} webhooks, {$deletedEmails} emails, {$deletedCron} cron",
             'dados' => ['webhooks' => $deletedWebhooks, 'emails' => $deletedEmails, 'cron' => $deletedCron],
@@ -284,12 +288,12 @@ class CronController
     {
         $carrinhos = Database::fetchAll(
             "SELECT DISTINCT c.usuario_id, u.nome, u.email,
-                    JSON_ARRAYAGG(JSON_OBJECT('nome', p.nome, 'preco', p.preco)) as itens
+                    " . Database::jsonGroupArray(Database::jsonObject(['nome' => 'p.nome', 'preco' => 'p.preco'])) . " as itens
              FROM carrinho c
              JOIN usuarios u ON c.usuario_id = u.id
              JOIN produtos p ON c.produto_id = p.id
-             WHERE c.updated_at < DATE_SUB(NOW(), INTERVAL 24 HOUR)
-               AND c.updated_at > DATE_SUB(NOW(), INTERVAL 48 HOUR)
+             WHERE c.updated_at < " . Database::dateSub('24 HOUR') . "
+               AND c.updated_at > " . Database::dateSub('48 HOUR') . "
                AND u.email IS NOT NULL
              GROUP BY c.usuario_id, u.nome, u.email
              LIMIT 50"
@@ -322,7 +326,7 @@ class CronController
             "SELECT id, numero_pedido, nome_comprador, email_comprador
              FROM pedidos
              WHERE status = 'entregue'
-               AND DATE(updated_at) = DATE_SUB(CURDATE(), INTERVAL 3 DAY)
+               AND " . Database::dateFunc('updated_at') . " = " . Database::dateSub('3 DAY') . "
                AND email_comprador IS NOT NULL
                AND email_comprador != ''
              LIMIT 50"

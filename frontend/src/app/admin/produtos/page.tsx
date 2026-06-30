@@ -143,8 +143,8 @@ export default function AdminProdutos() {
       {toast && <Toast mensagem={toast} onFechar={() => setToast('')} />}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Produtos</h2>
-          <p className="text-sm text-gray-500">{produtos.length} produtos cadastrados</p>
+          <h2 className="text-2xl font-bold text-foreground">Produtos</h2>
+          <p className="text-sm text-muted-foreground">{produtos.length} produtos cadastrados</p>
         </div>
         <Botao onClick={abrirNovo}>
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
@@ -153,7 +153,7 @@ export default function AdminProdutos() {
       </div>
 
       <div className="mb-4">
-        <Input placeholder="Buscar produto..." value={busca} onChange={(e) => { setBusca(e.target.value); setPagina(1); }} />
+        <Input placeholder="Buscar produto..." value={busca} onChange={(e) => { setBusca(e.target.value); setPagina(1); }} className="bg-card text-foreground border-input" />
       </div>
 
       <Tabela
@@ -163,8 +163,8 @@ export default function AdminProdutos() {
             return p.imagem ? (
               <img src={p.imagem} alt={p.nome} className="w-12 h-12 object-cover rounded" />
             ) : (
-              <div className="w-12 h-12 bg-gray-100 rounded flex items-center justify-center">
-                <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+              <div className="w-12 h-12 bg-muted rounded flex items-center justify-center">
+                <svg className="w-6 h-6 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
               </div>
             );
           }},
@@ -188,25 +188,25 @@ export default function AdminProdutos() {
       <Modal aberto={modalAberto} onFechar={() => setModalAberto(false)} titulo={produtoEditando ? 'Editar Produto' : 'Novo Produto'} tamanho="lg">
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
-            <Input label="Nome" value={form.nome} onChange={(e) => setForm((p) => ({ ...p, nome: e.target.value }))} />
-            <Input label="Slug" value={form.slug} onChange={(e) => setForm((p) => ({ ...p, slug: e.target.value }))} />
+            <Input label="Nome" value={form.nome} onChange={(e) => setForm((p) => ({ ...p, nome: e.target.value }))} className="bg-card text-foreground border-input" />
+            <Input label="Slug" value={form.slug} onChange={(e) => setForm((p) => ({ ...p, slug: e.target.value }))} className="bg-card text-foreground border-input" />
           </div>
-          <Textarea label="Descricao" value={form.descricao} onChange={(e) => setForm((p) => ({ ...p, descricao: e.target.value }))} rows={3} />
+          <Textarea label="Descricao" value={form.descricao} onChange={(e) => setForm((p) => ({ ...p, descricao: e.target.value }))} rows={3} className="bg-card text-foreground border-input" />
           <div className="grid grid-cols-3 gap-4">
-            <Input label="Preco (R$)" type="number" step="0.01" value={form.preco} onChange={(e) => setForm((p) => ({ ...p, preco: e.target.value }))} />
-            <Input label="Preco Promo (R$)" type="number" step="0.01" value={form.preco_promocional} onChange={(e) => setForm((p) => ({ ...p, preco_promocional: e.target.value }))} />
-            <Input label="Estoque" type="number" value={form.estoque} onChange={(e) => setForm((p) => ({ ...p, estoque: e.target.value }))} />
+            <Input label="Preco (R$)" type="number" step="0.01" value={form.preco} onChange={(e) => setForm((p) => ({ ...p, preco: e.target.value }))} className="bg-card text-foreground border-input" />
+            <Input label="Preco Promo (R$)" type="number" step="0.01" value={form.preco_promocional} onChange={(e) => setForm((p) => ({ ...p, preco_promocional: e.target.value }))} className="bg-card text-foreground border-input" />
+            <Input label="Estoque" type="number" value={form.estoque} onChange={(e) => setForm((p) => ({ ...p, estoque: e.target.value }))} className="bg-card text-foreground border-input" />
           </div>
           <div className="grid grid-cols-3 gap-4">
-            <Select label="Categoria" value={form.categoria_id} onChange={(e) => setForm((p) => ({ ...p, categoria_id: e.target.value }))}>
+            <Select label="Categoria" value={form.categoria_id} onChange={(e) => setForm((p) => ({ ...p, categoria_id: e.target.value }))} className="bg-card text-foreground border-input">
               <option value="">Selecione</option>
               {categorias.map((c) => <option key={c.id} value={c.id}>{c.nome}</option>)}
             </Select>
-            <Select label="Faixa Etaria" value={form.faixa_etaria_id} onChange={(e) => setForm((p) => ({ ...p, faixa_etaria_id: e.target.value }))}>
+            <Select label="Faixa Etaria" value={form.faixa_etaria_id} onChange={(e) => setForm((p) => ({ ...p, faixa_etaria_id: e.target.value }))} className="bg-card text-foreground border-input">
               <option value="">Selecione</option>
               {faixas.map((f) => <option key={f.id} value={f.id}>{f.nome}</option>)}
             </Select>
-            <Select label="Genero" value={form.genero} onChange={(e) => setForm((p) => ({ ...p, genero: e.target.value }))}>
+            <Select label="Genero" value={form.genero} onChange={(e) => setForm((p) => ({ ...p, genero: e.target.value }))} className="bg-card text-foreground border-input">
               <option value="U">Unissex</option><option value="M">Masculino</option><option value="F">Feminino</option>
             </Select>
           </div>
@@ -215,7 +215,7 @@ export default function AdminProdutos() {
           {produtoEditando && (
             <div className="border-t pt-4 mt-4">
               <div className="flex items-center justify-between mb-3">
-                <h4 className="font-semibold text-gray-900">Imagens do Produto</h4>
+                <h4 className="font-semibold text-foreground">Imagens do Produto</h4>
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -244,15 +244,15 @@ export default function AdminProdutos() {
               </div>
 
               {imagens.length === 0 ? (
-                <div className="text-center py-8 text-gray-500 bg-gray-50 rounded-lg border-2 border-dashed">
+                <div className="text-center py-8 text-muted-foreground bg-muted rounded-lg border-2 border-dashed">
                   <svg className="w-12 h-12 mx-auto text-gray-300 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                   <p className="text-sm">Nenhuma imagem cadastrada</p>
-                  <p className="text-xs text-gray-400">Arraste ou clique para adicionar</p>
+                  <p className="text-xs text-muted-foreground">Arraste ou clique para adicionar</p>
                 </div>
               ) : (
                 <div className="grid grid-cols-4 gap-3">
                   {imagens.map((img) => (
-                    <div key={img.id} className={`relative group rounded-lg overflow-hidden border-2 ${img.principal ? 'border-blue-500' : 'border-gray-200'}`}>
+                    <div key={img.id} className={`relative group rounded-lg overflow-hidden border-2 ${img.principal ? 'border-blue-500' : 'border-border'}`}>
                       <img src={img.url} alt={img.alt} className="w-full h-24 object-cover" />
                       {img.principal && (
                         <span className="absolute top-1 left-1 bg-blue-500 text-white text-xs px-1.5 py-0.5 rounded">Principal</span>
@@ -261,7 +261,7 @@ export default function AdminProdutos() {
                         {!img.principal && (
                           <button
                             onClick={() => definirPrincipal(img)}
-                            className="bg-white text-gray-800 p-1.5 rounded-full hover:bg-blue-500 hover:text-white transition"
+                            className="bg-card text-gray-800 p-1.5 rounded-full hover:bg-blue-500 hover:text-white transition"
                             title="Definir como principal"
                           >
                             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
@@ -269,7 +269,7 @@ export default function AdminProdutos() {
                         )}
                         <button
                           onClick={() => setConfirmarExcluirImagem(img)}
-                          className="bg-white text-red-600 p-1.5 rounded-full hover:bg-red-500 hover:text-white transition"
+                          className="bg-card text-red-600 p-1.5 rounded-full hover:bg-red-500 hover:text-white transition"
                           title="Excluir imagem"
                         >
                           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>

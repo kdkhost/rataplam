@@ -47,7 +47,7 @@ export default function AdminBanners() {
     <div>
       {toast && <Toast mensagem={toast} onFechar={() => setToast('')} />}
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold text-gray-900">Banners</h2>
+        <h2 className="text-2xl font-bold text-foreground">Banners</h2>
         <Botao onClick={() => { setEditando(null); setForm({ titulo: '', subtitulo: '', imagem: '', link: '', ordem: '0', ativo: true }); setModalAberto(true); }}>
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
           Novo Banner
@@ -56,9 +56,9 @@ export default function AdminBanners() {
 
       <Tabela
         colunas={[
-          { chave: 'ordem', label: '#', render: (v) => <span className="text-gray-400">{v as number}</span> },
-          { chave: 'titulo', label: 'Titulo', render: (v) => <span className="font-medium">{v as string}</span> },
-          { chave: 'subtitulo', label: 'Subtitulo' },
+          { chave: 'ordem', label: '#', render: (v) => <span className="text-muted-foreground">{v as number}</span> },
+          { chave: 'titulo', label: 'Titulo', render: (v) => <span className="font-medium text-foreground">{v as string}</span> },
+          { chave: 'subtitulo', label: 'Subtitulo', render: (v) => <span className="text-foreground">{v as string}</span> },
           { chave: 'ativo', label: 'Status', render: (v, r) => (
             <button onClick={() => toggleAtivo(r as unknown as Banner)} className="cursor-pointer">
               <Badge variante={v ? 'sucesso' : 'erro'}>{v ? 'Ativo' : 'Inativo'}</Badge>
@@ -75,15 +75,15 @@ export default function AdminBanners() {
 
       <Modal aberto={modalAberto} onFechar={() => setModalAberto(false)} titulo={editando ? 'Editar Banner' : 'Novo Banner'}>
         <div className="space-y-4">
-          <Input label="Titulo" value={form.titulo} onChange={(e) => setForm((p) => ({ ...p, titulo: e.target.value }))} />
-          <Input label="Subtitulo" value={form.subtitulo} onChange={(e) => setForm((p) => ({ ...p, subtitulo: e.target.value }))} />
-          <Input label="URL da Imagem" value={form.imagem} onChange={(e) => setForm((p) => ({ ...p, imagem: e.target.value }))} />
-          <Input label="Link (destino)" value={form.link} onChange={(e) => setForm((p) => ({ ...p, link: e.target.value }))} />
-          <Input label="Ordem" type="number" value={form.ordem} onChange={(e) => setForm((p) => ({ ...p, ordem: e.target.value }))} />
-          <label className="flex items-center gap-2 text-sm">
+          <Input label="Titulo" value={form.titulo} onChange={(e) => setForm((p) => ({ ...p, titulo: e.target.value }))} className="bg-card text-foreground border-input" />
+          <Input label="Subtitulo" value={form.subtitulo} onChange={(e) => setForm((p) => ({ ...p, subtitulo: e.target.value }))} className="bg-card text-foreground border-input" />
+          <Input label="URL da Imagem" value={form.imagem} onChange={(e) => setForm((p) => ({ ...p, imagem: e.target.value }))} className="bg-card text-foreground border-input" />
+          <Input label="Link (destino)" value={form.link} onChange={(e) => setForm((p) => ({ ...p, link: e.target.value }))} className="bg-card text-foreground border-input" />
+          <Input label="Ordem" type="number" value={form.ordem} onChange={(e) => setForm((p) => ({ ...p, ordem: e.target.value }))} className="bg-card text-foreground border-input" />
+          <label className="flex items-center gap-2 text-sm text-foreground">
             <input type="checkbox" checked={form.ativo} onChange={(e) => setForm((p) => ({ ...p, ativo: e.target.checked }))} className="rounded" /> Banner ativo
           </label>
-          <div className="flex gap-3 justify-end pt-4 border-t">
+          <div className="flex gap-3 justify-end pt-4 border-t border-border">
             <Botao variante="secundario" onClick={() => setModalAberto(false)}>Cancelar</Botao>
             <Botao onClick={salvar}>{editando ? 'Salvar' : 'Criar'}</Botao>
           </div>

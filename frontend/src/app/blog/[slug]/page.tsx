@@ -7,6 +7,7 @@ import Image from 'next/image';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { api } from '@/lib/api';
+import ScrollReveal from '@/components/ScrollReveal';
 
 interface Post {
   id: string;
@@ -75,36 +76,42 @@ export default function BlogPostPage() {
       <Header />
       <main className="py-12">
         <div className="max-w-3xl mx-auto px-4">
-          <nav className="text-sm text-gray-500 mb-6">
-            <Link href="/" className="hover:text-gray-700">Inicio</Link> / <Link href="/blog" className="hover:text-gray-700">Blog</Link> / <span className="text-gray-900">{post.titulo}</span>
-          </nav>
+          <ScrollReveal direction="up">
+            <nav className="text-sm text-gray-500 mb-6">
+              <Link href="/" className="hover:text-gray-700">Inicio</Link> / <Link href="/blog" className="hover:text-gray-700">Blog</Link> / <span className="text-gray-900">{post.titulo}</span>
+            </nav>
+          </ScrollReveal>
 
-          <article className="bg-white rounded-2xl shadow-sm overflow-hidden">
-            {post.imagem && (
-              <div className="relative h-72 md:h-96">
-                <Image src={post.imagem} alt={post.titulo} fill className="object-cover" sizes="(max-width: 768px) 100vw, 768px" />
-                {post.categoria && (
-                  <span className="absolute top-4 left-4 bg-gradient-to-r from-rose-500 to-violet-500 text-white text-sm font-bold px-4 py-1.5 rounded-full">
-                    {post.categoria}
-                  </span>
-                )}
+          <ScrollReveal direction="up" delay={100}>
+            <article className="bg-white rounded-2xl shadow-sm overflow-hidden">
+              {post.imagem && (
+                <div className="relative h-72 md:h-96">
+                  <Image src={post.imagem} alt={post.titulo} fill className="object-cover" sizes="(max-width: 768px) 100vw, 768px" />
+                  {post.categoria && (
+                    <span className="absolute top-4 left-4 bg-gradient-to-r from-rose-500 to-violet-500 text-white text-sm font-bold px-4 py-1.5 rounded-full">
+                      {post.categoria}
+                    </span>
+                  )}
+                </div>
+              )}
+              <div className="p-6 md:p-10">
+                <time className="text-sm text-gray-500">
+                  {new Date(post.dataPublicacao).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' })}
+                </time>
+                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mt-3 mb-8 leading-tight">{post.titulo}</h1>
+                <div className="prose prose-lg max-w-none" dangerouslySetInnerHTML={{ __html: post.conteudo }} />
               </div>
-            )}
-            <div className="p-6 md:p-10">
-              <time className="text-sm text-gray-500">
-                {new Date(post.dataPublicacao).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' })}
-              </time>
-              <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mt-3 mb-8 leading-tight">{post.titulo}</h1>
-              <div className="prose prose-lg max-w-none" dangerouslySetInnerHTML={{ __html: post.conteudo }} />
-            </div>
-          </article>
+            </article>
+          </ScrollReveal>
 
-          <div className="text-center mt-10">
-            <Link href="/blog" className="inline-flex items-center gap-2 text-rose-600 font-semibold hover:underline">
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
-              Voltar ao Blog
-            </Link>
-          </div>
+          <ScrollReveal direction="up" delay={200}>
+            <div className="text-center mt-10">
+              <Link href="/blog" className="inline-flex items-center gap-2 text-rose-600 font-semibold hover:underline">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+                Voltar ao Blog
+              </Link>
+            </div>
+          </ScrollReveal>
         </div>
       </main>
       <Footer />

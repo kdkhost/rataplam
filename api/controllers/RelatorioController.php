@@ -19,20 +19,20 @@ class RelatorioController
 
             switch ($periodo) {
                 case 'dia':
-                    $groupBy = "DATE(created_at)";
+                    $groupBy = Database::dateFunc('created_at');
                     $labelFormat = '%d/%m/%Y';
                     break;
                 case 'semana':
-                    $groupBy = "YEARWEEK(created_at, 1)";
+                    $groupBy = Database::yearWeek('created_at');
                     $labelFormat = '%x-W%v';
                     break;
                 case 'ano':
-                    $groupBy = "YEAR(created_at)";
+                    $groupBy = Database::year('created_at');
                     $labelFormat = '%Y';
                     break;
                 case 'mes':
                 default:
-                    $groupBy = "DATE_FORMAT(created_at, '%Y-%m')";
+                    $groupBy = Database::dateFormat('created_at', '%Y-%m');
                     $labelFormat = '%Y-%m';
                     break;
             }
@@ -205,17 +205,17 @@ class RelatorioController
 
             switch ($periodo) {
                 case 'dia':
-                    $groupBy = "DATE(created_at)";
+                    $groupBy = Database::dateFunc('created_at');
                     break;
                 case 'semana':
-                    $groupBy = "YEARWEEK(created_at, 1)";
+                    $groupBy = Database::yearWeek('created_at');
                     break;
                 case 'ano':
-                    $groupBy = "YEAR(created_at)";
+                    $groupBy = Database::year('created_at');
                     break;
                 case 'mes':
                 default:
-                    $groupBy = "DATE_FORMAT(created_at, '%Y-%m')";
+                    $groupBy = Database::dateFormat('created_at', '%Y-%m');
                     break;
             }
 

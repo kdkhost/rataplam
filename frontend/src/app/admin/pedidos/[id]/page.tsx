@@ -54,8 +54,8 @@ export default function AdminPedidoDetalhe({ params }: { params: Promise<{ id: s
 
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Pedido {pedido.numero_pedido}</h2>
-          <p className="text-sm text-gray-500">Feito em {formatarData(pedido.created_at)}</p>
+          <h2 className="text-2xl font-bold text-foreground">Pedido {pedido.numero_pedido}</h2>
+          <p className="text-sm text-muted-foreground">Feito em {formatarData(pedido.created_at)}</p>
         </div>
         <div className="flex items-center gap-3">
           <Select label="" value={status} onChange={(e) => setStatus(e.target.value)}>
@@ -67,30 +67,30 @@ export default function AdminPedidoDetalhe({ params }: { params: Promise<{ id: s
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
-          <div className="bg-white rounded-2xl border border-gray-100 p-6">
-            <h3 className="font-semibold text-gray-900 mb-4">Itens do Pedido</h3>
+          <div className="bg-card rounded-2xl border border-border p-6">
+            <h3 className="font-semibold text-foreground mb-4">Itens do Pedido</h3>
             <div className="space-y-3">
               {itens.map((item) => (
-                <div key={item.id} className="flex items-center justify-between py-3 border-b border-gray-50 last:border-0">
+                <div key={item.id} className="flex items-center justify-between py-3 border-b border-border last:border-0">
                   <div>
-                    <p className="font-medium text-gray-900">{item.nome_produto}</p>
-                    <p className="text-sm text-gray-500">{item.quantidade}x {formatarMoeda(item.preco_unitario)}</p>
+                    <p className="font-medium text-foreground">{item.nome_produto}</p>
+                    <p className="text-sm text-muted-foreground">{item.quantidade}x {formatarMoeda(item.preco_unitario)}</p>
                   </div>
-                  <p className="font-semibold text-gray-900">{formatarMoeda(item.preco_total)}</p>
+                  <p className="font-semibold text-foreground">{formatarMoeda(item.preco_total)}</p>
                 </div>
               ))}
             </div>
-            <div className="mt-4 pt-4 border-t border-gray-100 flex justify-between">
-              <span className="font-bold text-gray-900">Total</span>
+            <div className="mt-4 pt-4 border-t border-border flex justify-between">
+              <span className="font-bold text-foreground">Total</span>
               <span className="font-bold text-lg text-blue-600">{formatarMoeda(pedido.total)}</span>
             </div>
           </div>
         </div>
 
         <div className="space-y-6">
-          <div className="bg-white rounded-2xl border border-gray-100 p-6">
-            <h3 className="font-semibold text-gray-900 mb-3">Cliente</h3>
-            <div className="text-sm space-y-2 text-gray-600">
+          <div className="bg-card rounded-2xl border border-border p-6">
+            <h3 className="font-semibold text-foreground mb-3">Cliente</h3>
+            <div className="text-sm space-y-2 text-muted-foreground">
               <p><strong>Nome:</strong> {pedido.nome_comprador}</p>
               <p><strong>E-mail:</strong> {pedido.email_comprador}</p>
               <p><strong>CPF:</strong> {pedido.cpf_comprador}</p>
@@ -98,18 +98,18 @@ export default function AdminPedidoDetalhe({ params }: { params: Promise<{ id: s
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl border border-gray-100 p-6">
-            <h3 className="font-semibold text-gray-900 mb-3">Entrega</h3>
-            <div className="text-sm space-y-2 text-gray-600">
+          <div className="bg-card rounded-2xl border border-border p-6">
+            <h3 className="font-semibold text-foreground mb-3">Entrega</h3>
+            <div className="text-sm space-y-2 text-muted-foreground">
               <p>{pedido.logradouro_entrega}, {pedido.numero_entrega}</p>
               {pedido.cidade_entrega && <p>{pedido.bairro_entrega} - {pedido.cidade_entrega}/{pedido.estado_entrega}</p>}
               <p>CEP: {pedido.cep_entrega}</p>
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl border border-gray-100 p-6">
-            <h3 className="font-semibold text-gray-900 mb-3">Pagamento</h3>
-            <div className="text-sm space-y-3 text-gray-600">
+          <div className="bg-card rounded-2xl border border-border p-6">
+            <h3 className="font-semibold text-foreground mb-3">Pagamento</h3>
+            <div className="text-sm space-y-3 text-muted-foreground">
               <p><strong>Metodo:</strong> {pedido.metodo_pagamento}</p>
               <Badge variante={statusVariante[pedido.status] || 'padrao'}>{pedido.status}</Badge>
             </div>

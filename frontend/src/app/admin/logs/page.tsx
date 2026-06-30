@@ -69,15 +69,15 @@ export default function AdminLogs() {
   return (
     <div>
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-900">Logs do Sistema</h2>
-        <p className="text-sm text-gray-500">Acompanhe webhooks e envios de e-mail</p>
+        <h2 className="text-2xl font-bold text-foreground">Logs do Sistema</h2>
+        <p className="text-sm text-muted-foreground">Acompanhe webhooks e envios de e-mail</p>
       </div>
 
       <div className="flex flex-col sm:flex-row gap-4 mb-6">
-        <div className="flex bg-gray-100 rounded-xl p-1">
+        <div className="flex bg-muted rounded-xl p-1">
           {(['webhooks', 'emails'] as Aba[]).map((a) => (
             <button key={a} onClick={() => setAba(a)}
-              className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors capitalize ${aba === a ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-600 hover:text-gray-900'}`}>
+              className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors capitalize ${aba === a ? 'bg-card text-blue-600 shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}>
               {a === 'webhooks' ? 'Webhooks' : 'E-mails'}
             </button>
           ))}

@@ -1,8 +1,7 @@
 'use client';
 
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
 import Link from 'next/link';
+import ScrollReveal from '@/components/ScrollReveal';
 
 const secoes = [
   { titulo: '1. Aceite dos Termos', conteudo: 'Ao acessar e utilizar o site da RATAPLAM, voce concorda com estes Termos de Uso. Caso nao concorde, nao utilize o site.' },
@@ -18,27 +17,25 @@ const secoes = [
 
 export default function TermosPage() {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header />
-      <main className="py-16">
-        <div className="max-w-4xl mx-auto px-4">
-          <nav className="text-sm text-gray-500 mb-6">
-            <Link href="/" className="hover:text-gray-700">Inicio</Link> / <span className="text-gray-900">Termos de Uso</span>
-          </nav>
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Termos de Uso</h1>
-          <p className="text-gray-500 mb-8">Ultima atualizacao: Janeiro de 2025</p>
+    <div className="py-16">
+      <div className="max-w-4xl mx-auto px-4">
+        <nav className="text-sm text-muted-foreground mb-6">
+          <Link href="/" className="hover:text-foreground">Inicio</Link> / <span className="text-foreground">Termos de Uso</span>
+        </nav>
+        <h1 className="text-4xl font-bold text-foreground mb-4">Termos de Uso</h1>
+        <p className="text-muted-foreground mb-8">Ultima atualizacao: Janeiro de 2025</p>
 
-          <div className="bg-white rounded-2xl shadow-sm p-8 space-y-8">
-            {secoes.map((s, i) => (
-              <section key={i}>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">{s.titulo}</h2>
-                <p className="text-gray-700 leading-relaxed">{s.conteudo}</p>
+        <div className="bg-card rounded-2xl shadow-sm border border-border p-8 space-y-8">
+          {secoes.map((s, i) => (
+            <ScrollReveal key={i} direction="up" delay={i * 80}>
+              <section>
+                <h2 className="text-2xl font-bold text-foreground mb-4">{s.titulo}</h2>
+                <p className="text-foreground leading-relaxed">{s.conteudo}</p>
               </section>
-            ))}
-          </div>
+            </ScrollReveal>
+          ))}
         </div>
-      </main>
-      <Footer />
+      </div>
     </div>
   );
 }

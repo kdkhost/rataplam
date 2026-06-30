@@ -25,7 +25,7 @@ class VisitaController
 
         $jaVisitou = Database::count(
             'visitas',
-            'session_id = ? AND DATE(created_at) = CURDATE() AND url = ?',
+            'session_id = ? AND ' . Database::dateFunc('created_at') . ' = ' . Database::curdate() . ' AND url = ?',
             [$sessionId, $url]
         );
 
@@ -47,9 +47,9 @@ class VisitaController
             self::atualizarPaginasVisitadas($pagina);
         }
 
-        $totalHoje = Database::count('visitas', 'DATE(created_at) = CURDATE()');
+        $totalHoje = Database::count('visitas', Database::dateFunc('created_at') . ' = ' . Database::curdate());
         $totalUnicasHoje = Database::fetch(
-            'SELECT COUNT(DISTINCT session_id) as total FROM visitas WHERE DATE(created_at) = CURDATE()'
+            'SELECT COUNT(DISTINCT session_id) as total FROM visitas WHERE ' . Database::dateFunc('created_at') . ' = ' . Database::curdate()
         );
         $totalGeral = Database::count('visitas');
 
@@ -75,10 +75,17 @@ class VisitaController
         $scroll = (int) ($input['scroll'] ?? 0);
 
         if ($sessionId && $duracao > 0) {
-            Database::query(
-                "UPDATE visitas SET duracao_segundos = ?, scroll_percent = ? WHERE session_id = ? AND url = ? ORDER BY id DESC LIMIT 1",
-                [$duracao, $scroll, $sessionId, $url]
+            // Update the most recent visit for this session+url
+            $lastVisit = Database::fetch(
+                "SELECT id FROM visitas WHERE session_id = ? AND url = ? ORDER BY id DESC LIMIT 1",
+                [$sessionId, $url]
             );
+            if ($lastVisit) {
+                Database::update('visitas', [
+                    'duracao_segundos' => $duracao,
+                    'scroll_percent' => $scroll,
+                ], 'id = ?', [$lastVisit['id']]);
+            }
         }
 
         header('Content-Type: application/json; charset=utf-8');
@@ -91,11 +98,11 @@ class VisitaController
         $periodo = $_GET['periodo'] ?? '7d';
 
         switch ($periodo) {
-            case '24h': $whereData = 'created_at >= DATE_SUB(NOW(), INTERVAL 24 HOUR)'; break;
-            case '30d': $whereData = 'created_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)'; break;
-            case '90d': $whereData = 'created_at >= DATE_SUB(NOW(), INTERVAL 90 DAY)'; break;
+            case '24h': $whereData = 'created_at >= ' . Database::dateSub('24 HOUR'); break;
+            case '30d': $whereData = 'created_at >= ' . Database::dateSub('30 DAY'); break;
+            case '90d': $whereData = 'created_at >= ' . Database::dateSub('90 DAY'); break;
             case '7d':
-            default: $whereData = 'created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)'; break;
+            default: $whereData = 'created_at >= ' . Database::dateSub('7 DAY'); break;
         }
 
         $totalVisitas = Database::count('visitas', $whereData);
@@ -104,9 +111,9 @@ class VisitaController
         );
 
         $porDia = Database::fetchAll(
-            "SELECT DATE(created_at) as data, COUNT(*) as total, COUNT(DISTINCT session_id) as unicas
+            "SELECT " . Database::dateFunc('created_at') . " as data, COUNT(*) as total, COUNT(DISTINCT session_id) as unicas
              FROM visitas WHERE {$whereData}
-             GROUP BY DATE(created_at) ORDER BY data ASC"
+             GROUP BY " . Database::dateFunc('created_at') . " ORDER BY data ASC"
         );
 
         $porDispositivo = Database::fetchAll(
@@ -118,7 +125,7 @@ class VisitaController
         );
 
         $porHora = Database::fetchAll(
-            "SELECT HOUR(created_at) as hora, COUNT(*) as total FROM visitas WHERE {$whereData} GROUP BY HOUR(created_at) ORDER BY hora ASC"
+            "SELECT " . Database::hour('created_at') . " as hora, COUNT(*) as total FROM visitas WHERE {$whereData} GROUP BY " . Database::hour('created_at') . " ORDER BY hora ASC"
         );
 
         $duracaoMedia = Database::fetch(
@@ -155,59 +162,59 @@ class VisitaController
         $semanaPassada = date('Y-m-d', strtotime('-7 days'));
         $mesPassado = date('Y-m-d', strtotime('-30 days'));
 
-        $visitasHoje = Database::count('visitas', 'DATE(created_at) = ?', [$hoje]);
-        $visitasOntem = Database::count('visitas', 'DATE(created_at) = ?', [$ontem]);
+        $visitasHoje = Database::count('visitas', Database::dateFunc('created_at') . ' = ?', [$hoje]);
+        $visitasOntem = Database::count('visitas', Database::dateFunc('created_at') . ' = ?', [$ontem]);
 
-        $visitasSemana = Database::count('visitas', 'created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)');
+        $visitasSemana = Database::count('visitas', 'created_at >= ' . Database::dateSub('7 DAY'));
         $visitasSemanaAnterior = Database::count(
             'visitas',
-            'created_at >= DATE_SUB(NOW(), INTERVAL 14 DAY) AND created_at < DATE_SUB(NOW(), INTERVAL 7 DAY)'
+            'created_at >= ' . Database::dateSub('14 DAY') . ' AND created_at < ' . Database::dateSub('7 DAY')
         );
 
-        $visitasMes = Database::count('visitas', 'created_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)');
+        $visitasMes = Database::count('visitas', 'created_at >= ' . Database::dateSub('30 DAY'));
         $visitasMesAnterior = Database::count(
             'visitas',
-            'created_at >= DATE_SUB(NOW(), INTERVAL 60 DAY) AND created_at < DATE_SUB(NOW(), INTERVAL 30 DAY)'
+            'created_at >= ' . Database::dateSub('60 DAY') . ' AND created_at < ' . Database::dateSub('30 DAY')
         );
 
         $uniquesHoje = Database::fetch(
-            'SELECT COUNT(DISTINCT session_id) as total FROM visitas WHERE DATE(created_at) = ?', [$hoje]
+            'SELECT COUNT(DISTINCT session_id) as total FROM visitas WHERE ' . Database::dateFunc('created_at') . ' = ?', [$hoje]
         );
         $uniquesOntem = Database::fetch(
-            'SELECT COUNT(DISTINCT session_id) as total FROM visitas WHERE DATE(created_at) = ?', [$ontem]
+            'SELECT COUNT(DISTINCT session_id) as total FROM visitas WHERE ' . Database::dateFunc('created_at') . ' = ?', [$ontem]
         );
 
         $totalGeral = Database::count('visitas');
 
         $paginasHoje = Database::fetch(
-            'SELECT COUNT(*) as total FROM visitas WHERE DATE(created_at) = ?', [$hoje]
+            'SELECT COUNT(*) as total FROM visitas WHERE ' . Database::dateFunc('created_at') . ' = ?', [$hoje]
         );
         $paginasOntem = Database::fetch(
-            'SELECT COUNT(*) as total FROM visitas WHERE DATE(created_at) = ?', [$ontem]
+            'SELECT COUNT(*) as total FROM visitas WHERE ' . Database::dateFunc('created_at') . ' = ?', [$ontem]
         );
 
         $duracaoMedia = Database::fetch(
-            'SELECT AVG(duracao_segundos) as media FROM visitas WHERE DATE(created_at) = ? AND duracao_segundos > 0', [$hoje]
+            'SELECT AVG(duracao_segundos) as media FROM visitas WHERE ' . Database::dateFunc('created_at') . ' = ? AND duracao_segundos > 0', [$hoje]
         );
 
         $bounceRate = Database::fetch(
             "SELECT 
-                (SELECT COUNT(*) FROM visitas WHERE DATE(created_at) = ? AND duracao_segundos < 10) as saltaram,
-                (SELECT COUNT(*) FROM visitas WHERE DATE(created_at) = ?) as total", [$hoje, $hoje]
+                (SELECT COUNT(*) FROM visitas WHERE " . Database::dateFunc('created_at') . " = ? AND duracao_segundos < 10) as saltaram,
+                (SELECT COUNT(*) FROM visitas WHERE " . Database::dateFunc('created_at') . " = ?) as total", [$hoje, $hoje]
         );
 
         $taxaConversao = 0;
-        $pedidosHoje = Database::count('pedidos', 'DATE(created_at) = ? AND status != "cancelado"', [$hoje]);
+        $pedidosHoje = Database::count('pedidos', Database::dateFunc('created_at') . " = ? AND status != 'cancelado'", [$hoje]);
         if ($visitasHoje > 0) {
             $taxaConversao = round(($pedidosHoje / $visitasHoje) * 100, 2);
         }
 
         $receitaHoje = Database::fetch(
-            'SELECT COALESCE(SUM(total), 0) as total FROM pedidos WHERE DATE(created_at) = ? AND status IN ("pago", "enviado", "entregue")', [$hoje]
+            "SELECT COALESCE(SUM(total), 0) as total FROM pedidos WHERE " . Database::dateFunc('created_at') . " = ? AND status IN ('pago', 'enviado', 'entregue')", [$hoje]
         );
 
         $ticketMedio = Database::fetch(
-            'SELECT COALESCE(AVG(total), 0) as media FROM pedidos WHERE DATE(created_at) = ? AND status IN ("pago", "enviado", "entregue")', [$hoje]
+            "SELECT COALESCE(AVG(total), 0) as media FROM pedidos WHERE " . Database::dateFunc('created_at') . " = ? AND status IN ('pago', 'enviado', 'entregue')", [$hoje]
         );
 
         $crescimentoVisitasHoje = $visitasOntem > 0
@@ -253,7 +260,7 @@ class VisitaController
     public static function online(): void
     {
         $online = Database::fetch(
-            'SELECT COUNT(DISTINCT session_id) as total FROM visitas WHERE created_at >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)'
+            'SELECT COUNT(DISTINCT session_id) as total FROM visitas WHERE created_at >= ' . Database::dateSub('5 MINUTE')
         );
 
         header('Content-Type: application/json; charset=utf-8');

@@ -54,7 +54,6 @@ export default function AdminRelatorios() {
       const params = `?periodo=${periodo}`;
       if (aba === 'vendas') {
         const data = await api.get(`/api/admin/relatorios/vendas${params}`);
-        // Normaliza a resposta do backend para o formato esperado pelo componente
         const resumo = data?.resumo ?? {};
         const porStatus = data?.por_status ?? [];
         const topProdutos = data?.top_produtos ?? [];
@@ -122,9 +121,9 @@ export default function AdminRelatorios() {
         <div className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="bg-white rounded-2xl p-6 animate-pulse">
-                <div className="h-4 bg-gray-200 rounded w-1/2 mb-3" />
-                <div className="h-8 bg-gray-200 rounded w-2/3" />
+              <div key={i} className="bg-card rounded-2xl p-6 animate-pulse">
+                <div className="h-4 bg-muted rounded w-1/2 mb-3" />
+                <div className="h-8 bg-muted rounded w-2/3" />
               </div>
             ))}
           </div>
@@ -136,46 +135,46 @@ export default function AdminRelatorios() {
       return (
         <div className="space-y-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
-              <p className="text-sm text-gray-500 mb-1">Total Vendas</p>
+            <div className="bg-card rounded-2xl border border-border p-6 shadow-sm">
+              <p className="text-sm text-muted-foreground mb-1">Total Vendas</p>
               <AnimatedCounter valor={vendas.total_vendas} prefixo="R$ " sufixo="" casasDecimais={2} className="text-blue-600" tamanho="lg" />
             </div>
-            <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
-              <p className="text-sm text-gray-500 mb-1">Total Pedidos</p>
-              <AnimatedCounter valor={vendas.total_pedidos} className="text-gray-900" tamanho="lg" />
+            <div className="bg-card rounded-2xl border border-border p-6 shadow-sm">
+              <p className="text-sm text-muted-foreground mb-1">Total Pedidos</p>
+              <AnimatedCounter valor={vendas.total_pedidos} className="text-foreground" tamanho="lg" />
             </div>
-            <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
-              <p className="text-sm text-gray-500 mb-1">Ticket Medio</p>
+            <div className="bg-card rounded-2xl border border-border p-6 shadow-sm">
+              <p className="text-sm text-muted-foreground mb-1">Ticket Medio</p>
               <AnimatedCounter valor={vendas.ticket_medio} prefixo="R$ " casasDecimais={2} className="text-green-600" tamanho="lg" />
             </div>
-            <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
-              <p className="text-sm text-gray-500 mb-1">Pedidos por Status</p>
+            <div className="bg-card rounded-2xl border border-border p-6 shadow-sm">
+              <p className="text-sm text-muted-foreground mb-1">Pedidos por Status</p>
               <div className="mt-2 space-y-1">
                 {vendas.pedidos_por_status.map((s) => (
                   <div key={s.status} className="flex items-center justify-between text-xs">
                     <Badge variante={statusCores[s.status] || 'padrao'}>{s.status}</Badge>
-                    <span className="font-medium text-gray-700">{s.total}</span>
+                    <span className="font-medium text-foreground">{s.total}</span>
                   </div>
                 ))}
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Produtos Mais Vendidos</h3>
+          <div className="bg-card rounded-2xl border border-border p-6 shadow-sm">
+            <h3 className="text-lg font-semibold text-foreground mb-4">Produtos Mais Vendidos</h3>
             {vendas.top_produtos.length === 0 ? (
-              <p className="text-gray-500 text-sm">Nenhum dado disponivel</p>
+              <p className="text-muted-foreground text-sm">Nenhum dado disponivel</p>
             ) : (
               <div className="space-y-3">
                 {vendas.top_produtos.map((p, i) => (
-                  <div key={i} className="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
+                  <div key={i} className="flex items-center justify-between py-2 border-b border-border last:border-0">
                     <div className="flex items-center gap-3">
                       <span className="w-7 h-7 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs font-bold">{i + 1}</span>
-                      <span className="text-sm text-gray-800">{p.nome}</span>
+                      <span className="text-sm text-foreground">{p.nome}</span>
                     </div>
                     <div className="text-right">
-                      <span className="text-sm font-medium text-gray-900">{formatarMoeda(p.total)}</span>
-                      <span className="text-xs text-gray-500 block">{p.quantidade} un.</span>
+                      <span className="text-sm font-medium text-foreground">{formatarMoeda(p.total)}</span>
+                      <span className="text-xs text-muted-foreground block">{p.quantidade} un.</span>
                     </div>
                   </div>
                 ))}
@@ -190,31 +189,31 @@ export default function AdminRelatorios() {
       return (
         <div className="space-y-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
-              <p className="text-sm text-gray-500 mb-1">Sem Estoque</p>
+            <div className="bg-card rounded-2xl border border-border p-6 shadow-sm">
+              <p className="text-sm text-muted-foreground mb-1">Sem Estoque</p>
               <AnimatedCounter valor={estoque.sem_estoque} className="text-red-600" tamanho="lg" />
             </div>
-            <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
-              <p className="text-sm text-gray-500 mb-1">Estoque Baixo</p>
+            <div className="bg-card rounded-2xl border border-border p-6 shadow-sm">
+              <p className="text-sm text-muted-foreground mb-1">Estoque Baixo</p>
               <AnimatedCounter valor={estoque.estoque_baixo.length} className="text-orange-600" tamanho="lg" />
             </div>
-            <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
-              <p className="text-sm text-gray-500 mb-1">Total Categorias</p>
+            <div className="bg-card rounded-2xl border border-border p-6 shadow-sm">
+              <p className="text-sm text-muted-foreground mb-1">Total Categorias</p>
               <AnimatedCounter valor={estoque.por_categoria.length} className="text-blue-600" tamanho="lg" />
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Estoque Baixo</h3>
+          <div className="bg-card rounded-2xl border border-border p-6 shadow-sm">
+            <h3 className="text-lg font-semibold text-foreground mb-4">Estoque Baixo</h3>
             {estoque.estoque_baixo.length === 0 ? (
               <p className="text-green-600 text-sm font-medium">Todos os produtos com estoque adequado!</p>
             ) : (
               <div className="space-y-2">
                 {estoque.estoque_baixo.map((p, i) => (
-                  <div key={i} className="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
+                  <div key={i} className="flex items-center justify-between py-2 border-b border-border last:border-0">
                     <div>
-                      <span className="text-sm text-gray-800">{p.nome}</span>
-                      <span className="text-xs text-gray-500 ml-2">({p.categoria})</span>
+                      <span className="text-sm text-foreground">{p.nome}</span>
+                      <span className="text-xs text-muted-foreground ml-2">({p.categoria})</span>
                     </div>
                     <Badge variante={p.estoque === 0 ? 'erro' : 'aviso'}>{p.estoque} unidades</Badge>
                   </div>
@@ -223,13 +222,13 @@ export default function AdminRelatorios() {
             )}
           </div>
 
-          <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Estoque por Categoria</h3>
+          <div className="bg-card rounded-2xl border border-border p-6 shadow-sm">
+            <h3 className="text-lg font-semibold text-foreground mb-4">Estoque por Categoria</h3>
             <div className="space-y-2">
               {estoque.por_categoria.map((c, i) => (
-                <div key={i} className="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
-                  <span className="text-sm text-gray-800">{c.categoria}</span>
-                  <span className="text-sm font-medium text-gray-700">{c.total} produtos</span>
+                <div key={i} className="flex items-center justify-between py-2 border-b border-border last:border-0">
+                  <span className="text-sm text-foreground">{c.categoria}</span>
+                  <span className="text-sm font-medium text-foreground">{c.total} produtos</span>
                 </div>
               ))}
             </div>
@@ -242,34 +241,34 @@ export default function AdminRelatorios() {
       return (
         <div className="space-y-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
-              <p className="text-sm text-gray-500 mb-1">Receita Total</p>
+            <div className="bg-card rounded-2xl border border-border p-6 shadow-sm">
+              <p className="text-sm text-muted-foreground mb-1">Receita Total</p>
               <AnimatedCounter valor={financeiro.receita_total} prefixo="R$ " casasDecimais={2} className="text-green-600" tamanho="lg" />
             </div>
-            <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
-              <p className="text-sm text-gray-500 mb-1">Descontos</p>
+            <div className="bg-card rounded-2xl border border-border p-6 shadow-sm">
+              <p className="text-sm text-muted-foreground mb-1">Descontos</p>
               <AnimatedCounter valor={financeiro.descontos} prefixo="R$ " casasDecimais={2} className="text-red-600" tamanho="lg" />
             </div>
-            <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
-              <p className="text-sm text-gray-500 mb-1">Frete Total</p>
+            <div className="bg-card rounded-2xl border border-border p-6 shadow-sm">
+              <p className="text-sm text-muted-foreground mb-1">Frete Total</p>
               <AnimatedCounter valor={financeiro.frete_total} prefixo="R$ " casasDecimais={2} className="text-blue-600" tamanho="lg" />
             </div>
-            <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
-              <p className="text-sm text-gray-500 mb-1">Lucro Estimado</p>
+            <div className="bg-card rounded-2xl border border-border p-6 shadow-sm">
+              <p className="text-sm text-muted-foreground mb-1">Lucro Estimado</p>
               <AnimatedCounter valor={financeiro.lucro_estimado} prefixo="R$ " casasDecimais={2} className="text-green-700" tamanho="lg" />
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Receita por Mes</h3>
+          <div className="bg-card rounded-2xl border border-border p-6 shadow-sm">
+            <h3 className="text-lg font-semibold text-foreground mb-4">Receita por Mes</h3>
             {financeiro.receita_por_mes.length === 0 ? (
-              <p className="text-gray-500 text-sm">Nenhum dado disponivel</p>
+              <p className="text-muted-foreground text-sm">Nenhum dado disponivel</p>
             ) : (
               <div className="space-y-2">
                 {financeiro.receita_por_mes.map((m, i) => (
-                  <div key={i} className="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
-                    <span className="text-sm text-gray-800">{m.mes}</span>
-                    <span className="text-sm font-medium text-gray-900">{formatarMoeda(m.total)}</span>
+                  <div key={i} className="flex items-center justify-between py-2 border-b border-border last:border-0">
+                    <span className="text-sm text-foreground">{m.mes}</span>
+                    <span className="text-sm font-medium text-foreground">{formatarMoeda(m.total)}</span>
                   </div>
                 ))}
               </div>
@@ -279,21 +278,21 @@ export default function AdminRelatorios() {
       );
     }
 
-    return <p className="text-gray-500 text-sm">Nenhum dado disponivel para este periodo.</p>;
+    return <p className="text-muted-foreground text-sm">Nenhum dado disponivel para este periodo.</p>;
   };
 
   return (
     <div>
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-900">Relatorios</h2>
-        <p className="text-sm text-gray-500">Analise detalhada do desempenho da loja</p>
+        <h2 className="text-2xl font-bold text-foreground">Relatorios</h2>
+        <p className="text-sm text-muted-foreground">Analise detalhada do desempenho da loja</p>
       </div>
 
       <div className="flex flex-col sm:flex-row gap-4 mb-6">
-        <div className="flex bg-gray-100 rounded-xl p-1">
+        <div className="flex bg-muted rounded-xl p-1">
           {(['vendas', 'estoque', 'financeiro'] as Aba[]).map((a) => (
             <button key={a} onClick={() => setAba(a)}
-              className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors capitalize ${aba === a ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-600 hover:text-gray-900'}`}>
+              className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors capitalize ${aba === a ? 'bg-card text-blue-600 shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}>
               {a}
             </button>
           ))}

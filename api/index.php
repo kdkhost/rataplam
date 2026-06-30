@@ -25,7 +25,7 @@ use Rataplam\Middleware\Auth;
 header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, PATCH, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
+header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With, X-CSRF-Token');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
@@ -563,7 +563,7 @@ try {
         $input = json_decode(file_get_contents('php://input'), true);
         $codigo = strtoupper($input['codigo'] ?? '');
         $cupom = \Rataplam\Config\Database::fetch(
-            "SELECT * FROM cupons WHERE codigo = ? AND ativo = 1 AND (data_inicio IS NULL OR data_inicio <= NOW()) AND (data_fim IS NULL OR data_fim >= NOW())",
+            "SELECT * FROM cupons WHERE codigo = ? AND ativo = 1 AND (data_inicio IS NULL OR data_inicio <= " . \Rataplam\Config\Database::now() . ") AND (data_fim IS NULL OR data_fim >= " . \Rataplam\Config\Database::now() . ")",
             [$codigo]
         );
         if (!$cupom) {
