@@ -23,6 +23,9 @@ export default function CheckoutPage() {
   const [cupom, setCupom] = useState('');
   const [desconto, setDesconto] = useState(0);
   const [freteConfig, setFreteConfig] = useState({ frete_gratis_valor: 199.90, frete_fixo: 15.90 });
+  const [opcoesFrete, setOpcoesFrete] = useState<{ servico: string; prazo: number; valor: number }[]>([]);
+  const [freteSelecionado, setFreteSelecionado] = useState<{ servico: string; prazo: number; valor: number } | null>(null);
+  const [carregandoFrete, setCarregandoFrete] = useState(false);
 
   const [dados, setDados] = useState({
     nome: usuario?.nome || '', email: usuario?.email || '', cpf: '', telefone: '',
@@ -30,7 +33,7 @@ export default function CheckoutPage() {
   });
 
   const [cartao, setCartao] = useState({ numero: '', nome: '', validade: '', cvv: '', parcelas: 1 });
-  const frete = total >= freteConfig.frete_gratis_valor ? 0 : freteConfig.frete_fixo;
+  const frete = total >= freteConfig.frete_gratis_valor ? 0 : (freteSelecionado?.valor ?? freteConfig.frete_fixo);
 
   useEffect(() => {
     api.get('/api/admin/configuracoes').then((data) => {
@@ -42,6 +45,27 @@ export default function CheckoutPage() {
       });
     }).catch(() => {});
   }, []);
+
+  useEffect(() => {
+    const cepLimpo = dados.cep.replace(/\D/g, '');
+    if (cepLimpo.length === 8) {
+      setCarregandoFrete(true);
+      setFreteSelecionado(null);
+      const pesoTotal = Math.max(0.5, itens.reduce((acc, i) => acc + i.quantidade, 0) * 0.5);
+      api.post('/api/frete/calcular', { cep_destino: cepLimpo, peso: pesoTotal })
+        .then((data) => {
+          setOpcoesFrete(data.opcoes || []);
+          if (data.opcoes?.length > 0) {
+            setFreteSelecionado(data.opcoes[0]);
+          }
+        })
+        .catch(() => setOpcoesFrete([]))
+        .finally(() => setCarregandoFrete(false));
+    } else {
+      setOpcoesFrete([]);
+      setFreteSelecionado(null);
+    }
+  }, [dados.cep, itens]);
 
   const handleCepChange = (valor: string) => {
     setDados((prev) => ({ ...prev, cep: valor }));
@@ -105,6 +129,8 @@ export default function CheckoutPage() {
         ...dados,
         gateway,
         cupom: cupom || undefined,
+        frete_servico: freteSelecionado?.servico || undefined,
+        frete_valor: frete,
       };
       const pedidoData = await api.post('/api/pedidos', payload);
 
@@ -259,6 +285,32 @@ export default function CheckoutPage() {
                   </div>
                 </div>
               </div>
+
+              {(opcoesFrete.length > 0 || carregandoFrete) && (
+                <div className="pt-4 border-t border-gray-100">
+                  <h3 className="text-lg font-bold text-gray-900 mb-4">Frete</h3>
+                  {carregandoFrete ? (
+                    <div className="flex items-center gap-2 text-sm text-rose-500">
+                      <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" /></svg>
+                      Calculando frete...
+                    </div>
+                  ) : (
+                    <div className="space-y-2">
+                      {opcoesFrete.map((opcao) => (
+                        <label key={opcao.servico} className={`flex items-center gap-3 p-3 rounded-xl border-2 cursor-pointer transition-all duration-200 ${freteSelecionado?.servico === opcao.servico ? 'border-rose-500 bg-rose-50' : 'border-gray-200 hover:border-gray-300'}`}>
+                          <input type="radio" name="frete" checked={freteSelecionado?.servico === opcao.servico} onChange={() => setFreteSelecionado(opcao)} className="accent-rose-500" />
+                          <div className="flex-1">
+                            <span className="text-sm font-bold text-gray-900">{opcao.servico}</span>
+                            <span className="text-xs text-gray-500 ml-2">Prazo: {opcao.prazo} dia{opcao.prazo > 1 ? 's' : ''}</span>
+                          </div>
+                          <span className="text-sm font-bold text-gray-900">{formatarMoeda(opcao.valor)}</span>
+                        </label>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
               <button onClick={() => { if (validarDados()) setEtapa('pagamento'); }} className="w-full py-4 bg-gradient-to-r from-rose-500 to-violet-500 text-white rounded-2xl font-bold hover:shadow-lg hover:shadow-rose-500/25 transition-all duration-300 hover:-translate-y-0.5">
                 Continuar para Pagamento
               </button>
@@ -355,6 +407,15 @@ export default function CheckoutPage() {
                   </h3>
                   <p className="text-sm font-medium">{gateway === 'mercadopago' ? 'Mercado Pago' : 'Stripe'} - {cartao.parcelas}x {cartao.parcelas === 1 ? 'a vista' : `de ${formatarMoeda((total + frete - desconto) / cartao.parcelas)}`}</p>
                 </div>
+                {freteSelecionado && (
+                  <div className="bg-gray-50 rounded-2xl p-5 space-y-3">
+                    <h3 className="text-sm font-bold text-gray-900 flex items-center gap-2">
+                      <svg className="w-4 h-4 text-rose-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" /></svg>
+                      Frete - {freteSelecionado.servico}
+                    </h3>
+                    <p className="text-sm font-medium">{formatarMoeda(freteSelecionado.valor)} - Prazo: {freteSelecionado.prazo} dia{freteSelecionado.prazo > 1 ? 's' : ''}</p>
+                  </div>
+                )}
               </div>
               <div className="flex gap-3">
                 <button onClick={() => setEtapa('pagamento')} className="flex-1 py-4 border-2 border-gray-200 text-gray-700 rounded-2xl font-bold hover:bg-gray-50 hover:border-gray-300 transition-all duration-200">
@@ -411,7 +472,8 @@ export default function CheckoutPage() {
             <div className="border-t border-gray-100 mt-4 pt-4 space-y-2.5 text-sm">
               <div className="flex justify-between"><span className="text-gray-500">Subtotal</span><span className="font-medium">{formatarMoeda(total)}</span></div>
               {desconto > 0 && <div className="flex justify-between text-green-600"><span>Desconto</span><span className="font-medium">-{formatarMoeda(desconto)}</span></div>}
-              <div className="flex justify-between"><span className="text-gray-500">Frete</span><span className={`font-medium ${frete === 0 ? 'text-green-600' : ''}`}>{frete === 0 ? 'Gratis' : formatarMoeda(frete)}</span></div>
+              <div className="flex justify-between"><span className="text-gray-500">Frete ({freteSelecionado?.servico || 'Consultar'})</span><span className={`font-medium ${frete === 0 ? 'text-green-600' : ''}`}>{frete === 0 ? 'Gratis' : formatarMoeda(frete)}</span></div>
+              {freteSelecionado && <div className="flex justify-between text-xs text-gray-400"><span>Prazo de entrega</span><span>{freteSelecionado.prazo} dia{freteSelecionado.prazo > 1 ? 's' : ''}</span></div>}
               <div className="flex justify-between font-bold text-lg pt-3 border-t border-gray-100"><span className="text-gray-900">Total</span><span className="bg-gradient-to-r from-rose-500 to-violet-500 bg-clip-text text-transparent">{formatarMoeda(total + frete - desconto)}</span></div>
             </div>
           </div>
