@@ -32,8 +32,13 @@ export default function LoginPage() {
       } else {
         localStorage.removeItem('rataplam_email_lembrar');
       }
-      await login(email, senha);
-      router.push('/');
+      const data = await login(email, senha);
+      // Admin vai direto para o painel
+      if (data?.role === 'admin' || data?.usuario?.role === 'admin') {
+        router.push('/admin/dashboard');
+      } else {
+        router.push('/');
+      }
     } catch {
       setErro('E-mail ou senha inválidos');
     } finally {

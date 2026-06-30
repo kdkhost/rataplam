@@ -15,7 +15,7 @@ interface Usuario {
 interface AuthContextType {
   usuario: Usuario | null;
   carregando: boolean;
-  login: (email: string, senha: string) => Promise<void>;
+  login: (email: string, senha: string) => Promise<Usuario>;
   cadastro: (dados: Record<string, string>) => Promise<void>;
   logout: () => void;
   atualizar: (dados: Partial<Usuario>) => Promise<void>;
@@ -45,6 +45,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const data = await api.post('/api/auth/login', { email, senha });
     localStorage.setItem('rataplam_token', data.token);
     setUsuario(data.usuario);
+    return data.usuario;
   }, []);
 
   const cadastro = useCallback(async (dados: Record<string, string>) => {
